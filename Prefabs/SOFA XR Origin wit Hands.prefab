@@ -1,0 +1,117 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &1051123206728185738
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1702208303885584121, guid: 174542c455920f644bd87169e71d21c5, type: 3}
+      propertyPath: m_sofaContext
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1702208303924720685, guid: 174542c455920f644bd87169e71d21c5, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1702208304118105371, guid: 174542c455920f644bd87169e71d21c5, type: 3}
+      propertyPath: m_Name
+      value: Sofa Complete XR Origin Set Up Physic(Clone)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1702208304118105372, guid: 174542c455920f644bd87169e71d21c5, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1702208304118105372, guid: 174542c455920f644bd87169e71d21c5, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.03
+      objectReference: {fileID: 0}
+    - target: {fileID: 1702208304118105372, guid: 174542c455920f644bd87169e71d21c5, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -97.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1702208304118105372, guid: 174542c455920f644bd87169e71d21c5, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -52.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1702208304118105372, guid: 174542c455920f644bd87169e71d21c5, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9978407
+      objectReference: {fileID: 0}
+    - target: {fileID: 1702208304118105372, guid: 174542c455920f644bd87169e71d21c5, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1702208304118105372, guid: 174542c455920f644bd87169e71d21c5, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.065681234
+      objectReference: {fileID: 0}
+    - target: {fileID: 1702208304118105372, guid: 174542c455920f644bd87169e71d21c5, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1702208304118105372, guid: 174542c455920f644bd87169e71d21c5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1702208304118105372, guid: 174542c455920f644bd87169e71d21c5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -7.532
+      objectReference: {fileID: 0}
+    - target: {fileID: 1702208304118105372, guid: 174542c455920f644bd87169e71d21c5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1702208304451356161, guid: 174542c455920f644bd87169e71d21c5, type: 3}
+      propertyPath: m_sofaContext
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1702208304851056856, guid: 174542c455920f644bd87169e71d21c5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1702208304851056857, guid: 174542c455920f644bd87169e71d21c5, type: 3}
+      propertyPath: m_sofaContext
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1702208305125968837, guid: 174542c455920f644bd87169e71d21c5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1702208305125968838, guid: 174542c455920f644bd87169e71d21c5, type: 3}
+      propertyPath: m_sofaContext
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1702208305216459378, guid: 174542c455920f644bd87169e71d21c5, type: 3}
+      propertyPath: m_TrackingStateInput.m_Action.m_Id
+      value: 5d244e7c-0d1e-429b-94ac-4424e3d04c03
+      objectReference: {fileID: 0}
+    - target: {fileID: 1702208305216459378, guid: 174542c455920f644bd87169e71d21c5, type: 3}
+      propertyPath: m_TrackingStateInput.m_Action.m_Name
+      value: Tracking State Input
+      objectReference: {fileID: 0}
+    - target: {fileID: 1702208305223071995, guid: 174542c455920f644bd87169e71d21c5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1702208305223071997, guid: 174542c455920f644bd87169e71d21c5, type: 3}
+      propertyPath: m_sofaContext
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1702208305396486083, guid: 174542c455920f644bd87169e71d21c5, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1702208305732755908, guid: 174542c455920f644bd87169e71d21c5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1702208305732755910, guid: 174542c455920f644bd87169e71d21c5, type: 3}
+      propertyPath: m_sofaContext
+      value: 
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 1702208304451356162, guid: 174542c455920f644bd87169e71d21c5, type: 3}
+    - {fileID: 1702208304451356175, guid: 174542c455920f644bd87169e71d21c5, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: 174542c455920f644bd87169e71d21c5, type: 3}
