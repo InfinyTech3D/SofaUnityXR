@@ -9,9 +9,9 @@ public class XR_Debug : MonoBehaviour
     [SerializeField] private int m_maxStack = 50;
     [SerializeField] private int m_maxLength = 100;
 
-    [SerializeField] private Button_Log m_logButton = null;
-    [SerializeField] private Button_LogError m_logErrorButton = null;
-    [SerializeField] private Button_LogWarning m_logWarningButton = null;
+    [SerializeField] private ButtonLogUI m_logButton = null;
+    [SerializeField] private ButtonLogUI m_logErrorButton = null;
+    [SerializeField] private ButtonLogUI m_logWarningButton = null;
 
     [SerializeField] private Transform m_Origin = null;
     [SerializeField] private TextMeshProUGUI m_fullText = null;
@@ -24,16 +24,16 @@ public class XR_Debug : MonoBehaviour
     [SerializeField] private TextMeshProUGUI m_errorFilterText = null;
     [SerializeField] private TextMeshProUGUI m_warningFilterText = null;
 
-    private List<Base_Log> m_logsList = new List<Base_Log>();
-    private List<Button_Log> m_logList = new List<Button_Log>();
-    private List<Button_LogError> m_logErrorList = new List<Button_LogError>();
-    private List<Button_LogWarning> m_logWarningList = new List<Button_LogWarning>();
+    private List<ButtonLogUI> m_logsList = new List<ButtonLogUI>();
+    private List<ButtonLogUI> m_logList = new List<ButtonLogUI>();
+    private List<ButtonLogUI> m_logErrorList = new List<ButtonLogUI>();
+    private List<ButtonLogUI> m_logWarningList = new List<ButtonLogUI>();
 
     private bool m_logFilterState = false;
     private bool m_errorFilterState = false;
     private bool m_warningFilterState = false;
 
-    private Base_Log m_logButtonClicked = null;
+    private ButtonLogUI m_logButtonClicked = null;
 
     private void Awake()
     {
@@ -68,7 +68,7 @@ public class XR_Debug : MonoBehaviour
     }
 
 
-    private void OnButtonClicked(Base_Log baseLog, string txt)
+    private void OnButtonClicked(ButtonLogUI baseLog, string txt)
     {
         if(m_logButtonClicked) 
             UpdateColorLogButton(false);
@@ -77,7 +77,7 @@ public class XR_Debug : MonoBehaviour
         m_fullText.text = txt;
     }
 
-    private void ComptuteLogsInstance(Base_Log baseLog, string log)
+    private void ComptuteLogsInstance(ButtonLogUI baseLog, string log)
     {
         baseLog.gameObject.GetComponent<Button>().onClick.AddListener(() => OnButtonClicked(baseLog, log));
 

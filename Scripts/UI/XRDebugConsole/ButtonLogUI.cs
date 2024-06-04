@@ -5,13 +5,25 @@ using TMPro;
 using UnityEngine.EventSystems;
 using System;
 
-abstract class Base_Log : MonoBehaviour
+class ButtonLogUI : MonoBehaviour
 {
     [SerializeField] protected TextMeshProUGUI m_text = null;
 
     protected string m_shortedLog;
     protected string m_fullLog;
     protected TextMeshProUGUI m_targetElement;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
 
     public string ShortedLog
     {
