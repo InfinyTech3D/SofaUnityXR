@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5484455288028846184}
   - component: {fileID: 5484455288028846187}
   - component: {fileID: 5484455288028846186}
-  - component: {fileID: -4950500209048838023}
+  - component: {fileID: 5380928291577228485}
   m_Layer: 5
   m_Name: WarningButton
   m_TagString: Untagged
@@ -30,6 +30,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5484455288696729216}
   m_Father: {fileID: 0}
@@ -122,7 +123,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &-4950500209048838023
+--- !u!114 &5380928291577228485
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -131,7 +132,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5484455288028846188}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d8cd6c57b641364ba5d272cc19be0b4, type: 3}
+  m_Script: {fileID: 11500000, guid: b240da0c59469ec4e88eb947f0d596d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_text: {fileID: 5484455288696729217}
@@ -163,6 +164,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5484455288028846189}
   m_RootOrder: 0

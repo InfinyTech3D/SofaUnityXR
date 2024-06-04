@@ -28,6 +28,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5597321155031121459}
   m_RootOrder: 0
@@ -146,7 +147,7 @@ GameObject:
   - component: {fileID: 5597321155031121460}
   - component: {fileID: 5597321155031121461}
   - component: {fileID: 5597321155031121458}
-  - component: {fileID: -1528137166238250064}
+  - component: {fileID: 8837959628173742195}
   m_Layer: 5
   m_Name: ErrorButton
   m_TagString: Untagged
@@ -164,6 +165,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5597321154853737684}
   m_Father: {fileID: 0}
@@ -256,7 +258,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &-1528137166238250064
+--- !u!114 &8837959628173742195
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -265,7 +267,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5597321155031121456}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a50d85e94ae4c344692b7b5de6f013e2, type: 3}
+  m_Script: {fileID: 11500000, guid: b240da0c59469ec4e88eb947f0d596d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_text: {fileID: 5597321154853737687}
