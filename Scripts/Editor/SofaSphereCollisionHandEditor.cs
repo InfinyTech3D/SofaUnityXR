@@ -8,8 +8,8 @@ using SofaUnity;
 [CustomEditor(typeof(SofaSphereCollisionHand), true)]
 public class SofaSphereCollisionHandEditor : Editor
 {
-    [MenuItem("SofaUnity/SofaObject/VR/SofaSphereCollisionHand")]
-    [MenuItem("GameObject/Create Other/SofaObject/VR/SofaSphereCollisionHand")]
+    [MenuItem("Tools/SofaUnityXR/SofaSphereCollisionHand")]
+    [MenuItem("GameObject/Tools/SofaUnityXR/SofaSphereCollisionHand")]
     new public static GameObject CreateNew()
     {
         if (Selection.activeTransform == null)

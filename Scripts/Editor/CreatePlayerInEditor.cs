@@ -13,8 +13,8 @@ public class CreatePlayerInEditor : Editor
     /// </summary>
     private static GameObject m_playerPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/SofaUnity/Prefabs/Sofa Complete XR Origin Set Up Physic.prefab");
 
-    [MenuItem("SofaUnity/VR/VRPlayer")]
-    [MenuItem("GameObject/Create Other/VR/VRPlayer")]
+    [MenuItem("Tools/SofaUnityXR/VRPlayer")]
+    [MenuItem("GameObject/Tools/SofaUnityXR/VRPlayer")]
    public static void CreateNew()
    {
         Instantiate(m_playerPrefab);
