@@ -2,33 +2,36 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ToolVRController : BaseVRController
+namespace SofaUnityXR
 {
-
-    public GameObject m_ToolBase = null;
-    public GameObject m_ToolHead = null;
-
-    protected override void movingForward(float value)
+    public class ToolVRController : BaseVRController
     {
-        if (m_ToolBase == null || m_ToolHead == null)
-            return;
 
-        Debug.Log("Tool movingForward " + value);
-    }
+        public GameObject m_ToolBase = null;
+        public GameObject m_ToolHead = null;
 
-    protected override void movingUp(float value)
-    {
-        if (m_ToolBase == null || m_ToolHead == null)
-            return;
+        protected override void movingForward(float value)
+        {
+            if (m_ToolBase == null || m_ToolHead == null)
+                return;
 
-        Debug.Log("Tool movingUp " + value);
-    }
+            Debug.Log("Tool movingForward " + value);
+        }
 
-    protected override void movingSide(float value)
-    {
-        if (m_ToolBase == null || m_ToolHead == null)
-            return;
+        protected override void movingUp(float value)
+        {
+            if (m_ToolBase == null || m_ToolHead == null)
+                return;
 
-        Debug.Log("Tool movingSide " + value);
+            Debug.Log("Tool movingUp " + value);
+        }
+
+        protected override void movingSide(float value)
+        {
+            if (m_ToolBase == null || m_ToolHead == null)
+                return;
+
+            Debug.Log("Tool movingSide " + value);
+        }
     }
 }

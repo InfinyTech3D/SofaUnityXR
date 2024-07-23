@@ -1,34 +1,37 @@
 ﻿// Uncomment this line to use the compatibility with VRTK. TODO: find a way to automatically detect if VRTK asset is present
 //#define USING_VRTK
 using UnityEngine;
+using SofaUnity;
 
 #if USING_VRTK
 using VRTK;
 #endif
 
-/// <summary>
-/// Specialisation of SLaserRay class
-/// Allow the same interaction but using a VR interface thanks to VRTK
-/// </summary>
-class SVRLaserRay : SofaRayCaster
+namespace SofaUnityXR
 {
+    /// <summary>
+    /// Specialisation of SLaserRay class
+    /// Allow the same interaction but using a VR interface thanks to VRTK
+    /// </summary>
+    class SVRLaserRay : SofaRayCaster
+    {
 #if USING_VRTK
     bool logController = true;
 
     public ButtonType m_actionButton;
 #endif
 
-    public enum ButtonType
-    {
-        Trigger,
-        Grip
-    };
+        public enum ButtonType
+        {
+            Trigger,
+            Grip
+        };
 
-    
 
-    void Start()
-    {
-        //m_axisDirection.Normalize();
+
+        void Start()
+        {
+            //m_axisDirection.Normalize();
 
 #if USING_VRTK
         if (GetComponent<VRTK_ControllerEvents>() == null)
@@ -50,16 +53,16 @@ class SVRLaserRay : SofaRayCaster
         GetComponent<VRTK_ControllerEvents>().GripClicked += new ControllerInteractionEventHandler(DoGripClicked);
         GetComponent<VRTK_ControllerEvents>().GripUnclicked += new ControllerInteractionEventHandler(DoGripUnclicked);
 #endif
-        //if(laser != null)
-        //{
-        //    laser.transform.localPosition = new Vector3(-0.035f, -0.005f, 0.005f);
-        //}
-        //activeTool(true);
-        //if (m_sofaContext.testAsync == true)
-        //    m_sofaContext.registerCaster(this);
-        //else
-        //    automaticCast = true;
-    }
+            //if(laser != null)
+            //{
+            //    laser.transform.localPosition = new Vector3(-0.035f, -0.005f, 0.005f);
+            //}
+            //activeTool(true);
+            //if (m_sofaContext.testAsync == true)
+            //    m_sofaContext.registerCaster(this);
+            //else
+            //    automaticCast = true;
+        }
 
 #if USING_VRTK
     /// Debugger method for VR interaction
@@ -128,4 +131,5 @@ class SVRLaserRay : SofaRayCaster
         }
     }
 #endif
+    }
 }
