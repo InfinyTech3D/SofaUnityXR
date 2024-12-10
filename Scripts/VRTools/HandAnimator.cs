@@ -34,6 +34,7 @@ namespace SofaUnityXR
 
             m_gripValue = m_gripAnimationAction.action.ReadValue<float>();
             m_handAnimator.SetFloat("Grip", m_gripValue);
+            
 #endif
         }
     }
