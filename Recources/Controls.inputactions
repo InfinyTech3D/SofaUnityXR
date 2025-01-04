@@ -1,0 +1,142 @@
+{
+    "name": "Controls",
+    "maps": [
+        {
+            "name": "LeftHandInteractions",
+            "id": "b9d6ee69-4c62-4d42-9630-6941f55c5bfc",
+            "actions": [
+                {
+                    "name": "SphereCreate",
+                    "type": "Button",
+                    "id": "1e2db1aa-3cf0-446c-b5d2-d1cb2963af45",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SphereDelete",
+                    "type": "Button",
+                    "id": "8e83e84f-4022-4e8c-8f8d-33e726758514",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SphereSelect",
+                    "type": "Button",
+                    "id": "7e91bff7-d762-4929-b801-f8a4a9d3f60c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "307047d2-9e58-4caf-9e17-d9509ce65656",
+                    "path": "<XRController>{LeftHand}/{SecondaryButton}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SphereCreate",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3545ad9d-8c18-46bc-9868-9d3457e0f307",
+                    "path": "<XRController>{LeftHand}/{PrimaryButton}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SphereDelete",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "18ef37a4-bc3a-4170-a2b2-d411d29d9294",
+                    "path": "<XRController>{LeftHand}/{TriggerButton}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SphereSelect",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "RightHandInteractions",
+            "id": "65b20b47-c847-4b9d-9f42-bac663f28674",
+            "actions": [
+                {
+                    "name": "SphereCreate",
+                    "type": "Button",
+                    "id": "515d5501-4c01-4428-ac85-df75d42e7512",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SphereDelete",
+                    "type": "Button",
+                    "id": "3d4dc5d6-50cb-47f3-a3ad-3882bf5df17c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SphereSelect",
+                    "type": "Button",
+                    "id": "2e6dd824-e26c-49b0-b241-64be4726292d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "23a181ea-1fc0-48e2-a0a4-45281274379a",
+                    "path": "<XRController>{RightHand}/{SecondaryButton}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SphereCreate",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "54f8d932-4ec0-4189-b190-86eefca0f6ef",
+                    "path": "<XRController>{RightHand}/{PrimaryButton}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SphereDelete",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3a1e59a1-ff9f-4459-b461-42350e244561",
+                    "path": "<XRController>{RightHand}/{TriggerButton}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SphereSelect",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
