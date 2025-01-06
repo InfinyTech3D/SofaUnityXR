@@ -400,7 +400,7 @@ namespace SofaUnityXR
                 break;
             }
         }
-
+        /*
         /// <summary>
         /// update slider
         /// </summary>
@@ -428,7 +428,7 @@ namespace SofaUnityXR
                 item.EmulateToggleChecked(status.m_elementActivated[item.name]);
             }
             status.m_sliderOthers = m_sliderOthers.value;
-        }
+        }*/
 
         //**************************************//
         //***********  Internal API  ***********//
