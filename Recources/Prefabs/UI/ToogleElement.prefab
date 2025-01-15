@@ -47,13 +47,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 1712087243810370846}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e6a8f53e9ccd8e47acd02046c82a742, type: 3}
+  m_Script: {fileID: 11500000, guid: 0079fe2e9ddd5b04997145ce57e85519, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_targetElement: {fileID: 0}
+  m_SofaContextObj: {fileID: 0}
   m_toggleButton: {fileID: 7688978841168321304}
   m_pushButton: {fileID: 7688978840650772749}
-  m_selectedMaterial: {fileID: 2100000, guid: 1eaa18eec353aeb4a83237b4f4c4a263, type: 2}
+  m_simuPosition: {x: 0, y: 0, z: 0}
+  m_plannifPosition: {x: 0, y: 0, z: 0}
+  m_simuScale: {x: 0, y: 0, z: 0}
+  m_plannifScale: {x: 0, y: 0, z: 0}
+  m_simuRotation: {x: 0, y: 0, z: 0, w: 0}
+  m_plannifRotation: {x: 0, y: 0, z: 0, w: 0}
+  m_modelExplorer: {fileID: 0}
+  m_selectedMaterial: {fileID: 2100000, guid: 22afb4fc81398514eb988896c332a96b, type: 2}
 --- !u!1 &7688978840650772747
 GameObject:
   m_ObjectHideFlags: 0

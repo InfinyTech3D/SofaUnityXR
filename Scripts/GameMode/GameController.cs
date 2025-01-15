@@ -14,12 +14,16 @@ namespace SofaUnityXR
         public GameObject m_hidePlannif;
         public Toggle toggleSimu;
         public GameObject m_SofaPlayer_Panel;
-
         public GameObject m_SofaContext;
-        public Vector3 m_SofaContextSimuPosition;
-        public Vector3 m_SofaContextPlannifPosition;
-        public Quaternion m_SofaContextSimuRotation;
-        public Quaternion m_SofaContextPlannifRotation;
+        [SerializeField] private SofaTwoHandedGrabMoveProvider m_STHGMP;
+        
+
+        [SerializeField] private Vector3 m_SofaContextSimuPosition;
+        [SerializeField] private Vector3 m_SofaContextPlannifPosition;
+        [SerializeField] private Vector3 m_SofaContextSimuScale;
+        [SerializeField] private Vector3 m_SofaContextPlannifScale;
+        [SerializeField] private Quaternion m_SofaContextSimuRotation;
+        [SerializeField] private Quaternion m_SofaContextPlannifRotation;
 
         private SofaPlayer m_SofaPlayer;
         private SofaModelExplorer m_modelExplorer;
@@ -29,7 +33,9 @@ namespace SofaUnityXR
         // Start is called before the first frame update
         void Start()
         {
+
             m_SofaPlayer = m_SofaPlayer_Panel.GetComponent<SofaPlayer>();
+
             m_modelExplorer = this.GetComponent<SofaModelExplorer>();
             firstpass = true;
 
@@ -60,6 +66,8 @@ namespace SofaUnityXR
             {
                 m_SofaContextSimuPosition = m_SofaContext.transform.position;
                 m_SofaContextPlannifPosition = m_SofaContext.transform.position;
+                m_SofaContextSimuScale = m_SofaContext.transform.localScale;
+                m_SofaContextPlannifScale = m_SofaContext.transform.localScale;
                 m_SofaContextSimuRotation = m_SofaContext.transform.rotation;
                 m_SofaContextPlannifRotation = m_SofaContext.transform.rotation;
             }
@@ -97,13 +105,16 @@ namespace SofaUnityXR
 
                 m_hideSimu.SetActive(false);
                 m_hidePlannif.SetActive(true);
+                m_STHGMP.enableScaling = false;
                 foreach (SofaModelElementExplorer elm in m_modelExplorer.m_modelElementCtrls)
                 {
                     var obj = elm.m_targetElement;
                     elm.m_plannifPosition = obj.transform.position;
                     elm.m_plannifRotation = obj.transform.rotation;
+                    elm.m_plannifScale = obj.transform.localScale;
                     //obj.transform.position = elm.m_simuPosition;//without animation
-                    StartCoroutine(SmoothTransitionVec3(elm.m_plannifPosition, elm.m_simuPosition, obj));
+                    StartCoroutine(SmoothTransitionPosition(elm.m_plannifPosition, elm.m_simuPosition, obj));
+                    StartCoroutine(SmoothTransitionScale(elm.m_plannifScale, elm.m_simuScale, obj));
                     StartCoroutine(SmoothTransitionQuaternion(elm.m_plannifRotation, elm.m_simuRotation, obj));
                     //obj.transform.rotation = elm.m_simuRotation;//without animation
                     obj.GetComponent<XRGrabInteractable>().enabled = false;
@@ -111,26 +122,32 @@ namespace SofaUnityXR
                 }
                 m_SofaContextPlannifPosition = m_SofaContext.transform.position;
                 m_SofaContextPlannifRotation = m_SofaContext.transform.rotation;
+                m_SofaContextPlannifScale = m_SofaContext.transform.localScale;
                 StartCoroutine(SmoothTransitionQuaternion(m_SofaContextPlannifRotation, m_SofaContextSimuRotation, m_SofaContext));
-                StartCoroutine(SmoothTransitionVec3(m_SofaContextPlannifPosition, m_SofaContextSimuPosition, m_SofaContext));
+                StartCoroutine(SmoothTransitionPosition(m_SofaContextPlannifPosition, m_SofaContextSimuPosition, m_SofaContext));
+                StartCoroutine(SmoothTransitionScale(m_SofaContextPlannifScale, m_SofaContextSimuScale, m_SofaContext));
 
                 m_SofaPlayer.startSofaSimulation();
 
             }
             else // Plannification & Manipulation mode
             {
+                
+                m_STHGMP.enableScaling = true;
                 m_hideSimu.SetActive(true);
                 m_hidePlannif.SetActive(false);
                 foreach (SofaModelElementExplorer elm in m_modelExplorer.m_modelElementCtrls)
                 {
                     var obj = elm.m_targetElement;
-                    StartCoroutine(SmoothTransitionVec3(elm.m_simuPosition,elm.m_plannifPosition, obj));
+                    StartCoroutine(SmoothTransitionPosition(elm.m_simuPosition,elm.m_plannifPosition, obj));
                     StartCoroutine(SmoothTransitionQuaternion(elm.m_simuRotation, elm.m_plannifRotation, obj));
+                    StartCoroutine(SmoothTransitionScale(elm.m_simuScale, elm.m_plannifScale, obj));
                     obj.GetComponent<XRGrabInteractable>().enabled = true;
 
                 }
                 StartCoroutine(SmoothTransitionQuaternion(m_SofaContextSimuRotation, m_SofaContextPlannifRotation,  m_SofaContext));
-                StartCoroutine(SmoothTransitionVec3(m_SofaContextSimuPosition, m_SofaContextPlannifPosition, m_SofaContext));
+                StartCoroutine(SmoothTransitionPosition(m_SofaContextSimuPosition, m_SofaContextPlannifPosition, m_SofaContext));
+                StartCoroutine(SmoothTransitionScale(m_SofaContextSimuScale, m_SofaContextPlannifScale, m_SofaContext));
 
 
                 m_SofaPlayer.stopSofaSimulation();
@@ -199,7 +216,7 @@ namespace SofaUnityXR
         /// <param name="endPos">End position</param>
         /// <param name="obj">The object to move</param>
         /// <returns>nothing</returns>
-        private IEnumerator SmoothTransitionVec3(Vector3 startPos, Vector3 endPos, GameObject obj)
+        private IEnumerator SmoothTransitionPosition(Vector3 startPos, Vector3 endPos, GameObject obj)
         { 
             int numSteps = 20;
             for (int i = 0; i <= numSteps; i++)
@@ -208,6 +225,25 @@ namespace SofaUnityXR
                 // Interpolation
                 Vector3 currentPos = Vector3.Lerp(startPos, endPos, t);
                 obj.transform.position = currentPos;
+                yield return new WaitForSeconds(0.01f);
+            }
+        }
+        /// <summary>
+        /// Coroutine to animate the scale modifiaction
+        /// </summary>
+        /// <param name="startPos">Start position</param>
+        /// <param name="endPos">End position</param>
+        /// <param name="obj">The object to move</param>
+        /// <returns>nothing</returns>
+        private IEnumerator SmoothTransitionScale(Vector3 startScale, Vector3 endScale, GameObject obj)
+        {
+            int numSteps = 20;
+            for (int i = 0; i <= numSteps; i++)
+            {
+                float t = i / (float)numSteps;
+                // Interpolation
+                Vector3 currentScale = Vector3.Lerp(startScale, endScale, t);
+                obj.transform.localScale = currentScale;
                 yield return new WaitForSeconds(0.01f);
             }
         }
