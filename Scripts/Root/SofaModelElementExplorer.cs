@@ -8,7 +8,7 @@ using SofaUnityXR;
 
 namespace SofaUnityXR
 {
-    public class SofaModelElementExplorer : MonoBehaviour
+    public class SofaModelElementExplorer: MonoBehaviour
     {
         //**************************************//
         //************  Parameters  ************//
@@ -22,6 +22,8 @@ namespace SofaUnityXR
 
         public Vector3 m_simuPosition;
         public Vector3 m_plannifPosition;
+        public Vector3 m_simuScale;
+        public Vector3 m_plannifScale;
         public Quaternion m_simuRotation;
         public Quaternion m_plannifRotation;
 
@@ -59,6 +61,8 @@ namespace SofaUnityXR
 
                 m_simuPosition = m_targetElement.transform.position;
                 m_plannifPosition = m_targetElement.transform.position;
+                m_simuScale= m_targetElement.transform.localScale;
+                m_plannifScale = m_targetElement.transform.localScale;
                 m_simuRotation = m_targetElement.transform.rotation;
                 m_plannifRotation = m_targetElement.transform.rotation;
 

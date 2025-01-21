@@ -1,3 +1,4 @@
 # Ignore the Scene/models folder
 Scenes/models/
 Scenes/models.meta
+.vs/
