@@ -44,7 +44,7 @@ namespace SofaUnityXR
         {
             isSelected = false;
             if (!m_selectedMaterial)
-                Debug.LogError("Selected material has not been assigned");
+                Debug.LogWarning("Selected material has not been assigned");
         }
 
         /// <summary>
@@ -54,7 +54,8 @@ namespace SofaUnityXR
         {
             if (m_targetElement != null)
             {
-                transform.GetComponentInChildren<TextMeshProUGUI>().text = m_targetElement.name;
+               
+                transform.GetComponentInChildren<TextMeshProUGUI>().text = this.name;
 
                 m_defaultMaterial = m_targetElement.GetComponent<Renderer>().material;
                 m_targetElement.layer = LayerMask.NameToLayer("Grabbable");
@@ -76,6 +77,26 @@ namespace SofaUnityXR
                     entry.callback.AddListener((data) => { OnPointerDownDelegate((PointerEventData)data); });
                     trigger.triggers.Add(entry);
                 }
+                if (m_modelExplorer.m_useURP)
+                {
+                    m_selectedMaterial = new Material(Shader.Find("CustomURPTransparancy"));
+                    m_selectedMaterial.CopyPropertiesFromMaterial(m_defaultMaterial);
+                    //m_selectedMaterial.SetColor("_BaseMap", m_defaultMaterial.GetColor("_BaseMap"));
+                    m_selectedMaterial.SetColor("_BaseColor", (m_selectedMaterial.GetColor("_BaseColor") * 0.3f + (Color.yellow)*0.7f));
+                    /*m_selectedMaterial.SetFloat("_Surface", 1.0f);
+                    m_selectedMaterial.SetFloat("_Blend", 2.0f);
+                    var transcolor = new Color(m_selectedMaterial.GetColor("_BaseColor").r, m_selectedMaterial.GetColor("_BaseColor").g, m_selectedMaterial.GetColor("_BaseColor").b, 0.5f);
+                    m_selectedMaterial.SetColor("_BaseColor", transcolor);
+                    m_selectedMaterial.SetOverrideTag("RenderType", "Transparent");
+                    m_selectedMaterial.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.DstColor);
+                    m_selectedMaterial.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.Zero);
+                    m_selectedMaterial.SetInt("_ZWrite", 0);
+                    m_selectedMaterial.DisableKeyword("_ALPHAPREMULTIPLY_ON");
+                    m_selectedMaterial.renderQueue = (int)UnityEngine.Rendering.RenderQueue.Transparent;
+                    m_selectedMaterial.SetShaderPassEnabled("ShadowCaster", false);*/
+                    //SwitchToTrans(m_selectedMaterial);
+                }
+                
                 DetermineGrabbableElement(false);
 
             }
@@ -164,7 +185,17 @@ namespace SofaUnityXR
         {
             Material mat = m_targetElement.GetComponent<Renderer>().material;
             if (mat == null) { Debug.LogError("can't find material"); }
-            return mat.GetFloat("_Transparency");
+            if (m_modelExplorer.m_useURP)
+            {
+                
+                return mat.GetFloat("_Alpha");
+                
+            }
+            else
+            {
+                return mat.GetFloat("_Transparency");
+            }
+            
         }
 
         /// <summary>
@@ -174,7 +205,22 @@ namespace SofaUnityXR
         {
             Material mat = m_targetElement.GetComponent<Renderer>().material;
             if(mat == null) { Debug.LogError("can't find material"); }
-            mat.SetFloat("_Transparency", value);
+            
+            if (m_modelExplorer.m_useURP)
+            {
+                if(value < 1f)
+                {
+                    SwitchToTrans(m_defaultMaterial, value);
+                    SwitchToTrans(m_selectedMaterial,value);       
+                    //mat.SetFloat("_Alpha", value);
+                    //m_selectedMaterial.SetFloat("_Alpha", value);
+
+                }  
+            }
+            else
+            {
+                mat.SetFloat("_Transparency", value);
+            }
 
             if (m_toggleButton != null)
             {
@@ -211,6 +257,24 @@ namespace SofaUnityXR
 
             return false;
         }
+
+        public void SwitchToTrans (Material mat,float value)
+        {
+            Debug.Log(value);
+            //Debug.Log(m_selectedMaterial.GetFloat("_Surface")); //(m_selectedMaterial.GetColor("_BaseColor") * 0.3f + (Color.yellow)*0.7f));
+            mat.SetFloat("_Surface", 1.0f);
+            mat.SetFloat("_Blend", 2.0f);
+            var transcolor = new Color(mat.GetColor("_BaseColor").r, mat.GetColor("_BaseColor").g, m_selectedMaterial.GetColor("_BaseColor").b,value);
+            mat.SetColor("_BaseColor", transcolor);
+            mat.SetOverrideTag("RenderType", "Transparent");
+            mat.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.DstColor);
+            mat.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.Zero);
+            mat.SetInt("_ZWrite", 0);
+            mat.DisableKeyword("_ALPHAPREMULTIPLY_ON");
+            mat.renderQueue = (int)UnityEngine.Rendering.RenderQueue.Transparent;
+            mat.SetShaderPassEnabled("ShadowCaster", false);
+        }
+
 
 
         //**************************************//
@@ -298,5 +362,7 @@ namespace SofaUnityXR
         {
             m_modelExplorer = modelExplorer;
         }
+        
+        public bool GetIsSelected() {  return isSelected; }
     }
 }

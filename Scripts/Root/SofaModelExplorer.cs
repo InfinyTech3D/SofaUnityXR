@@ -1,11 +1,13 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.UI;
 using System.Linq;
 using TMPro;
 using System.IO;
 using SofaUnityXR;
+using SofaUnity;
 
 namespace SofaUnityXR
 {
@@ -39,6 +41,7 @@ namespace SofaUnityXR
         /// </summary>
         private bool m_modelCreationLaunched = false;
         private bool m_modelEnabled = false;
+        public bool m_useURP = false;
 
         public string m_modelName;
 
@@ -53,7 +56,7 @@ namespace SofaUnityXR
         private void Start()
         {
             m_sofaContext = GameObject.Find("SofaContext");
-
+            m_useURP = PiplineIsURP();
             FindRenderer();
 
             if (m_sofaContext != null)
@@ -64,19 +67,43 @@ namespace SofaUnityXR
                     Renderer renderer = obj.GetComponent<Renderer>();
                     if (renderer != null && renderer.material != null)
                     {
-                        Shader newShader = Shader.Find("Custom/Diffuse_Stipple_Transparency");
-                        if (newShader != null)
-                        {                        
-                            renderer.material.shader = newShader;
+                        if (m_useURP)
+                        {
+                            // Using URP Render Pipeline
+                            Shader newShader = Shader.Find("CustomURPTransparancy");
+                            if (newShader != null)
+                            {
+                                renderer.material.shader = newShader;
+                                //atempt to set and get "Surface Type" to switch between Opaque and Transparent (failed)
+                                //Debug.Log(Shader.PropertyToID("Surface Type"));//1823
+                                //Debug.Log(newShader.GetPropertyType(Shader.PropertyToID("Surface Type")));
+                                //renderer.material.SetFloat("_Surface", 0f);
+                                //Debug.Log(renderer.material.//shader.surface);
+                            }
+                            else
+                            {
+                                Debug.LogError("Shader CustomURPTransparancy not found!");
+                            }
                         }
                         else
                         {
-                            Debug.LogError("Shader 'Custom/Diffuse_Stipple_Transparency' not found!");
+                            //GraphicsSettings.currentRenderPipeline == null or something else
+                            //Using Built-in Render Pipeline 
+                                    
+                            Shader newShader = Shader.Find("Custom/Diffuse_Stipple_Transparency");
+                            if (newShader != null)
+                            {
+                                renderer.material.shader = newShader;
+                            }
+                            else
+                            {
+                                Debug.LogError("Shader 'Custom/Diffuse_Stipple_Transparency' not found!");
+                            }
                         }
                     }
                     else
                     {
-                        Debug.LogError("Renderer or Material is missing on sofavisualmodels");
+                        Debug.LogError("Renderer or Material is missing on a sofavisualmodels");
                     }
                     //set ui btn 
                     var btn = Instantiate(TogglePrefab).GetComponent<SofaModelElementExplorer>();
@@ -86,7 +113,7 @@ namespace SofaUnityXR
                     btn.transform.localPosition = Vector3.zero;
                     btn.transform.localRotation = Quaternion.identity;
                     btn.TargetElement = obj;
-                    btn.name = obj.name;
+                    btn.name = GetSofaName(obj);
                     btn.SetButton();
                     m_modelElementCtrls.Add(btn);
                 }
@@ -209,7 +236,64 @@ namespace SofaUnityXR
             }
         }
 
+        private bool PiplineIsURP()
+        {
 
+            // Check the currently active Render Pipeline
+            if (GraphicsSettings.currentRenderPipeline == null)
+            {
+                //Debug.Log("Using Built-in Render Pipeline");
+                return false;
+            }
+            else
+            {
+                RenderPipelineAsset pipeline = GraphicsSettings.currentRenderPipeline;
+                string pipelineName = pipeline.GetType().ToString();
+
+                if (pipelineName.Contains("UniversalRender"))
+                {
+                    //Debug.Log("Using Universal Render Pipeline (URP)");
+                    return true;
+                }
+                else
+                {
+                    Debug.LogWarning("Using a Custom Render Pipeline: " + pipelineName+ ". Unknown pipeline prevent from using some fonctionalities");
+                    return false;
+                }
+            }
+            
+        }
+
+        private string GetSofaName(GameObject obj)
+        {
+            var sofaNode = obj.GetComponent<SofaVisualModel>();
+            if (sofaNode != null)
+            {
+                string displayName=sofaNode.UniqueNameId;
+                int atIndex = displayName.IndexOf('@');
+                if (atIndex <= 0)
+                {
+                    return ("Unknown Name");
+                }
+                displayName = displayName.Substring(0, atIndex);
+                //check if there is a visu in the name
+                int visuIndex = displayName.IndexOf("visu");
+                if (visuIndex <= 0)
+                {
+                    return displayName;
+                }
+                else
+                {
+                    return  displayName.Substring(0, visuIndex-1);// -1 beacause underscore 
+                }
+               
+              
+            }
+            else
+            {
+                return ("Unknown Name");
+            }
+        }
         /// Method called from user interaction click on slide, real work is done in @sa OnSliderChangedImpl
         public void OnSliderChanged(Slider ctrl)
         {
@@ -555,7 +639,8 @@ namespace SofaUnityXR
 
             foreach (MeshRenderer meshRenderer in meshRenderers)
             {
-                if (IsChildOf(meshRenderer.gameObject, m_sofaContext))
+                //check if it'a a child of sofa context and if the mesh renderer is active
+                if (IsChildOf(meshRenderer.gameObject, m_sofaContext) && (meshRenderer.enabled==true))
                 {
                     m_SofaMeshs.Add(meshRenderer.gameObject);
                 }

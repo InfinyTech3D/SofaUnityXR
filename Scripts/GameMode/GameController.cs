@@ -28,6 +28,8 @@ namespace SofaUnityXR
         private SofaPlayer m_SofaPlayer;
         private SofaModelExplorer m_modelExplorer;
         private bool firstpass;
+        public bool SimuIsOn;
+        public bool AnimeIsOver;
 
 
         // Start is called before the first frame update
@@ -38,6 +40,7 @@ namespace SofaUnityXR
 
             m_modelExplorer = this.GetComponent<SofaModelExplorer>();
             firstpass = true;
+            AnimeIsOver=false;
 
             if (m_modelExplorer == null)
             {
@@ -93,6 +96,7 @@ namespace SofaUnityXR
         /// <param name="isOn"></param>
         private void OnToggleSimuChanged(bool isOn)
         {
+            SimuIsOn = isOn;
             if (m_hideSimu == null || m_hidePlannif == null)
             {
                 Debug.LogError("Please assign both m_hideSimu and m_hidePlannif in the Inspector.");
@@ -100,12 +104,14 @@ namespace SofaUnityXR
             }
 
             // Simulation mode
-            if (isOn)
+            if (SimuIsOn)
             {
 
                 m_hideSimu.SetActive(false);
                 m_hidePlannif.SetActive(true);
                 m_STHGMP.enableScaling = false;
+                m_STHGMP.enableRotation = false;
+                m_SofaContext.GetComponent<XRGrabInteractable>().enabled = false;
                 foreach (SofaModelElementExplorer elm in m_modelExplorer.m_modelElementCtrls)
                 {
                     var obj = elm.m_targetElement;
@@ -117,7 +123,8 @@ namespace SofaUnityXR
                     StartCoroutine(SmoothTransitionScale(elm.m_plannifScale, elm.m_simuScale, obj));
                     StartCoroutine(SmoothTransitionQuaternion(elm.m_plannifRotation, elm.m_simuRotation, obj));
                     //obj.transform.rotation = elm.m_simuRotation;//without animation
-                    obj.GetComponent<XRGrabInteractable>().enabled = false;
+                    obj.GetComponent<XRGrabInteractable>().interactionLayers = InteractionLayerMask.GetMask(InteractionLayerMask.LayerToName(0));
+
 
                 }
                 m_SofaContextPlannifPosition = m_SofaContext.transform.position;
@@ -132,18 +139,22 @@ namespace SofaUnityXR
             }
             else // Plannification & Manipulation mode
             {
-                
+                AnimeIsOver=false;
                 m_STHGMP.enableScaling = true;
+                m_STHGMP.enableRotation = true;
                 m_hideSimu.SetActive(true);
                 m_hidePlannif.SetActive(false);
+                m_SofaContext.GetComponent<XRGrabInteractable>().enabled = true;
                 foreach (SofaModelElementExplorer elm in m_modelExplorer.m_modelElementCtrls)
                 {
                     var obj = elm.m_targetElement;
                     StartCoroutine(SmoothTransitionPosition(elm.m_simuPosition,elm.m_plannifPosition, obj));
                     StartCoroutine(SmoothTransitionQuaternion(elm.m_simuRotation, elm.m_plannifRotation, obj));
                     StartCoroutine(SmoothTransitionScale(elm.m_simuScale, elm.m_plannifScale, obj));
-                    obj.GetComponent<XRGrabInteractable>().enabled = true;
-
+                    if (elm.GetIsSelected())
+                    {
+                        obj.GetComponent<XRGrabInteractable>().interactionLayers = InteractionLayerMask.GetMask(InteractionLayerMask.LayerToName(2));
+                    }
                 }
                 StartCoroutine(SmoothTransitionQuaternion(m_SofaContextSimuRotation, m_SofaContextPlannifRotation,  m_SofaContext));
                 StartCoroutine(SmoothTransitionPosition(m_SofaContextSimuPosition, m_SofaContextPlannifPosition, m_SofaContext));
@@ -171,9 +182,9 @@ namespace SofaUnityXR
                 AddXRGrab(elm.m_targetElement);
                 elm.m_SofaContextObj = m_SofaContext;
             }
-            AddXRGrab(m_SofaContext);
+            
             SetParentCollider(m_SofaContext);
-
+            AddXRGrab(m_SofaContext);
 
         }
 
@@ -227,6 +238,7 @@ namespace SofaUnityXR
                 obj.transform.position = currentPos;
                 yield return new WaitForSeconds(0.01f);
             }
+            AnimeIsOver = true;
         }
         /// <summary>
         /// Coroutine to animate the scale modifiaction
@@ -284,16 +296,19 @@ namespace SofaUnityXR
             Bounds bounds = new Bounds(parentObj.transform.position, Vector3.zero);
             bool hasValidChild = false;
 
-            // Recursively search all children for colliders or renderers
-            foreach (Collider childCollider in parentObj.GetComponentsInChildren<Collider>())
+            
+            foreach (BoxCollider childCollider in parentObj.GetComponentsInChildren<BoxCollider>())
             {
-                bounds.Encapsulate(childCollider.bounds);
-                hasValidChild = true;
-            }
-
-            foreach (Renderer childRenderer in parentObj.GetComponentsInChildren<Renderer>())
-            {
-                bounds.Encapsulate(childRenderer.bounds);
+                Vector3 tmpVec = bounds.size;
+                //searching for max
+                if (tmpVec.x < childCollider.size.x)
+                    tmpVec.x = childCollider.size.x;
+                if (tmpVec.y < childCollider.size.y)
+                    tmpVec.y = childCollider.size.y;
+                if (tmpVec.z < childCollider.size.z)
+                    tmpVec.z = childCollider.size.z;
+                bounds.size = tmpVec;
+                
                 hasValidChild = true;
             }
 
@@ -303,17 +318,17 @@ namespace SofaUnityXR
                 return;
             }
 
-            // Add or update BoxCollider to match calculated bounds
+            
             BoxCollider parentCollider = parentObj.GetComponent<BoxCollider>();
             if (parentCollider == null)
             {
                 parentCollider = parentObj.AddComponent<BoxCollider>();
             }
 
-            // Adjust the BoxCollider to match the bounds
+           
             parentCollider.center = parentObj.transform.InverseTransformPoint(bounds.center);
             parentCollider.size = bounds.size;
-
+            
         }
 
     }
