@@ -233,9 +233,12 @@ namespace SofaUnityXR
                 restControllerB = m_controllerB.transform.position;
                 return Vector3.zero;
             }
-
-            LineBetween.enabled = true;
-            RotateModel();
+            if (enableRotation)
+            {
+                LineBetween.enabled = true;
+                RotateModel();
+            }
+                
             // Prevent individual grab locomotion since we perform our own translation
             m_LeftGrabMoveProvider.canMove = false;
             m_RightGrabMoveProvider.canMove = false;

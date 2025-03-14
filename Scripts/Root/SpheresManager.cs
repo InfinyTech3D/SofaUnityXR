@@ -140,10 +140,13 @@ namespace SofaUnityXR
         /// <summary>
         /// lists to reference the spher crossed by ray interactors
         /// </summary>
-        private List<GameObject> m_interactableSpheresListLeft = new List<GameObject>();
-        private List<GameObject> m_interactableSpheresListRight = new List<GameObject>();
+        public List<GameObject> m_interactableSpheresList = new List<GameObject>();
+        
+
+
 
         private List<GameObject> m_sphereList = new List<GameObject>();
+        [SerializeField] private List<Vector3> m_SpheresPos = new List<Vector3>();
 
         private void OnEnable()
         {
@@ -379,6 +382,20 @@ namespace SofaUnityXR
                 m_transformPoint.localScale = m_targetModel.transform.localScale / m_initModelSize.x; //any coordinate could fit
             }
 
+            int lst_length = m_sphereList.Count;
+            if (lst_length != 0)
+            {
+                
+                for (int i = 0; i < lst_length; i++) 
+                {
+                    if (i >= m_SpheresPos.Count) // check if there is enought element 
+                    {
+                        m_SpheresPos.Add(new Vector3(0, 0, 0));
+                    }
+                    m_SpheresPos[i] = m_sphereList[i].transform.position; 
+                }
+            }
+
             /*
             //*************************When choosing a model*************************
             //to not modify api we check when loadind a model. this is checked on the update with a boolean value
@@ -498,7 +515,8 @@ namespace SofaUnityXR
             /// <param name="target"></param>
             public void AddItemInLeftRayList(GameObject target)
         {
-            m_interactableSpheresListLeft.Add(target);
+           
+            m_interactableSpheresList.Add(target);
         }
 
         /// <summary>
@@ -507,7 +525,7 @@ namespace SofaUnityXR
         /// <param name="target"></param>
         public void AddItemInRightRayList(GameObject target)
         {
-            m_interactableSpheresListRight.Add(target);
+            m_interactableSpheresList.Add(target);
         }
 
         /// <summary>
@@ -516,7 +534,8 @@ namespace SofaUnityXR
         /// <param name="target"></param>
         public void DeleteItemInLeftRayList(GameObject target)
         {
-            m_interactableSpheresListLeft.Remove(target);
+            
+            m_interactableSpheresList.Remove(target);
         }
 
         /// <summary>
@@ -525,7 +544,7 @@ namespace SofaUnityXR
         /// <param name="target"></param>
         public void DeleteItemInRightRayList(GameObject target)
         {
-            m_interactableSpheresListRight.Remove(target);
+            m_interactableSpheresList.Remove(target);
         }
 
         /// <summary>
@@ -581,7 +600,7 @@ namespace SofaUnityXR
         /// <param name="obj"></param>
         private void PerformLeftSelection(InputAction.CallbackContext obj)
         {
-            GameObject nearTarget = GetNearestTarget(m_leftRayInteractor, m_interactableSpheresListLeft);
+            GameObject nearTarget = GetNearestTarget(m_leftRayInteractor, m_interactableSpheresList);
             if (nearTarget != null)
                 PerformSelection(nearTarget);
            
@@ -593,7 +612,7 @@ namespace SofaUnityXR
         /// <param name="obj"></param>
         private void PerformRightSelection(InputAction.CallbackContext obj)
         {
-            GameObject nearTarget = GetNearestTarget(m_rightRayInteractor, m_interactableSpheresListRight);
+            GameObject nearTarget = GetNearestTarget(m_rightRayInteractor, m_interactableSpheresList);
             if (nearTarget != null)
             {
                 Debug.Log("toto");
