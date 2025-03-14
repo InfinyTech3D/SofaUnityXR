@@ -115,7 +115,7 @@ namespace SofaUnityXR
 
         [SerializeField]
         [Tooltip("The minimum user scale allowed.")]
-        float m_MinimumScale = 0.2f;
+        float m_MinimumScale = 0.8f;
         /// <summary>
         /// The minimum user scale allowed.
         /// </summary>
@@ -127,7 +127,7 @@ namespace SofaUnityXR
 
         [SerializeField]
         [Tooltip("The maximum user scale allowed.")]
-        float m_MaximumScale = 100f;
+        float m_MaximumScale = 2f;
         /// <summary>
         /// The maximum user scale allowed.
         /// </summary>
@@ -399,7 +399,14 @@ namespace SofaUnityXR
                     ratio = newNormLeftRight / oldNormLeftRight;
                 if (ratio < 0.001f)
                     return;
-                m_objectToMove.transform.localScale = m_scaleInitObject * ratio * m_scaleResize;
+                
+                Vector3 tmpScale = m_scaleInitObject * ratio * m_scaleResize;
+                if (tmpScale.x < 0) { tmpScale.x = Mathf.Clamp(tmpScale.x, -1 * m_MaximumScale, -1 * m_MinimumScale); }//-1 to have the same coordinate system as SOFA
+                else { tmpScale.x = Mathf.Clamp(tmpScale.x, m_MinimumScale, m_MaximumScale); }
+                tmpScale.y = Mathf.Clamp(tmpScale.y, m_MinimumScale, m_MaximumScale);
+                tmpScale.z = Mathf.Clamp(tmpScale.z, m_MinimumScale, m_MaximumScale);
+                m_objectToMove.transform.localScale = tmpScale;
+
                 //print("ratio = " + ratio);
                 //print("objectScale = " + m_objectToMove.localScale);
                 //print("ObjectPosition = " + m_objectToMove.position);

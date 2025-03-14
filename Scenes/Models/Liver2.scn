@@ -1,0 +1,96 @@
+<?xml version="1.0" ?>
+<Node name="lroot" gravity="0 -9 0" dt="0.03">
+    <Node name="RequiredPlugins">
+        <RequiredPlugin name="Sofa.Component.AnimationLoop"/> <!-- Needed to use components [FreeMotionAnimationLoop] -->
+        <RequiredPlugin name="Sofa.Component.Collision.Detection.Algorithm"/> <!-- Needed to use components [BVHNarrowPhase,BruteForceBroadPhase,BruteForceDetection,CollisionPipeline] -->
+        <RequiredPlugin name="Sofa.Component.Collision.Detection.Intersection"/> <!-- Needed to use components [MinProximityIntersection] -->
+        <RequiredPlugin name="Sofa.Component.Collision.Geometry"/> <!-- Needed to use components [LineCollisionModel,PointCollisionModel,SphereCollisionModel,TriangleCollisionModel] -->
+        <RequiredPlugin name="Sofa.Component.Collision.Response.Contact"/> <!-- Needed to use components [CollisionResponse] -->
+        <RequiredPlugin name="Sofa.Component.Constraint.Lagrangian.Correction"/> <!-- Needed to use components [UncoupledConstraintCorrection] -->
+        <RequiredPlugin name="Sofa.Component.Constraint.Lagrangian.Solver"/> <!-- Needed to use components [GenericConstraintSolver] -->
+        <RequiredPlugin name="Sofa.Component.Constraint.Projective"/> <!-- Needed to use components [FixedProjectiveConstraint] -->
+        <RequiredPlugin name="Sofa.Component.Engine.Select"/> <!-- Needed to use components [BoxROI] -->
+        <RequiredPlugin name="Sofa.Component.IO.Mesh"/> <!-- Needed to use components [MeshOBJLoader] -->
+        <RequiredPlugin name="Sofa.Component.LinearSolver.Iterative"/> <!-- Needed to use components [CGLinearSolver] -->
+        <RequiredPlugin name="Sofa.Component.Mapping.Linear"/> <!-- Needed to use components [BarycentricMapping] -->
+        <RequiredPlugin name="Sofa.Component.Mass"/> <!-- Needed to use components [UniformMass] -->
+        <RequiredPlugin name="Sofa.Component.ODESolver.Backward"/> <!-- Needed to use components [EulerImplicitSolver] -->
+        <RequiredPlugin name="Sofa.Component.SceneUtility"/> <!-- Needed to use components [AddDataRepository] -->
+        <RequiredPlugin name="Sofa.Component.SolidMechanics.FEM.Elastic"/> <!-- Needed to use components [HexahedronFEMForceField] -->
+        <RequiredPlugin name="Sofa.Component.StateContainer"/> <!-- Needed to use components [MechanicalObject] -->
+        <RequiredPlugin name="Sofa.Component.Topology.Container.Constant"/> <!-- Needed to use components [MeshTopology] -->
+        <RequiredPlugin name="Sofa.Component.Topology.Container.Grid"/> <!-- Needed to use components [SparseGridTopology] -->
+        <RequiredPlugin name="Sofa.Component.Visual"/> <!-- Needed to use components [VisualStyle] -->
+        <RequiredPlugin name="Sofa.GL.Component.Rendering3D"/> <!-- Needed to use components [OglModel] -->
+    </Node>
+    
+    <VisualStyle displayFlags="showVisual showBehaviorModels " />
+    <AddDataRepository path="./mesh/Liver2"/>
+    
+    <CollisionPipeline verbose="0" depth="10" draw="0" />
+    <BruteForceBroadPhase name="N2" />
+    <BVHNarrowPhase/>
+    
+    <MinProximityIntersection name="Proximity" alarmDistance="0.8" contactDistance="0.4" />
+    <CollisionResponse name="Response" response="PenalityContactForceField" />
+
+    <FreeMotionAnimationLoop/>
+    <GenericConstraintSolver maxIt="1000" tolerance="0.0001" printLog="false" />
+
+    <EulerImplicitSolver name="cg_odesolver" printLog="false"  rayleighStiffness="0.0" rayleighMass="0.0" />
+    <CGLinearSolver iterations="40" name="linear solver" tolerance="1.0e-6" threshold="1.0e-6" />
+    
+    <Node name="Liver">
+        <MeshOBJLoader filename="Parenchyma.obj" name="loader_Parenchyma" translation="-100 100 200"/>
+        <SparseGridTopology n="13 13 13" position="@loader_Parenchyma.position" drawHexahedra="0" />
+        <MechanicalObject scale3d="1 1 1" />
+        <UniformMass totalMass="100.0" />
+        <TetrahedronFEMForceField youngModulus="10.0" poissonRatio="0.3" method="large" printLog="0" />
+        
+        <BoxROI name="ROI_lungL" box="40 -50 0  100 80 60" drawBoxes="1" />
+        <FixedProjectiveConstraint indices="@ROI_lungL.indices" />
+        
+        <Node name="Liver_collision">
+            <MeshOBJLoader name="loader_Parenchyma_col" filename="Parenchyma_collision.obj" handleSeams="1" translation="@../loader_Parenchyma.translation"/>
+            <MeshTopology src="@loader_Parenchyma_col" />
+            <MechanicalObject src="@loader_Parenchyma_col" name="CollisModel" />
+
+            <PointCollisionModel  selfCollision="0" />
+            <TriangleCollisionModel  selfCollision="0"/>
+            <LineCollisionModel  selfCollision="0" />
+            <BarycentricMapping input="@.." output="@." />
+        </Node>
+        
+        <Node name="Liver_visu">
+            <MeshOBJLoader name="loader" filename="Parenchyma.obj" handleSeams="1" translation="@../loader_Parenchyma.translation"/>
+            <OglModel src="@loader"/>
+            <BarycentricMapping input="@.." output="@." />
+        </Node>
+        
+        <Node name="Vein">
+            <MeshOBJLoader name="loader_Vein" filename="Vein.obj" handleSeams="1" translation="@../loader_Parenchyma.translation"/>
+            <OglModel src="@loader_Vein"/>
+            <BarycentricMapping input="@.." output="@." />
+        </Node>
+        
+        <Node name="Portal_Vein">
+            <MeshOBJLoader name="loader_Portal_Vein" filename="Portal_Vein.obj" handleSeams="1" translation="@../loader_Parenchyma.translation"/>
+            <OglModel src="@loader_Portal_Vein"/>
+            <BarycentricMapping input="@.." output="@." />
+        </Node>
+        
+        <Node name="LowTumor">
+            <MeshOBJLoader name="loader_LowTumor" filename="LowTumor.obj" handleSeams="1" translation="@../loader_Parenchyma.translation"/>
+            <OglModel src="@loader_LowTumor"/>
+            <BarycentricMapping input="@.." output="@." />
+        </Node>
+        
+        <UncoupledConstraintCorrection />
+    </Node>
+    
+    <Node name="IVC">
+        <MeshOBJLoader filename="IVC.obj" name="loader_IVC" translation="-100 100 200"/>
+        <SparseGridTopology n="5 15 5" position="@loader_IVC.position" drawHexahedra="0" />
+        <OglModel src="@loader_IVC"  />
+    </Node>
+</Node>

@@ -14,12 +14,17 @@ namespace SofaUnityXR
         //************  Parameters  ************//
         //**************************************//
 
+        /// <summary>
         /// Pointer to the Component Model gameobject related to this button
+        /// </summary>
         [SerializeField] public GameObject m_targetElement;
         [SerializeField] public GameObject m_SofaContextObj;
         [SerializeField] private Toggle m_toggleButton;
         [SerializeField] private Button m_pushButton;
 
+        /// <summary>
+        /// Propreties used to switch beetween plannification and simulation modes 
+        /// </summary>
         public Vector3 m_simuPosition;
         public Vector3 m_plannifPosition;
         public Vector3 m_simuScale;
@@ -32,6 +37,7 @@ namespace SofaUnityXR
          /// Bool to store the information if this model/button is selected
         protected bool isSelected = false;
         [SerializeField] protected Material m_selectedMaterial = null;
+        [SerializeField] protected Material m_TransMatMaterial = null;
         protected Material m_defaultMaterial;
         protected float m_transBeforeHide = 1.0f;
 
@@ -83,7 +89,9 @@ namespace SofaUnityXR
                     m_selectedMaterial.CopyPropertiesFromMaterial(m_defaultMaterial);
                     //m_selectedMaterial.SetColor("_BaseMap", m_defaultMaterial.GetColor("_BaseMap"));
                     m_selectedMaterial.SetColor("_BaseColor", (m_selectedMaterial.GetColor("_BaseColor") * 0.3f + (Color.yellow)*0.7f));
-                    /*m_selectedMaterial.SetFloat("_Surface", 1.0f);
+                    /*
+                     TO DO: atempt to set and get "Surface Type" to switch between Opaque and Transparent:
+                     m_selectedMaterial.SetFloat("_Surface", 1.0f);
                     m_selectedMaterial.SetFloat("_Blend", 2.0f);
                     var transcolor = new Color(m_selectedMaterial.GetColor("_BaseColor").r, m_selectedMaterial.GetColor("_BaseColor").g, m_selectedMaterial.GetColor("_BaseColor").b, 0.5f);
                     m_selectedMaterial.SetColor("_BaseColor", transcolor);
@@ -96,7 +104,7 @@ namespace SofaUnityXR
                     m_selectedMaterial.SetShaderPassEnabled("ShadowCaster", false);*/
                     //SwitchToTrans(m_selectedMaterial);
                 }
-                
+
                 DetermineGrabbableElement(false);
 
             }
@@ -210,12 +218,16 @@ namespace SofaUnityXR
             {
                 if(value < 1f)
                 {
-                    SwitchToTrans(m_defaultMaterial, value);
-                    SwitchToTrans(m_selectedMaterial,value);       
+                    //SwitchToTrans(m_defaultMaterial, value);
+                    //SwitchToTrans(m_selectedMaterial,value);       
                     //mat.SetFloat("_Alpha", value);
                     //m_selectedMaterial.SetFloat("_Alpha", value);
-
-                }  
+                    m_targetElement.GetComponent<Renderer>().material = m_TransMatMaterial;
+                }
+                else
+                {
+                    m_targetElement.GetComponent<Renderer>().material = m_defaultMaterial;
+                }
             }
             else
             {
@@ -258,6 +270,11 @@ namespace SofaUnityXR
             return false;
         }
 
+        /// <summary>
+        /// used to switch to transparency while using URP, Actually not used needs fix
+        /// </summary>
+        /// <param name="mat"></param>
+        /// <param name="value"></param>
         public void SwitchToTrans (Material mat,float value)
         {
             Debug.Log(value);
@@ -353,7 +370,10 @@ namespace SofaUnityXR
             else
             {
                 float transparency = m_modelExplorer.GetTransparencyByName(target);
-                m_targetElement.GetComponent<Renderer>().material = m_defaultMaterial;
+                if(m_targetElement.GetComponent<Renderer>().material != m_TransMatMaterial)
+                {
+                    m_targetElement.GetComponent<Renderer>().material = m_defaultMaterial;
+                }
                 m_modelExplorer.SetTransparencyByName(transparency, target);
             }
 
