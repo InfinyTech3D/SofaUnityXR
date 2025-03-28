@@ -69,7 +69,7 @@ namespace SofaUnityXR
         /// when pressing the button to create sphere instance the pher is in half transparency
         /// at releade the transparancy is set to max (no transparent) an a color is atribute (white by default)
         /// </summary>
-        private Color m_instancesColor = Color.white;
+        private Color m_instancesColor = Color.yellow;
         private Color m_colorHalfTransparency = new Color(1f, 1f, 1f, 0.5f);
 
         /// <summary>
@@ -141,337 +141,293 @@ namespace SofaUnityXR
         /// lists to reference the spher crossed by ray interactors
         /// </summary>
         public List<GameObject> m_interactableSpheresList = new List<GameObject>();
+
         
 
-
-
-        private List<GameObject> m_sphereList = new List<GameObject>();
+        public List<GameObject> m_sphereList = new List<GameObject>();
         [SerializeField] private List<Vector3> m_SpheresPos = new List<Vector3>();
-
-        private void OnEnable()
-        {
-            
-            m_sphereCreatorLeft.action.performed += CreateInstanceLeft;
-            m_sphereCreatorLeft.action.canceled += PlaceInstanceLeft;
-            m_sphereCreatorRight.action.performed += CreateInstanceRight;
-            m_sphereCreatorRight.action.canceled += PlaceInstanceRight;
-
-            m_leftDeleteButton.action.performed += DestroyLastSphere;
-            m_rightDeleteButton.action.performed += DestroyLastSphere;
-
-            m_triggerLeft.action.performed += PerformLeftSelection;
-            m_triggerRight.action.performed += PerformRightSelection;
-
-            SphereListenerManager.OnHoverEnterLeft += AddItemInLeftRayList;
-            SphereListenerManager.OnHoverExitLeft += DeleteItemInLeftRayList;
-            SphereListenerManager.OnHoverEnterRight += AddItemInRightRayList;
-            SphereListenerManager.OnHoverExitRight += DeleteItemInRightRayList;
-        }
-
-        private void OnDisable()
-        {
-            m_sphereCreatorLeft.action.performed -= CreateInstanceLeft;
-            m_sphereCreatorLeft.action.canceled -= PlaceInstanceLeft;
-            m_sphereCreatorRight.action.performed -= CreateInstanceRight;
-            m_sphereCreatorRight.action.canceled -= PlaceInstanceRight;
-
-            m_leftDeleteButton.action.performed -= DestroySphere;
-            m_rightDeleteButton.action.performed -= DestroySphere;
-
-            m_triggerLeft.action.performed -= PerformLeftSelection;
-            m_triggerRight.action.performed -= PerformRightSelection;
-
-            SphereListenerManager.OnHoverEnterLeft -= AddItemInLeftRayList;
-            SphereListenerManager.OnHoverExitLeft -= DeleteItemInLeftRayList;
-            SphereListenerManager.OnHoverEnterRight -= AddItemInRightRayList;
-            SphereListenerManager.OnHoverExitRight -= DeleteItemInRightRayList;
-        }
-
-        private void Start()
-        {
-            m_sizeSphereSlider.value = m_sphere.transform.localScale.x;
-            m_newSizeSphere = m_sizeSphereSlider.value*0.5f;
-        }
-
-        //*************************SphereInstances*************************
+        public GameController m_gamecontroller;
 
         /// <summary>
-        /// Generate Random color
+        /// need to be check before the start for the mapping to function
         /// </summary>
-        /// <returns></returns>
-        public void OnButtonRandomColorClicked()
-        {
-            m_instancesColor = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
-        }
+        public bool m_mappingOn;
+        /* mapping feature is private ask us for more informations
+       [SerializeField] private SphereMapping m_sphereMapping;
+        */
 
-        /// <summary>
-        /// Change the size of the sphere created 
-        /// this is to change sphere size in heand
-        /// </summary>
-        public void OnSizeSliderValueChange()
-        {
-            m_newSizeSphere = m_sizeSphereSlider.value *0.5f;
-            if (m_leftInstanceCreation)
-                m_instanceLeftHand.transform.localScale = new Vector3(m_newSizeSphere, m_newSizeSphere, m_newSizeSphere);
+       private void OnEnable()
+       {
 
-            if (m_rightInstanceCreation)
-                m_instanceRightHand.transform.localScale = new Vector3(m_newSizeSphere, m_newSizeSphere, m_newSizeSphere);
-        }
+           m_sphereCreatorLeft.action.performed += CreateInstanceLeft;
+           m_sphereCreatorLeft.action.canceled += PlaceInstanceLeft;
+           m_sphereCreatorRight.action.performed += CreateInstanceRight;
+           m_sphereCreatorRight.action.canceled += PlaceInstanceRight;
 
-        /// <summary>
-        /// create Instance following left hand 
-        /// </summary>
-        /// <param name="obj"></param>
-        private void CreateInstanceLeft(InputAction.CallbackContext obj)
-        {
-            if (m_sphereMode)
-            {
-                m_instanceLeftHand = Instantiate(m_sphere, m_leftHandAnchor);
-                m_leftInstanceCreation = true;
-                m_instanceLeftHand.transform.localScale = new Vector3(m_newSizeSphere, m_newSizeSphere, m_newSizeSphere);
-                m_instanceLeftHand.GetComponent<Renderer>().material.color = m_colorHalfTransparency;
-                AddItemInSphereList(m_instanceLeftHand);//add instance in sphere list
-                
-            }
-        }
+           m_leftDeleteButton.action.performed += DestroyLastSphere;
+           m_rightDeleteButton.action.performed += DestroyLastSphere;
 
-        /// <summary>
-        /// Place left instance to a good transform point 
-        /// </summary>
-        /// <param name="obj"></param>
-        private void PlaceInstanceLeft(InputAction.CallbackContext obj)
-        {
-            if (m_sphereMode)
-            {
-                m_leftInstanceCreation = false;
-                Vector3 position = m_instanceLeftHand.transform.position;
-                //m_instanceLeftHand.transform.parent = m_transformPoint;
-                SetSofaParent(m_instanceLeftHand);
-                m_instanceLeftHand.transform.position = position;
-                m_instanceLeftHand.GetComponent<SphereListenerManager>().DefaultColor = m_instancesColor;
-                m_instanceLeftHand.GetComponent<Renderer>().material.color = m_instancesColor;
-            }
-        }
+           m_triggerLeft.action.performed += PerformLeftSelection;
+           m_triggerRight.action.performed += PerformRightSelection;
 
-        /// <summary>
-        /// create Instance following right hand 
-        /// </summary>
-        /// <param name="obj"></param>
-        private void CreateInstanceRight(InputAction.CallbackContext obj)
-        {
-            if (m_sphereMode)
-            {
-                m_instanceRightHand = Instantiate(m_sphere, m_rightHandAnchor);
-                m_rightInstanceCreation = true;
-                m_instanceRightHand.transform.localScale = new Vector3(m_newSizeSphere, m_newSizeSphere, m_newSizeSphere);
-                m_instanceRightHand.GetComponent<Renderer>().material.color = m_colorHalfTransparency;
-                AddItemInSphereList(m_instanceRightHand);//add instance in sphere list
-               
-            }
-        }
+           SphereListenerManager.OnHoverEnterLeft += AddItemInLeftRayList;
+           SphereListenerManager.OnHoverExitLeft += DeleteItemInLeftRayList;
+           SphereListenerManager.OnHoverEnterRight += AddItemInRightRayList;
+           SphereListenerManager.OnHoverExitRight += DeleteItemInRightRayList;
+       }
 
-        /// <summary>
-        /// Place left instance to a precedently defined transform point 
-        /// </summary>
-        /// <param name="obj"></param>
-        private void PlaceInstanceRight(InputAction.CallbackContext obj)
-        {
-            if (m_sphereMode)
-            {
-                m_rightInstanceCreation = false;
-                Vector3 position = m_instanceRightHand.transform.position;
-                //m_instanceRightHand.transform.parent = m_transformPoint;
-                SetSofaParent(m_instanceRightHand);
-                m_instanceRightHand.transform.position = position;
-                m_instanceRightHand.GetComponent<SphereListenerManager>().DefaultColor = m_instancesColor;
-                m_instanceRightHand.GetComponent<Renderer>().material.color = m_instancesColor;
-            }
-        }
+       private void OnDisable()
+       {
+           m_sphereCreatorLeft.action.performed -= CreateInstanceLeft;
+           m_sphereCreatorLeft.action.canceled -= PlaceInstanceLeft;
+           m_sphereCreatorRight.action.performed -= CreateInstanceRight;
+           m_sphereCreatorRight.action.canceled -= PlaceInstanceRight;
 
-        /// <summary>
-        /// add one item in sphere list
-        /// </summary>
-        /// <param name="item"></param>
-        private void AddItemInSphereList(GameObject item)
-        {
-            m_sphereList.Add(item);
-        }
+           m_leftDeleteButton.action.performed -= DestroySphere;
+           m_rightDeleteButton.action.performed -= DestroySphere;
 
-        /// <summary>
-        /// delete one item in sphere list
-        /// </summary>
-        /// <param name="item"></param>
-        private void DeleteItemInSphereList(GameObject item)
-        {
-            m_sphereList.Remove(item);
-        }
+           m_triggerLeft.action.performed -= PerformLeftSelection;
+           m_triggerRight.action.performed -= PerformRightSelection;
 
-        /// <summary>
-        /// get all existants sphere in list
-        /// </summary>
-        private void PopulateSphereList()
-        {
-            for (int i = 0; i < m_transformPoint.childCount; i++)
-            {
-                m_sphereList.Add(m_transformPoint.GetChild(i).gameObject);
-            }
-        }
+           SphereListenerManager.OnHoverEnterLeft -= AddItemInLeftRayList;
+           SphereListenerManager.OnHoverExitLeft -= DeleteItemInLeftRayList;
+           SphereListenerManager.OnHoverEnterRight -= AddItemInRightRayList;
+           SphereListenerManager.OnHoverExitRight -= DeleteItemInRightRayList;
+       }
 
-        /// <summary>
-        /// empty list spherelist
-        /// </summary>
-        private void EmptyList()
-        {
-            m_sphereList.Clear();
-        }
+       private void Start()
+       {
+           m_sizeSphereSlider.value = m_sphere.transform.localScale.x;
+           m_newSizeSphere = m_sizeSphereSlider.value*0.5f;
+           if (m_gamecontroller != null) {
+               Debug.LogWarning("no gamecontroller attach to the spheremanager ");
+           }
+           /* mapping feature is private ask us for more informations
+          if (m_mappingOn)
+          {
+              m_sphereMapping = this.gameObject.GetComponent<SphereMapping>();
+              if (m_sphereMapping == null)
+              {
+                  Debug.LogError("Mapping is On on your sphere manager but you need to put a SphereMapping script on the the same object to make it function ");
 
-        /// <summary>
-        /// Define the tansform point to place instance (this transform will follow the model)
-        /// </summary>
-        /// <param name="target"></param>
-        public void DefineTransformPoint(GameObject target)
-        {
-            for (int i = 0; i < m_sphereParent.childCount; i++)
-            {
-                Transform childTransform = m_sphereParent.GetChild(i);
-                if (childTransform.gameObject.name == target.name + "Spheres")
-                {
-                    m_transformPoint = childTransform;
-                }
-            }
-        }
+              }
+          }*/
+    }
 
-        /// <summary>
-        /// Enable/ Disable transform point depending on the model chosen 
-        /// </summary>
-        /// <param name="targetName"></param>
-        /// <param name="state"></param>
-        private void SetTransformPointState(string targetName, bool state)
-        {
-            for (int i = 0; i < m_sphereParent.childCount; i++)
-            {
-                Transform childTransform = m_sphereParent.GetChild(i);
-                if (childTransform.gameObject.name == targetName + "Spheres")
-                {
-                    childTransform.gameObject.SetActive(state);
-                }
-            }
-        }
+    //*************************SphereInstances*************************
 
-        public void SetSofaParent(GameObject obj)
-        {
+    /// <summary>
+    /// Generate Random color
+    /// </summary>
+    /// <returns></returns>
+    public void OnButtonRandomColorClicked()
+       {
+           m_instancesColor = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
+       }
 
-            if (m_modelExplorer.m_targetElement != null)
-            {
-                obj.transform.parent = m_modelExplorer.m_targetElement.m_targetElement.transform;
-            }
-            else
-            {
-                obj.transform.parent = m_modelExplorer.m_sofaContext.transform;
-            }
-        }
+       /// <summary>
+       /// Change the size of the sphere created 
+       /// this is to change sphere size in heand
+       /// </summary>
+       public void OnSizeSliderValueChange()
+       {
+           m_newSizeSphere = m_sizeSphereSlider.value *0.5f;
+           if (m_leftInstanceCreation)
+               m_instanceLeftHand.transform.localScale = new Vector3(m_newSizeSphere, m_newSizeSphere, m_newSizeSphere);
 
-        private void Update()
-        {
-            //*************************Follow Transform*************************
-            //the spheres will follow the model only in the model mode and if a model is loaded (cannot create a sphere when no model selelected : "None")
-            if (m_targetModel && !m_sphereMode)
-            {
-                m_transformPoint.position = m_targetModel.transform.position;
-                m_transformPoint.rotation = m_targetModel.transform.rotation;
-                m_transformPoint.localScale = m_targetModel.transform.localScale / m_initModelSize.x; //any coordinate could fit
-            }
+           if (m_rightInstanceCreation)
+               m_instanceRightHand.transform.localScale = new Vector3(m_newSizeSphere, m_newSizeSphere, m_newSizeSphere);
+       }
 
-            int lst_length = m_sphereList.Count;
-            if (lst_length != 0)
-            {
-                
-                for (int i = 0; i < lst_length; i++) 
-                {
-                    if (i >= m_SpheresPos.Count) // check if there is enought element 
-                    {
-                        m_SpheresPos.Add(new Vector3(0, 0, 0));
-                    }
-                    m_SpheresPos[i] = m_sphereList[i].transform.position; 
-                }
-            }
+       /// <summary>
+       /// create Instance following left hand 
+       /// </summary>
+       /// <param name="obj"></param>
+       private void CreateInstanceLeft(InputAction.CallbackContext obj)
+       {
+           if (m_sphereMode)
+           {
+               m_instanceLeftHand = Instantiate(m_sphere, m_leftHandAnchor);
+               m_leftInstanceCreation = true;
+               m_instanceLeftHand.transform.localScale = new Vector3(m_newSizeSphere, m_newSizeSphere, m_newSizeSphere);
+               m_instanceLeftHand.GetComponent<Renderer>().material.color = m_colorHalfTransparency;
+               AddItemInSphereList(m_instanceLeftHand);//add instance in sphere list
 
-            /*
-            //*************************When choosing a model*************************
-            //to not modify api we check when loadind a model. this is checked on the update with a boolean value
-            if (m_modelExplorer)
-            {
-                if (m_modelExplorer.ModelCreationLaunched && m_modelExplorer.ModelName != "None")//if creating a new model
-                {
-                    //disable the corresponding transformpoint before update the old model
-                    if (m_oldModelName != "None")
-                    {
-                        SetTransformPointState(m_oldModelName, false);
-                        EmptyList();//empty list of sphere before creating new model
-                    }
+           }
+       }
 
-                    m_oldModelName = m_modelExplorer.ModelName;
+       /// <summary>
+       /// Place left instance to a good transform point 
+       /// </summary>
+       /// <param name="obj"></param>
+       private void PlaceInstanceLeft(InputAction.CallbackContext obj)
+       {
+           if (m_sphereMode)
+           {
+               m_leftInstanceCreation = false;
+               Vector3 position = m_instanceLeftHand.transform.position;
+               //m_instanceLeftHand.transform.parent = m_transformPoint;
+               SetSofaParent(m_instanceLeftHand);
+               m_instanceLeftHand.transform.position = position;
+               m_instanceLeftHand.GetComponent<SphereListenerManager>().DefaultColor = m_instancesColor;
+               m_instanceLeftHand.GetComponent<Renderer>().material.color = m_instancesColor;
+           }
+       }
 
-                    //we create a new transformPoint for sphere corressponding to the model 
-                    GameObject go = new GameObject(m_modelExplorer.ModelName + "Spheres");
-                    if (m_sphereParent)
-                        go.transform.parent = m_sphereParent;
-                    else
-                        Debug.Log("No SphereParent assigned");
+       /// <summary>
+       /// create Instance following right hand 
+       /// </summary>
+       /// <param name="obj"></param>
+       private void CreateInstanceRight(InputAction.CallbackContext obj)
+       {
+           if (m_sphereMode)
+           {
+               m_instanceRightHand = Instantiate(m_sphere, m_rightHandAnchor);
+               m_rightInstanceCreation = true;
+               m_instanceRightHand.transform.localScale = new Vector3(m_newSizeSphere, m_newSizeSphere, m_newSizeSphere);
+               m_instanceRightHand.GetComponent<Renderer>().material.color = m_colorHalfTransparency;
+               AddItemInSphereList(m_instanceRightHand);//add instance in sphere list
 
-                    //we cannot determine the target and the following transphorm because the model is not created...yet
-                    //instead we do it on switch mode (we use a boolean value to call methods when needed)
-                    m_firstTimeNewModel = true;
+           }
+       }
 
-                    m_modelExplorer.ModelCreationLaunched = false;
-                }
-                else if (m_modelExplorer.ModelEnable && m_modelExplorer.ModelName != "None")//if not creating a new model 
-                {
-                    //disable the corresponding transformpoint before set the old model
-                    if (m_oldModelName != "None")
-                    {
-                        SetTransformPointState(m_oldModelName, false);
-                        EmptyList();//empty list of sphere before loading new model
-                    }
+       /// <summary>
+       /// Place left instance to a precedently defined transform point 
+       /// </summary>
+       /// <param name="obj"></param>
+       private void PlaceInstanceRight(InputAction.CallbackContext obj)
+       {
+           if (m_sphereMode)
+           {
+               m_rightInstanceCreation = false;
+               Vector3 position = m_instanceRightHand.transform.position;
+               //m_instanceRightHand.transform.parent = m_transformPoint;
+               SetSofaParent(m_instanceRightHand);
+               m_instanceRightHand.transform.position = position;
+               m_instanceRightHand.GetComponent<SphereListenerManager>().DefaultColor = m_instancesColor;
+               m_instanceRightHand.GetComponent<Renderer>().material.color = m_instancesColor;
+           }
+       }
 
-                    //we get the target selected
-                    GameObject target = m_modelExplorer.ModelController.GetTargetModel();
+       /// <summary>
+       /// add one item in sphere list
+       /// </summary>
+       /// <param name="item"></param>
+       private void AddItemInSphereList(GameObject item)
+       {
+           m_sphereList.Add(item);
+       }
 
-                    //Update the oldModel and enable the transformPoint corresponding to our model
-                    m_oldModelName = target.name;
-                    SetTransformPointState(target.name, true);
+       /// <summary>
+       /// delete one item in sphere list
+       /// </summary>
+       /// <param name="item"></param>
+       private void DeleteItemInSphereList(GameObject item)
+       {
+           m_sphereList.Remove(item);
+       }
 
-                    //we determine the target to follow ant the assign the following transformPoint
-                    m_targetModel = target;
-                    DefineTransformPoint(target);
+       /// <summary>
+       /// get all existants sphere in list
+       /// </summary>
+       private void PopulateSphereList()
+       {
+           for (int i = 0; i < m_transformPoint.childCount; i++)
+           {
+               m_sphereList.Add(m_transformPoint.GetChild(i).gameObject);
+           }
+       }
 
-                    PopulateSphereList();
+       /// <summary>
+       /// empty list spherelist
+       /// </summary>
+       private void EmptyList()
+       {
+           m_sphereList.Clear();
+       }
 
-                    //in case we created a model just before without going to spheremode
-                    m_firstTimeNewModel = false;
+       /// <summary>
+       /// Define the tansform point to place instance (this transform will follow the model)
+       /// </summary>
+       /// <param name="target"></param>
+       public void DefineTransformPoint(GameObject target)
+       {
+           for (int i = 0; i < m_sphereParent.childCount; i++)
+           {
+               Transform childTransform = m_sphereParent.GetChild(i);
+               if (childTransform.gameObject.name == target.name + "Spheres")
+               {
+                   m_transformPoint = childTransform;
+               }
+           }
+       }
 
-                    m_initModelSize = target.transform.localScale;
+       /// <summary>
+       /// Enable/ Disable transform point depending on the model chosen 
+       /// </summary>
+       /// <param name="targetName"></param>
+       /// <param name="state"></param>
+       private void SetTransformPointState(string targetName, bool state)
+       {
+           for (int i = 0; i < m_sphereParent.childCount; i++)
+           {
+               Transform childTransform = m_sphereParent.GetChild(i);
+               if (childTransform.gameObject.name == targetName + "Spheres")
+               {
+                   childTransform.gameObject.SetActive(state);
+               }
+           }
+       }
 
-                    m_modelExplorer.ModelEnable = false;
-                }
-                else if (m_modelExplorer.ModelName == "None")//if no model selected
-                {
-                    //disable the corresponding transformpoint before set the old model
-                    if (m_oldModelName != "None")
-                    {
-                        SetTransformPointState(m_oldModelName, false);
-                        EmptyList();//empty list of sphere
-                    }
-                    m_oldModelName = "None";
+       public void SetSofaParent(GameObject obj)
+       {
+
+           if (m_modelExplorer.m_targetElement != null)
+           {
+               obj.transform.parent = m_modelExplorer.m_targetElement.m_targetElement.transform;
+           }
+           else
+           {
+               obj.transform.parent = m_modelExplorer.m_sofaContext.transform;
+           }
+       }
+
+       private void Update()
+       {
+           //*************************Follow Transform*************************
+           //the spheres will follow the model only in the model mode and if a model is loaded (cannot create a sphere when no model selelected : "None")
+           if (m_targetModel && !m_sphereMode)
+           {
+               m_transformPoint.position = m_targetModel.transform.position;
+               m_transformPoint.rotation = m_targetModel.transform.rotation;
+               m_transformPoint.localScale = m_targetModel.transform.localScale / m_initModelSize.x; //any coordinate could fit
+           }
+
+           int lst_length = m_sphereList.Count;
+
+           /* mapping feature is private ask us for more informations
+            * 
+           if ((lst_length != 0)&& m_mappingOn)
+           {
+               if (m_gamecontroller.SimuIsOn)
+               {
+                  if (!m_gamecontroller.AnimeIsOver)//to call it only once when animation is over
+                   {
+                       m_sphereMapping.getUnitySpherePosition();
+                   }
+
+                   m_sphereMapping.m_followSimu = true;
+
+               }
+               else
+               {
+                   m_sphereMapping.m_followSimu = false;
+                   m_sphereMapping.SetSphereList(m_sphereList);
+               }
+
+           }*/
 
 
-
-                    m_initModelSize = Vector3.one;
-                }
-            }
-            else
-                Debug.LogError("No ModelExplorer assigned");
-            */
         }
 
 
@@ -670,4 +626,4 @@ namespace SofaUnityXR
 
 
 
-}
+}//sofaunityXR namespace

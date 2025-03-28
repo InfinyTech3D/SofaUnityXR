@@ -62,6 +62,7 @@ MonoBehaviour:
   m_plannifRotation: {x: 0, y: 0, z: 0, w: 0}
   m_modelExplorer: {fileID: 0}
   m_selectedMaterial: {fileID: 2100000, guid: 22afb4fc81398514eb988896c332a96b, type: 2}
+  m_TransMatMaterial: {fileID: 2100000, guid: 044347ecca0c1a94eacfa98fea481a1d, type: 2}
 --- !u!1 &7688978840650772747
 GameObject:
   m_ObjectHideFlags: 0

@@ -17,7 +17,6 @@ namespace SofaUnityXR
         public GameObject m_SofaContext;
         [SerializeField] private SofaTwoHandedGrabMoveProvider m_STHGMP;
         
-
         [SerializeField] private Vector3 m_SofaContextSimuPosition;
         [SerializeField] private Vector3 m_SofaContextPlannifPosition;
         [SerializeField] private Vector3 m_SofaContextSimuScale;
@@ -26,10 +25,28 @@ namespace SofaUnityXR
         [SerializeField] private Quaternion m_SofaContextPlannifRotation;
 
         private SofaPlayer m_SofaPlayer;
-        private SofaModelExplorer m_modelExplorer;
+        [SerializeField] private SofaModelExplorer m_modelExplorer;
         private bool firstpass;
+
+        /// <summary>
+        /// To know if the app is simulation or plannification mode
+        /// </summary>
         public bool SimuIsOn;
+
+        /// <summary>
+        /// To know when the corroutine that manage the animation is finish
+        /// </summary>
         public bool AnimeIsOver;
+
+        /// <summary>
+        /// number of frame of switch mode animation, if too small you will have imprecision with the final position 
+        /// </summary>
+        private int numSteps = 20;
+
+        /// <summary>
+        /// Numstep*Timestep=minimum duration of the animation in second (approximation)
+        /// </summary>
+        private float Timestep = 0.01f;
 
 
         // Start is called before the first frame update
@@ -37,23 +54,19 @@ namespace SofaUnityXR
         {
 
             m_SofaPlayer = m_SofaPlayer_Panel.GetComponent<SofaPlayer>();
-
-            m_modelExplorer = this.GetComponent<SofaModelExplorer>();
             firstpass = true;
             AnimeIsOver=false;
 
             if (m_modelExplorer == null)
             {
-                Debug.LogError("can't find SofaModelExplorer");
+                Debug.LogError("can't find public SofaModelExplorer, please use the inspector to specify it");
             }
+
             if (toggleSimu != null)
             {
                 toggleSimu.onValueChanged.AddListener(OnToggleSimuChanged);
                 m_hideSimu.SetActive(true);
                 m_hidePlannif.SetActive(false);
-
-
-
             }
             else
             {
@@ -189,7 +202,7 @@ namespace SofaUnityXR
         }
 
         /// <summary>
-        /// Add all the element to grab the object in VR
+        /// Add elements to grab the object in VR
         /// </summary>
         /// <param name="obj"></param>
         private void AddXRGrab(GameObject obj)
@@ -201,6 +214,7 @@ namespace SofaUnityXR
                 obj.AddComponent<Rigidbody>();
                 obj.GetComponent<Rigidbody>().isKinematic = true;
                 obj.GetComponent<Rigidbody>().useGravity = false;
+                obj.GetComponent<Rigidbody>().excludeLayers= InteractionLayerMask.GetMask("UI");
             }
 
             // Add BoxCollider if not already present
@@ -228,16 +242,15 @@ namespace SofaUnityXR
         /// <param name="obj">The object to move</param>
         /// <returns>nothing</returns>
         private IEnumerator SmoothTransitionPosition(Vector3 startPos, Vector3 endPos, GameObject obj)
-        { 
-            int numSteps = 20;
+        {
+            //Debug.Log("I'm " + obj.transform.parent.gameObject.name + " I must go from " + startPos +" to " + endPos);
             for (int i = 0; i <= numSteps; i++)
             {
-                float t = i / (float)numSteps;
                 // Interpolation
-                Vector3 currentPos = Vector3.Lerp(startPos, endPos, t);
-                obj.transform.position = currentPos;
-                yield return new WaitForSeconds(0.01f);
+                obj.transform.position = Vector3.Lerp(startPos, endPos, (i / (float)numSteps)); 
+                yield return new WaitForSeconds(Timestep);
             }
+            obj.transform.position = endPos;
             AnimeIsOver = true;
         }
         /// <summary>
@@ -249,15 +262,13 @@ namespace SofaUnityXR
         /// <returns>nothing</returns>
         private IEnumerator SmoothTransitionScale(Vector3 startScale, Vector3 endScale, GameObject obj)
         {
-            int numSteps = 20;
+            
             for (int i = 0; i <= numSteps; i++)
             {
-                float t = i / (float)numSteps;
-                // Interpolation
-                Vector3 currentScale = Vector3.Lerp(startScale, endScale, t);
-                obj.transform.localScale = currentScale;
-                yield return new WaitForSeconds(0.01f);
+                obj.transform.localScale = Vector3.Lerp(startScale, endScale, (i / (float)numSteps));
+                yield return new WaitForSeconds(Timestep);
             }
+            obj.transform.localScale = endScale;
         }
         /// <summary>
         /// Coroutine to animate the rotation of an object between two rotation
@@ -268,15 +279,16 @@ namespace SofaUnityXR
         /// <returns>nothing</returns>
         private IEnumerator SmoothTransitionQuaternion(Quaternion startRot, Quaternion endRot, GameObject obj)
         {
-            int numSteps = 20; // Nombre d'étapes dans la transition
+            
             for (int i = 0; i <= numSteps; i++)
             {
                 float t = i / (float)numSteps; // Fraction du progrès
                                                // Interpolation sphérique
                 Quaternion currentRot = Quaternion.Slerp(startRot, endRot, t);
                 obj.transform.rotation = currentRot;
-                yield return new WaitForSeconds(0.01f); // Attente entre chaque étape
+                yield return new WaitForSeconds(Timestep); // Attente entre chaque étape
             }
+            obj.transform.rotation= endRot;
         }
 
         /// <summary>

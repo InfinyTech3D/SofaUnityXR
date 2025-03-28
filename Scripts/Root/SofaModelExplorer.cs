@@ -16,34 +16,32 @@ namespace SofaUnityXR
         //**************************************//
         //************  Parameters  ************//
         //**************************************//
+
         [SerializeField] private GameObject m_componentScroller = null;
+
+        /// <summary>
+        /// prefabs used to create element on the UI panels
+        /// </summary>
         [SerializeField] private GameObject TogglePrefab;
 
         public List<SofaModelElementExplorer> m_modelElementCtrls = null;
 
-        //selected element
+        /// <summary>
+        /// current selected element 
+        /// </summary>
         public SofaModelElementExplorer m_targetElement = null;
 
         [SerializeField] private Slider m_sliderSelected;
         [SerializeField] private Slider m_sliderOthers;
 
-        private List<GameObject> m_listOfModelCreated = new List<GameObject>();
-        private bool m_elementExist = false;
-
-        private string m_dataPath;
-
-        //sofa version add
         public List<GameObject> m_SofaMeshs = new List<GameObject>();
         public GameObject m_sofaContext;
 
         /// <summary>
-        /// easiest mean to know if we create/load a model without modify the API
+        /// to know if the app is using Universal render pipline 
         /// </summary>
-        private bool m_modelCreationLaunched = false;
-        private bool m_modelEnabled = false;
         public bool m_useURP = false;
 
-        public string m_modelName;
 
         void Awake()
         {
@@ -51,13 +49,15 @@ namespace SofaUnityXR
 
             m_sliderSelected.SetValueWithoutNotify(1.0f);
             m_sliderOthers.SetValueWithoutNotify(1.0f);
+
+            m_sofaContext = GameObject.Find("SofaContext");
+            m_useURP = PiplineIsURP();
+            FindRenderer();
         }
 
         private void Start()
         {
-            m_sofaContext = GameObject.Find("SofaContext");
-            m_useURP = PiplineIsURP();
-            FindRenderer();
+            
 
             if (m_sofaContext != null)
             {
@@ -74,7 +74,7 @@ namespace SofaUnityXR
                             if (newShader != null)
                             {
                                 renderer.material.shader = newShader;
-                                //atempt to set and get "Surface Type" to switch between Opaque and Transparent (failed)
+                                //TO DO: atempt to set and get "Surface Type" to switch between Opaque and Transparent
                                 //Debug.Log(Shader.PropertyToID("Surface Type"));//1823
                                 //Debug.Log(newShader.GetPropertyType(Shader.PropertyToID("Surface Type")));
                                 //renderer.material.SetFloat("_Surface", 0f);
@@ -120,61 +120,11 @@ namespace SofaUnityXR
             }
         }
 
-        public void PopulateModelElements()
-        {
-            if (m_componentScroller == null)
-                return;
 
-            foreach (var item in m_componentScroller.transform.OfType<Transform>().ToList())
-            {
-                Destroy(item.gameObject);
-            }
-
-            if (m_modelElementCtrls != null)
-                m_modelElementCtrls.Clear();
-            else
-                m_modelElementCtrls = new List<SofaModelElementExplorer>();
-
-            m_targetElement = null;
-        }
 
         void Update()
         {
-            /*if (m_modelController.GetThreadLoader() != null && !m_modelController.GetThreadLoader().AllLoaded)
-            {
-                m_modelController.LoadModel();
-            }
-            if (m_modelController.GetThreadLoader() != null && m_modelController.GetThreadLoader().AllLoaded && !m_modelController.NewGameObject)
-            {
-                if (m_modelController.GetTargetModel())
-                    m_modelController.UpdateBoxCollider(m_modelController.GetTargetModel());
-                if (!m_modelController.NextFrame)
-                {
-                    m_modelController.InitiateModelPosition(m_modelController.GetTargetModel());
-                    m_modelController.ModelLoaded = true;
-                    m_modelController.NextFrame = true;
-                }
-            }
-
-            if (m_modelController.GetThreadLoader() != null && m_modelController.GetThreadLoader().AllLoaded && m_modelController.NewGameObject)
-            {
-                m_modelController.GetChildrenWithMeshFilter();
-                m_modelController.DeleteChildrenWithoutMeshFilter();
-                if (!m_modelController.NextFrame)
-                    m_modelController.NextFrame = true;
-                else
-                {
-                    m_modelController.SetTargetModel(m_modelController.GetModelParent());
-
-                    ResetMaterial();
-                    ResetTransparancy();
-                    PopulateModelElements();
-
-                    m_modelController.NextFrame = false;
-                    m_modelController.NewGameObject = false;
-                }
-
-            }*/
+           
 
         }
 
@@ -591,37 +541,11 @@ namespace SofaUnityXR
             Application.Quit();
         }
 
-
-        /*public ModelController ModelController
-        {
-            set => m_modelController = value;
-            get => m_modelController;
-        }*/
-
         public SofaModelElementExplorer TargetElement
         {
             get => m_targetElement;
         }
-
-        public bool ModelCreationLaunched
-        {
-            get => m_modelCreationLaunched;
-            set => m_modelCreationLaunched = value;
-        }
-
-        public bool ModelEnable
-        {
-            get => m_modelEnabled;
-            set => m_modelEnabled = value;
-        }
-
-        public string ModelName
-        {
-            get => m_modelName;
-        }
-
-
-
+       
         //adds for sofa version//
 
 
@@ -635,7 +559,8 @@ namespace SofaUnityXR
                 return;
             }
 
-            MeshRenderer[] meshRenderers = FindObjectsOfType<MeshRenderer>();
+
+            MeshRenderer[] meshRenderers = FindObjectsByType<MeshRenderer>(FindObjectsSortMode.InstanceID);
 
             foreach (MeshRenderer meshRenderer in meshRenderers)
             {
