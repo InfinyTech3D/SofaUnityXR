@@ -243,7 +243,7 @@ namespace SofaUnityXR
        /// create Instance following left hand 
        /// </summary>
        /// <param name="obj"></param>
-       private void CreateInstanceLeft(InputAction.CallbackContext obj)
+       public void CreateInstanceLeft(InputAction.CallbackContext obj)
        {
            if (m_sphereMode)
            {
@@ -260,7 +260,7 @@ namespace SofaUnityXR
        /// Place left instance to a good transform point 
        /// </summary>
        /// <param name="obj"></param>
-       private void PlaceInstanceLeft(InputAction.CallbackContext obj)
+       public void PlaceInstanceLeft(InputAction.CallbackContext obj)
        {
            if (m_sphereMode)
            {
@@ -278,7 +278,7 @@ namespace SofaUnityXR
        /// create Instance following right hand 
        /// </summary>
        /// <param name="obj"></param>
-       private void CreateInstanceRight(InputAction.CallbackContext obj)
+       public void CreateInstanceRight(InputAction.CallbackContext obj)
        {
            if (m_sphereMode)
            {
@@ -291,11 +291,11 @@ namespace SofaUnityXR
            }
        }
 
-       /// <summary>
-       /// Place left instance to a precedently defined transform point 
-       /// </summary>
-       /// <param name="obj"></param>
-       private void PlaceInstanceRight(InputAction.CallbackContext obj)
+        /// <summary>
+        /// Place left instance to a precedently defined transform point 
+        /// </summary>
+        /// <param name="obj"></param>
+        public void PlaceInstanceRight(InputAction.CallbackContext obj)
        {
            if (m_sphereMode)
            {
@@ -580,6 +580,8 @@ namespace SofaUnityXR
 
         //*************************getter/setter*************************
 
+        //*************************getter/setter*************************
+
         public bool SphereMode
         {
             get => m_sphereMode;
@@ -621,6 +623,16 @@ namespace SofaUnityXR
         public List<GameObject> SphereList
         {
             get => m_sphereList;
+        }
+
+        public GameObject InstanceLeftHand
+        {
+            get => m_instanceLeftHand;
+        }
+
+        public GameObject InstanceRightHand
+        {
+            get => m_instanceRightHand;
         }
     }
 
