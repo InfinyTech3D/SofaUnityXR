@@ -38,6 +38,11 @@ Two examples are provided in the Scenes folder
 - Demo-01_SimpleLiver.unity: Provides a simple integration of SOFA deformable liver simulation in VR, allowing to play/restart simulation and show different models.
 - Demo-02_LiverInteraction.unity: Demonstrate how to interact between VR controllers (with SOFA sphere collisions) and deformable liver.
 
+Here are a some results of the basic integration:
+|<img align="center" height="250" src="./Doc/img/LiverIntegration_01.jpg">|<img align="center" height="250" src="./Doc/img/LiverIntegration_02.jpg">|
+|--|--|--|
+| Simple Liver simulation | FEM and sphere collision display |
+
 ## License
 This main Unity asset is under Standard Unity Asset Store EULA
 Other license formats can be provided for commercial use. For more information check [InfinyTech3D license page](https://infinytech3d.com/licenses/).
