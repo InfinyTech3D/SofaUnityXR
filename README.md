@@ -40,7 +40,7 @@ Two examples are provided in the Scenes folder
 
 Here are a some results of the basic integration:
 |<img align="center" height="250" src="./Doc/img/LiverIntegration_01.jpg">|<img align="center" height="250" src="./Doc/img/LiverIntegration_02.jpg">|
-|--|--|--|
+|--|--|
 | Simple Liver simulation | FEM and sphere collision display |
 
 ## License
