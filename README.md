@@ -11,7 +11,7 @@ Already a pro? Just edit this README.md and make it your own. Want to make it ea
 ## Add your files
 
 ## Dependencies
-+ XR Interaction Toolkit
++ XR Interaction Toolkit (tested with v4.4.0)
     + Starter Asset
-+ OpenXR Plugin
-+ Input System
++ OpenXR Plugin (tested with v1.10.0)
++ Input System (tested with v1.7.0)

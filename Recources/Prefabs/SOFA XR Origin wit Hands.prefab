@@ -6211,22 +6211,22 @@ MonoBehaviour:
     - vector<d>
     - d
     m_dataArray:
-    - rid: 2995439561773154700
-    - rid: 2995439561773154701
-    - rid: 2995439561773154702
-    - rid: 2995439561773154703
-    - rid: 2995439561773154704
-    - rid: 2995439561773154705
-    - rid: 2995439561773154706
-    - rid: 2995439561773154707
-    - rid: 2995439561773154708
-    - rid: 2995439561773154709
-    - rid: 2995439561773154710
-    - rid: 2995439561773154711
-    - rid: 2995439561773154712
-    - rid: 2995439561773154713
-    - rid: 2995439561773154714
-    - rid: 2995439561773154715
+    - rid: 7297270203972583646
+    - rid: 7297270203972583647
+    - rid: 7297270203972583648
+    - rid: 7297270203972583649
+    - rid: 7297270203972583650
+    - rid: 7297270203972583651
+    - rid: 7297270203972583652
+    - rid: 7297270203972583653
+    - rid: 7297270203972583654
+    - rid: 7297270203972583655
+    - rid: 7297270203972583656
+    - rid: 7297270203972583657
+    - rid: 7297270203972583658
+    - rid: 7297270203972583659
+    - rid: 7297270203972583660
+    - rid: 7297270203972583661
   m_linkArchiver:
     m_links:
     - m_owner: {fileID: 926613266902769080}
@@ -6238,7 +6238,7 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 2995439561773154700
+    - rid: 7297270203972583646
       type: {class: SofaBoolData, ns: SofaUnity, asm: Assembly-CSharp}
       data:
         m_owner: {fileID: 926613266902769080}
@@ -6252,7 +6252,7 @@ MonoBehaviour:
         m_isSupported: 1
         m_isVector: 0
         m_value: 0
-    - rid: 2995439561773154701
+    - rid: 7297270203972583647
       type: {class: SofaBoolData, ns: SofaUnity, asm: Assembly-CSharp}
       data:
         m_owner: {fileID: 926613266902769080}
@@ -6266,7 +6266,7 @@ MonoBehaviour:
         m_isSupported: 1
         m_isVector: 0
         m_value: 0
-    - rid: 2995439561773154702
+    - rid: 7297270203972583648
       type: {class: SofaBoolData, ns: SofaUnity, asm: Assembly-CSharp}
       data:
         m_owner: {fileID: 926613266902769080}
@@ -6280,7 +6280,7 @@ MonoBehaviour:
         m_isSupported: 1
         m_isVector: 0
         m_value: 1
-    - rid: 2995439561773154703
+    - rid: 7297270203972583649
       type: {class: SofaBoolData, ns: SofaUnity, asm: Assembly-CSharp}
       data:
         m_owner: {fileID: 926613266902769080}
@@ -6294,7 +6294,7 @@ MonoBehaviour:
         m_isSupported: 1
         m_isVector: 0
         m_value: 1
-    - rid: 2995439561773154704
+    - rid: 7297270203972583650
       type: {class: SofaBoolData, ns: SofaUnity, asm: Assembly-CSharp}
       data:
         m_owner: {fileID: 926613266902769080}
@@ -6308,7 +6308,7 @@ MonoBehaviour:
         m_isSupported: 1
         m_isVector: 0
         m_value: 1
-    - rid: 2995439561773154705
+    - rid: 7297270203972583651
       type: {class: SofaBoolData, ns: SofaUnity, asm: Assembly-CSharp}
       data:
         m_owner: {fileID: 926613266902769080}
@@ -6322,7 +6322,7 @@ MonoBehaviour:
         m_isSupported: 1
         m_isVector: 0
         m_value: 0
-    - rid: 2995439561773154706
+    - rid: 7297270203972583652
       type: {class: SofaDoubleData, ns: SofaUnity, asm: Assembly-CSharp}
       data:
         m_owner: {fileID: 926613266902769080}
@@ -6336,7 +6336,7 @@ MonoBehaviour:
         m_isSupported: 1
         m_isVector: 0
         m_value: 0
-    - rid: 2995439561773154707
+    - rid: 7297270203972583653
       type: {class: SofaDoubleData, ns: SofaUnity, asm: Assembly-CSharp}
       data:
         m_owner: {fileID: 926613266902769080}
@@ -6350,7 +6350,7 @@ MonoBehaviour:
         m_isSupported: 1
         m_isVector: 0
         m_value: 5000
-    - rid: 2995439561773154708
+    - rid: 7297270203972583654
       type: {class: SofaDoubleData, ns: SofaUnity, asm: Assembly-CSharp}
       data:
         m_owner: {fileID: 926613266902769080}
@@ -6364,7 +6364,7 @@ MonoBehaviour:
         m_isSupported: 1
         m_isVector: 0
         m_value: 0
-    - rid: 2995439561773154709
+    - rid: 7297270203972583655
       type: {class: SofaDoubleData, ns: SofaUnity, asm: Assembly-CSharp}
       data:
         m_owner: {fileID: 926613266902769080}
@@ -6378,7 +6378,7 @@ MonoBehaviour:
         m_isSupported: 1
         m_isVector: 0
         m_value: 0
-    - rid: 2995439561773154710
+    - rid: 7297270203972583656
       type: {class: SofaStringData, ns: SofaUnity, asm: Assembly-CSharp}
       data:
         m_owner: {fileID: 926613266902769080}
@@ -6392,7 +6392,7 @@ MonoBehaviour:
         m_isSupported: 1
         m_isVector: 0
         m_value: 
-    - rid: 2995439561773154711
+    - rid: 7297270203972583657
       type: {class: SofaData, ns: SofaUnity, asm: Assembly-CSharp}
       data:
         m_owner: {fileID: 926613266902769080}
@@ -6405,7 +6405,7 @@ MonoBehaviour:
         m_flag: 10
         m_isSupported: 0
         m_isVector: 0
-    - rid: 2995439561773154712
+    - rid: 7297270203972583658
       type: {class: SofaData, ns: SofaUnity, asm: Assembly-CSharp}
       data:
         m_owner: {fileID: 926613266902769080}
@@ -6418,7 +6418,7 @@ MonoBehaviour:
         m_flag: 10
         m_isSupported: 0
         m_isVector: 0
-    - rid: 2995439561773154713
+    - rid: 7297270203972583659
       type: {class: SofaIntData, ns: SofaUnity, asm: Assembly-CSharp}
       data:
         m_owner: {fileID: 926613266902769080}
@@ -6433,7 +6433,7 @@ MonoBehaviour:
         m_isVector: 0
         m_value: 0
         m_isUnsigned: 1
-    - rid: 2995439561773154714
+    - rid: 7297270203972583660
       type: {class: SofaDataVectorDouble, ns: SofaUnity, asm: Assembly-CSharp}
       data:
         m_owner: {fileID: 926613266902769080}
@@ -6448,7 +6448,7 @@ MonoBehaviour:
         m_isVector: 1
         m_vecType: double
         m_vecSize: 1
-    - rid: 2995439561773154715
+    - rid: 7297270203972583661
       type: {class: SofaDoubleData, ns: SofaUnity, asm: Assembly-CSharp}
       data:
         m_owner: {fileID: 926613266902769080}
@@ -6725,7 +6725,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 136bb620c243f53469ee42c574ba36cf, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -6875,7 +6875,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 136bb620c243f53469ee42c574ba36cf, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -7073,6 +7073,7 @@ MonoBehaviour:
   m_linkArchiver:
     m_links: []
     m_slaveLinks: []
+  m_meshDim: 3
   m_forceUpdate: 0
   references:
     version: 2
@@ -22063,22 +22064,22 @@ MonoBehaviour:
     - vector<d>
     - d
     m_dataArray:
-    - rid: 2995439561773154716
-    - rid: 2995439561773154717
-    - rid: 2995439561773154718
-    - rid: 2995439561773154719
-    - rid: 2995439561773154720
-    - rid: 2995439561773154721
-    - rid: 2995439561773154722
-    - rid: 2995439561773154723
-    - rid: 2995439561773154724
-    - rid: 2995439561773154725
-    - rid: 2995439561773154726
-    - rid: 2995439561773154727
-    - rid: 2995439561773154728
-    - rid: 2995439561773154729
-    - rid: 2995439561773154730
-    - rid: 2995439561773154731
+    - rid: 7297270203972583662
+    - rid: 7297270203972583663
+    - rid: 7297270203972583664
+    - rid: 7297270203972583665
+    - rid: 7297270203972583666
+    - rid: 7297270203972583667
+    - rid: 7297270203972583668
+    - rid: 7297270203972583669
+    - rid: 7297270203972583670
+    - rid: 7297270203972583671
+    - rid: 7297270203972583672
+    - rid: 7297270203972583673
+    - rid: 7297270203972583674
+    - rid: 7297270203972583675
+    - rid: 7297270203972583676
+    - rid: 7297270203972583677
   m_linkArchiver:
     m_links:
     - m_owner: {fileID: 926613267466847363}
@@ -22090,7 +22091,7 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 2995439561773154716
+    - rid: 7297270203972583662
       type: {class: SofaBoolData, ns: SofaUnity, asm: Assembly-CSharp}
       data:
         m_owner: {fileID: 926613267466847363}
@@ -22104,7 +22105,7 @@ MonoBehaviour:
         m_isSupported: 1
         m_isVector: 0
         m_value: 0
-    - rid: 2995439561773154717
+    - rid: 7297270203972583663
       type: {class: SofaBoolData, ns: SofaUnity, asm: Assembly-CSharp}
       data:
         m_owner: {fileID: 926613267466847363}
@@ -22118,7 +22119,7 @@ MonoBehaviour:
         m_isSupported: 1
         m_isVector: 0
         m_value: 0
-    - rid: 2995439561773154718
+    - rid: 7297270203972583664
       type: {class: SofaBoolData, ns: SofaUnity, asm: Assembly-CSharp}
       data:
         m_owner: {fileID: 926613267466847363}
@@ -22132,7 +22133,7 @@ MonoBehaviour:
         m_isSupported: 1
         m_isVector: 0
         m_value: 1
-    - rid: 2995439561773154719
+    - rid: 7297270203972583665
       type: {class: SofaBoolData, ns: SofaUnity, asm: Assembly-CSharp}
       data:
         m_owner: {fileID: 926613267466847363}
@@ -22146,7 +22147,7 @@ MonoBehaviour:
         m_isSupported: 1
         m_isVector: 0
         m_value: 1
-    - rid: 2995439561773154720
+    - rid: 7297270203972583666
       type: {class: SofaBoolData, ns: SofaUnity, asm: Assembly-CSharp}
       data:
         m_owner: {fileID: 926613267466847363}
@@ -22160,7 +22161,7 @@ MonoBehaviour:
         m_isSupported: 1
         m_isVector: 0
         m_value: 1
-    - rid: 2995439561773154721
+    - rid: 7297270203972583667
       type: {class: SofaBoolData, ns: SofaUnity, asm: Assembly-CSharp}
       data:
         m_owner: {fileID: 926613267466847363}
@@ -22174,7 +22175,7 @@ MonoBehaviour:
         m_isSupported: 1
         m_isVector: 0
         m_value: 0
-    - rid: 2995439561773154722
+    - rid: 7297270203972583668
       type: {class: SofaDoubleData, ns: SofaUnity, asm: Assembly-CSharp}
       data:
         m_owner: {fileID: 926613267466847363}
@@ -22188,7 +22189,7 @@ MonoBehaviour:
         m_isSupported: 1
         m_isVector: 0
         m_value: 0
-    - rid: 2995439561773154723
+    - rid: 7297270203972583669
       type: {class: SofaDoubleData, ns: SofaUnity, asm: Assembly-CSharp}
       data:
         m_owner: {fileID: 926613267466847363}
@@ -22202,7 +22203,7 @@ MonoBehaviour:
         m_isSupported: 1
         m_isVector: 0
         m_value: 5000
-    - rid: 2995439561773154724
+    - rid: 7297270203972583670
       type: {class: SofaDoubleData, ns: SofaUnity, asm: Assembly-CSharp}
       data:
         m_owner: {fileID: 926613267466847363}
@@ -22216,7 +22217,7 @@ MonoBehaviour:
         m_isSupported: 1
         m_isVector: 0
         m_value: 0
-    - rid: 2995439561773154725
+    - rid: 7297270203972583671
       type: {class: SofaDoubleData, ns: SofaUnity, asm: Assembly-CSharp}
       data:
         m_owner: {fileID: 926613267466847363}
@@ -22230,7 +22231,7 @@ MonoBehaviour:
         m_isSupported: 1
         m_isVector: 0
         m_value: 0
-    - rid: 2995439561773154726
+    - rid: 7297270203972583672
       type: {class: SofaStringData, ns: SofaUnity, asm: Assembly-CSharp}
       data:
         m_owner: {fileID: 926613267466847363}
@@ -22244,7 +22245,7 @@ MonoBehaviour:
         m_isSupported: 1
         m_isVector: 0
         m_value: 
-    - rid: 2995439561773154727
+    - rid: 7297270203972583673
       type: {class: SofaData, ns: SofaUnity, asm: Assembly-CSharp}
       data:
         m_owner: {fileID: 926613267466847363}
@@ -22257,7 +22258,7 @@ MonoBehaviour:
         m_flag: 10
         m_isSupported: 0
         m_isVector: 0
-    - rid: 2995439561773154728
+    - rid: 7297270203972583674
       type: {class: SofaData, ns: SofaUnity, asm: Assembly-CSharp}
       data:
         m_owner: {fileID: 926613267466847363}
@@ -22270,7 +22271,7 @@ MonoBehaviour:
         m_flag: 10
         m_isSupported: 0
         m_isVector: 0
-    - rid: 2995439561773154729
+    - rid: 7297270203972583675
       type: {class: SofaIntData, ns: SofaUnity, asm: Assembly-CSharp}
       data:
         m_owner: {fileID: 926613267466847363}
@@ -22285,7 +22286,7 @@ MonoBehaviour:
         m_isVector: 0
         m_value: 0
         m_isUnsigned: 1
-    - rid: 2995439561773154730
+    - rid: 7297270203972583676
       type: {class: SofaDataVectorDouble, ns: SofaUnity, asm: Assembly-CSharp}
       data:
         m_owner: {fileID: 926613267466847363}
@@ -22300,7 +22301,7 @@ MonoBehaviour:
         m_isVector: 1
         m_vecType: double
         m_vecSize: 1
-    - rid: 2995439561773154731
+    - rid: 7297270203972583677
       type: {class: SofaDoubleData, ns: SofaUnity, asm: Assembly-CSharp}
       data:
         m_owner: {fileID: 926613267466847363}
@@ -22373,6 +22374,7 @@ MonoBehaviour:
   m_linkArchiver:
     m_links: []
     m_slaveLinks: []
+  m_meshDim: 3
   m_forceUpdate: 0
   references:
     version: 2
@@ -23371,7 +23373,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -23462,8 +23464,7 @@ MonoBehaviour:
         m_Action: Position
         m_Flags: 0
       m_Flags: 0
-    m_Reference: {fileID: 7862207684358717888, guid: c348712bda248c246b8c49b3db54643f,
-      type: 3}
+    m_Reference: {fileID: 7862207684358717888, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   m_RotationInput:
     m_UseReference: 1
     m_Action:
@@ -23483,8 +23484,7 @@ MonoBehaviour:
         m_Action: Rotation
         m_Flags: 0
       m_Flags: 0
-    m_Reference: {fileID: -530380113134220495, guid: c348712bda248c246b8c49b3db54643f,
-      type: 3}
+    m_Reference: {fileID: -530380113134220495, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   m_TrackingStateInput:
     m_UseReference: 0
     m_Action:
@@ -23730,22 +23730,14 @@ MonoBehaviour:
   m_EnableXRInput: 1
   m_EnableMouseInput: 1
   m_EnableTouchInput: 1
-  m_PointAction: {fileID: 2869410428622933342, guid: c348712bda248c246b8c49b3db54643f,
-    type: 3}
-  m_LeftClickAction: {fileID: 1855836014308820768, guid: c348712bda248c246b8c49b3db54643f,
-    type: 3}
-  m_MiddleClickAction: {fileID: -6289560987278519447, guid: c348712bda248c246b8c49b3db54643f,
-    type: 3}
-  m_RightClickAction: {fileID: -2562941478296515153, guid: c348712bda248c246b8c49b3db54643f,
-    type: 3}
-  m_ScrollWheelAction: {fileID: 5825226938762934180, guid: c348712bda248c246b8c49b3db54643f,
-    type: 3}
-  m_NavigateAction: {fileID: -7967456002180160679, guid: c348712bda248c246b8c49b3db54643f,
-    type: 3}
-  m_SubmitAction: {fileID: 3994978066732806534, guid: c348712bda248c246b8c49b3db54643f,
-    type: 3}
-  m_CancelAction: {fileID: 2387711382375263438, guid: c348712bda248c246b8c49b3db54643f,
-    type: 3}
+  m_PointAction: {fileID: 2869410428622933342, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  m_LeftClickAction: {fileID: 1855836014308820768, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  m_MiddleClickAction: {fileID: -6289560987278519447, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  m_RightClickAction: {fileID: -2562941478296515153, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  m_ScrollWheelAction: {fileID: 5825226938762934180, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  m_NavigateAction: {fileID: -7967456002180160679, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  m_SubmitAction: {fileID: 3994978066732806534, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  m_CancelAction: {fileID: 2387711382375263438, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   m_EnableBuiltinActionsAsFallback: 1
   m_EnableGamepadInput: 1
   m_EnableJoystickInput: 1
@@ -24138,8 +24130,7 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: -2024308242397127297, guid: c348712bda248c246b8c49b3db54643f,
-      type: 3}
+    m_Reference: {fileID: -2024308242397127297, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   m_RotationAction:
     m_UseReference: 1
     m_Action:
@@ -24151,8 +24142,7 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: 8248158260566104461, guid: c348712bda248c246b8c49b3db54643f,
-      type: 3}
+    m_Reference: {fileID: 8248158260566104461, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   m_IsTrackedAction:
     m_UseReference: 0
     m_Action:
@@ -24176,8 +24166,7 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: 684395432459739428, guid: c348712bda248c246b8c49b3db54643f,
-      type: 3}
+    m_Reference: {fileID: 684395432459739428, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   m_SelectAction:
     m_UseReference: 1
     m_Action:
@@ -24189,8 +24178,7 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: -6131295136447488360, guid: c348712bda248c246b8c49b3db54643f,
-      type: 3}
+    m_Reference: {fileID: -6131295136447488360, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   m_SelectActionValue:
     m_UseReference: 1
     m_Action:
@@ -24202,8 +24190,7 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: 6558622148059887818, guid: c348712bda248c246b8c49b3db54643f,
-      type: 3}
+    m_Reference: {fileID: 6558622148059887818, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   m_ActivateAction:
     m_UseReference: 1
     m_Action:
@@ -24215,8 +24202,7 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: -5982496924579745919, guid: c348712bda248c246b8c49b3db54643f,
-      type: 3}
+    m_Reference: {fileID: -5982496924579745919, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   m_ActivateActionValue:
     m_UseReference: 1
     m_Action:
@@ -24228,8 +24214,7 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: -4289430672226363583, guid: c348712bda248c246b8c49b3db54643f,
-      type: 3}
+    m_Reference: {fileID: -4289430672226363583, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   m_UIPressAction:
     m_UseReference: 1
     m_Action:
@@ -24241,8 +24226,7 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: -6395602842196007441, guid: c348712bda248c246b8c49b3db54643f,
-      type: 3}
+    m_Reference: {fileID: -6395602842196007441, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   m_UIPressActionValue:
     m_UseReference: 1
     m_Action:
@@ -24254,8 +24238,7 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: 71106601250685021, guid: c348712bda248c246b8c49b3db54643f,
-      type: 3}
+    m_Reference: {fileID: 71106601250685021, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   m_UIScrollAction:
     m_UseReference: 0
     m_Action:
@@ -24279,8 +24262,7 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: -8785819595477538065, guid: c348712bda248c246b8c49b3db54643f,
-      type: 3}
+    m_Reference: {fileID: -8785819595477538065, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   m_RotateAnchorAction:
     m_UseReference: 1
     m_Action:
@@ -24292,8 +24274,7 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: -7363382999065477798, guid: c348712bda248c246b8c49b3db54643f,
-      type: 3}
+    m_Reference: {fileID: -7363382999065477798, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   m_DirectionalAnchorRotationAction:
     m_UseReference: 1
     m_Action:
@@ -24305,8 +24286,7 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: -8811388872089202044, guid: c348712bda248c246b8c49b3db54643f,
-      type: 3}
+    m_Reference: {fileID: -8811388872089202044, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   m_TranslateAnchorAction:
     m_UseReference: 1
     m_Action:
@@ -24318,8 +24298,7 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: 7779212132400271959, guid: c348712bda248c246b8c49b3db54643f,
-      type: 3}
+    m_Reference: {fileID: 7779212132400271959, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   m_ScaleToggleAction:
     m_UseReference: 0
     m_Action:
@@ -25110,8 +25089,7 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: -3326005586356538449, guid: c348712bda248c246b8c49b3db54643f,
-      type: 3}
+    m_Reference: {fileID: -3326005586356538449, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   m_RotationAction:
     m_UseReference: 1
     m_Action:
@@ -25123,8 +25101,7 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: 5101698808175986029, guid: c348712bda248c246b8c49b3db54643f,
-      type: 3}
+    m_Reference: {fileID: 5101698808175986029, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   m_IsTrackedAction:
     m_UseReference: 0
     m_Action:
@@ -25148,8 +25125,7 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: -1277054153949319361, guid: c348712bda248c246b8c49b3db54643f,
-      type: 3}
+    m_Reference: {fileID: -1277054153949319361, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   m_SelectAction:
     m_UseReference: 1
     m_Action:
@@ -25161,8 +25137,7 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: 187161793506945269, guid: c348712bda248c246b8c49b3db54643f,
-      type: 3}
+    m_Reference: {fileID: 187161793506945269, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   m_SelectActionValue:
     m_UseReference: 1
     m_Action:
@@ -25174,8 +25149,7 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: -1758520528963094988, guid: c348712bda248c246b8c49b3db54643f,
-      type: 3}
+    m_Reference: {fileID: -1758520528963094988, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   m_ActivateAction:
     m_UseReference: 1
     m_Action:
@@ -25187,8 +25161,7 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: 83097790271614945, guid: c348712bda248c246b8c49b3db54643f,
-      type: 3}
+    m_Reference: {fileID: 83097790271614945, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   m_ActivateActionValue:
     m_UseReference: 1
     m_Action:
@@ -25200,8 +25173,7 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: 7904272356298805229, guid: c348712bda248c246b8c49b3db54643f,
-      type: 3}
+    m_Reference: {fileID: 7904272356298805229, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   m_UIPressAction:
     m_UseReference: 1
     m_Action:
@@ -25213,8 +25185,7 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: 3279264004350380116, guid: c348712bda248c246b8c49b3db54643f,
-      type: 3}
+    m_Reference: {fileID: 3279264004350380116, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   m_UIPressActionValue:
     m_UseReference: 1
     m_Action:
@@ -25226,8 +25197,7 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: -5908353012961274365, guid: c348712bda248c246b8c49b3db54643f,
-      type: 3}
+    m_Reference: {fileID: -5908353012961274365, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   m_UIScrollAction:
     m_UseReference: 0
     m_Action:
@@ -25251,8 +25221,7 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: -8222252007134549311, guid: c348712bda248c246b8c49b3db54643f,
-      type: 3}
+    m_Reference: {fileID: -8222252007134549311, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   m_RotateAnchorAction:
     m_UseReference: 1
     m_Action:
@@ -25264,8 +25233,7 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: -5913262927076077117, guid: c348712bda248c246b8c49b3db54643f,
-      type: 3}
+    m_Reference: {fileID: -5913262927076077117, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   m_DirectionalAnchorRotationAction:
     m_UseReference: 1
     m_Action:
@@ -25277,8 +25245,7 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: -440298646266941818, guid: c348712bda248c246b8c49b3db54643f,
-      type: 3}
+    m_Reference: {fileID: -440298646266941818, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   m_TranslateAnchorAction:
     m_UseReference: 1
     m_Action:
@@ -25290,8 +25257,7 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: 875253871413052681, guid: c348712bda248c246b8c49b3db54643f,
-      type: 3}
+    m_Reference: {fileID: 875253871413052681, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   m_ScaleToggleAction:
     m_UseReference: 0
     m_Action:
@@ -25982,10 +25948,10 @@ Animator:
   m_GameObject: {fileID: 1804012243476672781}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: d0c255d07fd68f14b94e55d388e7e6bb, type: 3}
-  m_Controller: {fileID: 9100000, guid: 011fededf8deb2f479afbcb453d11410, type: 2}
+  m_Controller: {fileID: 9100000, guid: 3338dde1ae80a3b43826deca5c238356, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_AnimatePhysics: 0
@@ -26017,8 +25983,7 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: 7904272356298805229, guid: c348712bda248c246b8c49b3db54643f,
-      type: 3}
+    m_Reference: {fileID: 7904272356298805229, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   m_gripAnimationAction:
     m_UseReference: 1
     m_Action:
@@ -26030,8 +25995,7 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: -1758520528963094988, guid: c348712bda248c246b8c49b3db54643f,
-      type: 3}
+    m_Reference: {fileID: -1758520528963094988, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   m_handAnimator: {fileID: 1804012243476672884}
 --- !u!33 &1804012243476672886
 MeshFilter:
@@ -26053,8 +26017,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f6443f6e7a80214fb9e7bccc1c6f312, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_trigger: {fileID: 7904272356298805229, guid: c348712bda248c246b8c49b3db54643f,
-    type: 3}
+  m_trigger: {fileID: 7904272356298805229, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   m_sofaSphereCollisionHand: {fileID: 926613266130467460}
 --- !u!114 &926613266130467460
 MonoBehaviour:
@@ -26222,8 +26185,7 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: 6972639530819350904, guid: c348712bda248c246b8c49b3db54643f,
-      type: 3}
+    m_Reference: {fileID: 6972639530819350904, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   m_RightHandMoveAction:
     m_UseReference: 0
     m_Action:
@@ -26235,8 +26197,7 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: -8198699208435500284, guid: c348712bda248c246b8c49b3db54643f,
-      type: 3}
+    m_Reference: {fileID: -8198699208435500284, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   m_HeadTransform: {fileID: 1804012242658027003}
   m_LeftControllerTransform: {fileID: 1804012242838190158}
   m_RightControllerTransform: {fileID: 1804012243245122468}
@@ -26283,8 +26244,7 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: -8525429354371678379, guid: c348712bda248c246b8c49b3db54643f,
-      type: 3}
+    m_Reference: {fileID: -8525429354371678379, guid: c348712bda248c246b8c49b3db54643f, type: 3}
 --- !u!114 &1804012243492458681
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26297,10 +26257,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6554b18ba000c4448bc629c3c11e0399, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_leftGripButton: {fileID: -5982496924579745919, guid: c348712bda248c246b8c49b3db54643f,
-    type: 3}
-  m_rightGripButton: {fileID: 83097790271614945, guid: c348712bda248c246b8c49b3db54643f,
-    type: 3}
+  m_leftGripButton: {fileID: -6131295136447488360, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  m_rightGripButton: {fileID: 187161793506945269, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   m_leftSofaLaserModel: {fileID: 926613267261959436}
   m_rightSofaLaserModel: {fileID: 926613266698551020}
 --- !u!1 &1804012243495081359
@@ -27068,7 +27026,7 @@ Animator:
   m_GameObject: {fileID: 1804012243775975812}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: ca20b3907ff1c794cb89c1ad2cce8282, type: 3}
-  m_Controller: {fileID: 9100000, guid: 0284ecac7be7e2d409126f62358d744b, type: 2}
+  m_Controller: {fileID: 9100000, guid: 4b5efa0c69d901449a38989140500c0d, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -27103,8 +27061,7 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: -4289430672226363583, guid: c348712bda248c246b8c49b3db54643f,
-      type: 3}
+    m_Reference: {fileID: -4289430672226363583, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   m_gripAnimationAction:
     m_UseReference: 1
     m_Action:
@@ -27116,8 +27073,7 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: 6558622148059887818, guid: c348712bda248c246b8c49b3db54643f,
-      type: 3}
+    m_Reference: {fileID: 6558622148059887818, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   m_handAnimator: {fileID: 1804012243775975823}
 --- !u!33 &1804012243775975817
 MeshFilter:
@@ -27139,8 +27095,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f6443f6e7a80214fb9e7bccc1c6f312, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_trigger: {fileID: -4289430672226363583, guid: c348712bda248c246b8c49b3db54643f,
-    type: 3}
+  m_trigger: {fileID: -4289430672226363583, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   m_sofaSphereCollisionHand: {fileID: 926613265487231601}
 --- !u!114 &926613265487231601
 MonoBehaviour:
