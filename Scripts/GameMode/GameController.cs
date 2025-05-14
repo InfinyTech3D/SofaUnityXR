@@ -343,5 +343,11 @@ namespace SofaUnityXR
             
         }
 
+        public SofaModelExplorer ModelExplorer
+        {
+            get => m_modelExplorer;
+            set => m_modelExplorer = value;
+        }
+
     }
 }

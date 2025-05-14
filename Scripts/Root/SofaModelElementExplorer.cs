@@ -24,7 +24,7 @@ namespace SofaUnityXR
 
         /// <summary>
         /// Propreties used to switch beetween plannification and simulation modes 
-        /// </summary>
+        /// </summary> 
         public Vector3 m_simuPosition;
         public Vector3 m_plannifPosition;
         public Vector3 m_simuScale;
@@ -88,7 +88,7 @@ namespace SofaUnityXR
                     m_selectedMaterial = new Material(Shader.Find("CustomURPTransparancy"));
                     m_selectedMaterial.CopyPropertiesFromMaterial(m_defaultMaterial);
                     //m_selectedMaterial.SetColor("_BaseMap", m_defaultMaterial.GetColor("_BaseMap"));
-                    m_selectedMaterial.SetColor("_BaseColor", (m_selectedMaterial.GetColor("_BaseColor") * 0.3f + (Color.yellow)*0.7f));
+                    //m_selectedMaterial.SetColor("_BaseColor", (m_selectedMaterial.GetColor("_BaseColor") * 0.3f + (Color.yellow)*0.7f));
                     /*
                      TO DO: atempt to set and get "Surface Type" to switch between Opaque and Transparent:
                      m_selectedMaterial.SetFloat("_Surface", 1.0f);

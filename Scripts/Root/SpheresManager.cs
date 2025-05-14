@@ -121,13 +121,6 @@ namespace SofaUnityXR
         private bool m_firstTimeNewModel = false;
 
         /// <summary>
-        /// since in some case the model is not created...yet we check the name 
-        /// by default set to none in case we select no model 
-        /// use to desactivate/activate transformPoint when switch model 
-        /// </summary>
-        private string m_oldModelName = "None";
-
-        /// <summary>
         /// need to save the sithe of the model loaded/created since it's no set to one and change for each model
         /// </summary>
         private Vector3 m_initModelSize = Vector3.one;
