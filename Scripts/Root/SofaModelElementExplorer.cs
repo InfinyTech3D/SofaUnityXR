@@ -330,7 +330,6 @@ namespace SofaUnityXR
         /// <param name="value"></param>
         private void DetermineGrabbableElement(bool value)
         {
-            Debug.Log("Detergrabbableelem"+value);
 
             if (value)
             {
