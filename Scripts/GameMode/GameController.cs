@@ -89,7 +89,14 @@ namespace SofaUnityXR
             }
 
             m_SofaPlayer.stopSofaSimulation();
-            SetupSofaObject();
+            if (m_modelExplorer.m_modelElementCtrls.Count > 0)
+            {
+                SetupSofaObject();
+            }
+            else
+            {
+                Debug.LogWarning("GameController: The VR Setup of sofa object hasn't been done, must do it somewhere");
+            }
         }
 
         void Update()

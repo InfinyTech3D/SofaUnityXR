@@ -51,6 +51,10 @@ namespace SofaUnityXR
             m_sliderOthers.SetValueWithoutNotify(1.0f);
 
             m_sofaContext = GameObject.Find("SofaContext");
+            if(m_sofaContext == null)
+            {
+                Debug.LogError("SofaModelExplorer: Can't find sofa context (the reaserch is made with the name sofacontext)");
+            }
             m_useURP = PiplineIsURP();
             FindRenderer();
         }
@@ -115,6 +119,7 @@ namespace SofaUnityXR
                     btn.TargetElement = obj;
                     btn.name = GetSofaName(obj);
                     btn.SetButton();
+                    btn.m_SofaContextObj = m_sofaContext.gameObject;
                     m_modelElementCtrls.Add(btn);
                 }
             }
@@ -122,11 +127,7 @@ namespace SofaUnityXR
 
 
 
-        void Update()
-        {
-           
-
-        }
+        
 
         /// <summary>
         /// select the targeted child of a the model when clicking on a button
@@ -562,6 +563,12 @@ namespace SofaUnityXR
 
             MeshRenderer[] meshRenderers = FindObjectsByType<MeshRenderer>(FindObjectsSortMode.InstanceID);
 
+            if (meshRenderers == null)
+            {
+                Debug.LogError("No SofaModelElement created");
+                return;
+            }
+
             foreach (MeshRenderer meshRenderer in meshRenderers)
             {
                 //check if it'a a child of sofa context and if the mesh renderer is active
@@ -582,6 +589,19 @@ namespace SofaUnityXR
                 current = current.parent;
             }
             return false;
+        }
+
+        public void ManualSetup()
+        {
+            if (m_modelElementCtrls.Count == 0)
+            {
+                FindRenderer();
+                Start(); 
+            } 
+            else
+            {
+                Debug.LogWarning("SofaModelExplorer: can't do Manuel setup if Setup already done");
+            }
         }
     }
 }
