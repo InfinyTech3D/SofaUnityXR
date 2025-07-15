@@ -53,7 +53,7 @@ namespace SofaUnityXR
             m_sofaContext = GameObject.Find("SofaContext");
             if(m_sofaContext == null)
             {
-                Debug.LogError("SofaModelExplorer: Can't find sofa context (the reaserch is made with the name sofacontext)");
+                Debug.LogError("SofaModelExplorer: Can't find sofa context (the search is made based on the name SofaContext)");
             }
             m_useURP = PiplineIsURP();
             FindRenderer();
