@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using TMPro;
 using SofaUnityXR;
 
+
 namespace SofaUnityXR
 {
     public class SofaModelElementExplorer: MonoBehaviour
@@ -329,6 +330,7 @@ namespace SofaUnityXR
         /// <param name="value"></param>
         private void DetermineGrabbableElement(bool value)
         {
+
             if (value)
             {
                 m_SofaContextObj.GetComponent<XRBaseInteractable>().interactionLayers = InteractionLayerMask.GetMask("Default");
