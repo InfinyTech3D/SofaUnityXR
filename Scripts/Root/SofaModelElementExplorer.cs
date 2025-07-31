@@ -7,6 +7,7 @@ using TMPro;
 using SofaUnityXR;
 
 
+
 namespace SofaUnityXR
 {
     public class SofaModelElementExplorer: MonoBehaviour
@@ -65,7 +66,7 @@ namespace SofaUnityXR
                 transform.GetComponentInChildren<TextMeshProUGUI>().text = this.name;
 
                 m_defaultMaterial = m_targetElement.GetComponent<Renderer>().material;
-                m_targetElement.layer = LayerMask.NameToLayer("Grabbable");
+                m_targetElement.layer=InteractionLayerMask.GetMask("Default");
 
                 m_simuPosition = m_targetElement.transform.position;
                 m_plannifPosition = m_targetElement.transform.position;
@@ -330,7 +331,8 @@ namespace SofaUnityXR
         /// <param name="value"></param>
         private void DetermineGrabbableElement(bool value)
         {
-
+            
+           
             if (value)
             {
                 m_SofaContextObj.GetComponent<XRBaseInteractable>().interactionLayers = InteractionLayerMask.GetMask("Default");
@@ -341,18 +343,26 @@ namespace SofaUnityXR
                 m_SofaContextObj.GetComponent<XRBaseInteractable>().interactionLayers = InteractionLayerMask.GetMask(InteractionLayerMask.LayerToName(2));
                 m_targetElement.GetComponent<XRBaseInteractable>().interactionLayers = InteractionLayerMask.GetMask("Default");
             }
+            /*if(value)
+                Debug.Log("True element activated");
+            else
+                Debug.Log("False element desactivated");*/
+
         }
 
         /// <summary>
         /// update color when selecting target from the button
         /// </summary>
-        protected void OnModelSelectedImpl(bool value)
+        public void OnModelSelectedImpl(bool value)
         {
             isSelected = value;
 
             m_pushButton.image.color = isSelected ? m_pushButton.colors.pressedColor : m_pushButton.colors.normalColor + Color.white;
 
-            ResetMaterialFromSelected(value);
+            if (!m_modelExplorer.m_useURP)
+            {
+                ResetMaterialFromSelected(value);
+            }
             DetermineGrabbableElement(value);
         }
 
