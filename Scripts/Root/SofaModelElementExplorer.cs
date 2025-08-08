@@ -396,5 +396,12 @@ namespace SofaUnityXR
         }
         
         public bool GetIsSelected() {  return isSelected; }
+
+        public SofaModelExplorer ModelExplorer
+        {
+            get { return m_modelExplorer; }
+            set { m_modelExplorer = value; }
+        }
+
     }
 }
