@@ -5,7 +5,7 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 namespace SofaUnityXR
 { 
-    public class SofaTwoHandedGrabMoveProvider : ConstrainedMoveProvider
+    public class SofaTwoHandedGrabMoveProvider : UnityEngine.XR.Interaction.Toolkit.Locomotion.Movement.ConstrainedMoveProvider
     {
         public GameObject m_camera = null;
         public GameObject m_controllerA = null;
@@ -19,7 +19,7 @@ namespace SofaUnityXR
         private Vector3 restControllerB ;
         private LineRenderer LineBetween;// ray between two hands
         [SerializeField] private float m_scaleResize = 1.0f;
-        [SerializeField] private SofaModelExplorer m_modelExplorer;
+        public SofaModelExplorer m_modelExplorer;
         //[SerializeField] private Slider m_slider = null;
 
 
@@ -31,11 +31,11 @@ namespace SofaUnityXR
 
         [SerializeField]
         [Tooltip("The left hand grab move instance which will be used as one half of two-handed locomotion.")]
-        GrabMoveProvider m_LeftGrabMoveProvider;
+        UnityEngine.XR.Interaction.Toolkit.Locomotion.Movement.GrabMoveProvider m_LeftGrabMoveProvider;
         /// <summary>
         /// The left hand grab move instance which will be used as one half of two-handed locomotion.
         /// </summary>
-        public GrabMoveProvider leftGrabMoveProvider
+        public UnityEngine.XR.Interaction.Toolkit.Locomotion.Movement.GrabMoveProvider leftGrabMoveProvider
         {
             get => m_LeftGrabMoveProvider;
             set => m_LeftGrabMoveProvider = value;
@@ -43,11 +43,11 @@ namespace SofaUnityXR
 
         [SerializeField]
         [Tooltip("The right hand grab move instance which will be used as one half of two-handed locomotion.")]
-        GrabMoveProvider m_RightGrabMoveProvider;
+        UnityEngine.XR.Interaction.Toolkit.Locomotion.Movement.GrabMoveProvider m_RightGrabMoveProvider;
         /// <summary>
         /// The right hand grab move instance which will be used as one half of two-handed locomotion.
         /// </summary>
-        public GrabMoveProvider rightGrabMoveProvider
+        public UnityEngine.XR.Interaction.Toolkit.Locomotion.Movement.GrabMoveProvider rightGrabMoveProvider
         {
             get => m_RightGrabMoveProvider;
             set => m_RightGrabMoveProvider = value;
@@ -127,7 +127,7 @@ namespace SofaUnityXR
 
         [SerializeField]
         [Tooltip("The maximum user scale allowed.")]
-        float m_MaximumScale = 2f;
+        float m_MaximumScale = 200000000000000000000f;
         /// <summary>
         /// The maximum user scale allowed.
         /// </summary>
@@ -153,8 +153,15 @@ namespace SofaUnityXR
         /// </summary>
         protected void OnEnable()
         {
+            if (m_modelExplorer == null)
+            {
+                m_modelExplorer = FindObjectOfType<SofaModelExplorer>();
+                if (m_modelExplorer == null)
+                    Debug.LogError("Impossible to find SofaModelExplorer reference ");
+            }
 
-            LineBetween= m_controllerA.GetComponent<LineRenderer>();
+
+            LineBetween = m_controllerA.GetComponent<LineRenderer>();
             if (m_LeftGrabMoveProvider == null || m_RightGrabMoveProvider == null)
             {
                 Debug.LogError("Left or Right Grab Move Provider is not set or has been destroyed.", this);
@@ -186,7 +193,7 @@ namespace SofaUnityXR
                 m_RightGrabMoveProvider.moveFactor = m_MoveFactor;
             }
 
-            beginLocomotion += OnBeginLocomotion;
+            
         }
 
         /// <summary>
@@ -199,7 +206,7 @@ namespace SofaUnityXR
             if (m_RightGrabMoveProvider != null)
                 m_RightGrabMoveProvider.canMove = true;
 
-            beginLocomotion -= OnBeginLocomotion;
+            
         }
 
         
@@ -214,9 +221,9 @@ namespace SofaUnityXR
             m_IsMoving = m_LeftGrabMoveProvider.IsGrabbing() && m_RightGrabMoveProvider.IsGrabbing() && xrOrigin != null;//not grab but trigger button now 
             if (LineBetween != null)
             {
-                // Mettre à jour les positions des extrémités du LineRenderer
+                // Mettre ï¿½ jour les positions des extrï¿½mitï¿½s du LineRenderer
                 LineBetween.positionCount = 2; // La ligne a 2 points
-                LineBetween.SetPosition(0, m_controllerA.transform.position); // Point de départ (objet 1)
+                LineBetween.SetPosition(0, m_controllerA.transform.position); // Point de dï¿½part (objet 1)
                 LineBetween.SetPosition(1, m_controllerB.transform.position); // Point de fin (objet 2)
             }
 
@@ -257,12 +264,19 @@ namespace SofaUnityXR
             else
             {
                 m_objectToMove = m_modelExplorer.m_targetElement.m_targetElement.transform;
+               
             }
 
             if (!wasMoving && m_IsMoving && m_objectToMove != null ) // Cannot simply check locomotionPhase because it might always be in moving state, due to gravity application mode
             {
-                m_leftControllerInitPosition = m_LeftGrabMoveProvider.controllerTransform.position;
-                m_rightControllerInitPosition = m_RightGrabMoveProvider.controllerTransform.position;
+
+
+                //m_leftControllerInitPosition = m_LeftGrabMoveProvider.controllerTransform.position;
+                //m_rightControllerInitPosition = m_RightGrabMoveProvider.controllerTransform.position;
+
+                m_leftControllerInitPosition = m_controllerA.transform.position;
+                m_rightControllerInitPosition = m_controllerB.transform.position;
+
                 m_scaleInitObject = m_objectToMove.transform.localScale;
 
                 //When pressing both grip button the first time 
@@ -280,6 +294,9 @@ namespace SofaUnityXR
                 // Do not move the first frame of grab
                 m_PreviousMidpointBetweenControllers = midpointLocalPosition;
                 
+
+
+
 
                 return Vector3.zero;
             }
@@ -301,6 +318,7 @@ namespace SofaUnityXR
         {
 
             
+
             if (m_modelExplorer.m_targetElement == null)
             {
                 m_objectToMove = m_modelExplorer.m_sofaContext.transform;
@@ -341,14 +359,24 @@ namespace SofaUnityXR
              restControllerB = m_controllerB.transform.position;
         }
 
-
-        void OnBeginLocomotion(LocomotionSystem otherSystem)
+        /// <inheritdoc/>
+        protected override void MoveRig(Vector3 translationInWorldSpace)
         {
+            base.MoveRig(translationInWorldSpace);
+
             
+
             //var leftHandLocalPosition = m_LeftGrabMoveProvider.controllerTransform.localPosition;
             //var rightHandLocalPosition = m_RightGrabMoveProvider.controllerTransform.localPosition;
-            var leftHandNewPosition = m_LeftGrabMoveProvider.controllerTransform.position;
-            var rightHandNewPosition = m_RightGrabMoveProvider.controllerTransform.position;
+            //var leftHandNewPosition = m_LeftGrabMoveProvider.controllerTransform.position;
+            //var rightHandNewPosition = m_RightGrabMoveProvider.controllerTransform.position;
+
+            var leftHandNewPosition = m_controllerA.transform.position;
+            var rightHandNewPosition = m_controllerB.transform.position;
+
+
+          
+
 
             //if (m_EnableRotation)
             //{
@@ -365,12 +393,16 @@ namespace SofaUnityXR
             else
             {
                  m_objectToMove = m_modelExplorer.m_targetElement.m_targetElement.transform;
+                
             }
                 
             if (m_EnableScaling && m_objectToMove != null)
             {
+           
                 Vector3 diffLeftHand = leftHandNewPosition - m_leftControllerInitPosition;
                 Vector3 diffRghtHand = rightHandNewPosition - m_rightControllerInitPosition;
+
+                
 
                 float normLeft = diffLeftHand.magnitude;
                 float normRight = diffRghtHand.magnitude;
@@ -378,8 +410,7 @@ namespace SofaUnityXR
                 if (normLeft < 0.01f && normRight < 0.01f)
                     return;
 
-                //print("normLeft = " + normLeft);
-                //print("normRight = " + normRight);
+              
 
                 Vector3 oldLeftRight = m_rightControllerInitPosition - m_leftControllerInitPosition;
 
@@ -395,8 +426,13 @@ namespace SofaUnityXR
 
                 //scale
                 float ratio = 1.0f;
-                if (oldNormLeftRight > 0.1f)
+                if (oldNormLeftRight > 0.0001f)
+                {
+                   
                     ratio = newNormLeftRight / oldNormLeftRight;
+                }
+               
+
                 if (ratio < 0.001f)
                     return;
                 
@@ -405,7 +441,13 @@ namespace SofaUnityXR
                 else { tmpScale.x = Mathf.Clamp(tmpScale.x, m_MinimumScale, m_MaximumScale); }
                 tmpScale.y = Mathf.Clamp(tmpScale.y, m_MinimumScale, m_MaximumScale);
                 tmpScale.z = Mathf.Clamp(tmpScale.z, m_MinimumScale, m_MaximumScale);
+
+            
                 m_objectToMove.transform.localScale = tmpScale;
+
+              
+
+
 
                 //print("ratio = " + ratio);
                 //print("objectScale = " + m_objectToMove.localScale);
