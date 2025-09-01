@@ -198,7 +198,11 @@ namespace SofaUnityXR
             if (m_modelExplorer.m_useURP)
             {
                 
-                return mat.GetFloat("_Alpha");
+                //return mat.GetFloat("_Alpha");
+                if (mat.name.Replace(" (Instance)", "") == m_TransMatMaterial.name)
+                    return 0f;
+                else 
+                    return 1f;
                 
             }
             else
@@ -213,6 +217,7 @@ namespace SofaUnityXR
         /// </summary>
         public void SetModelTransparency(float value)
         {
+            
             Material mat = m_targetElement.GetComponent<Renderer>().material;
             if(mat == null) { Debug.LogError("can't find material"); }
             
@@ -335,13 +340,13 @@ namespace SofaUnityXR
            
             if (value)
             {
-                m_SofaContextObj.GetComponent<XRBaseInteractable>().interactionLayers = InteractionLayerMask.GetMask("Default");
-                m_targetElement.GetComponent<XRBaseInteractable>().interactionLayers = InteractionLayerMask.GetMask(InteractionLayerMask.LayerToName(2));//our object
+                m_SofaContextObj.GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactables.XRBaseInteractable>().interactionLayers = InteractionLayerMask.GetMask("Default");
+                m_targetElement.GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactables.XRBaseInteractable>().interactionLayers = InteractionLayerMask.GetMask(InteractionLayerMask.LayerToName(2));//our object
             }
             else
             {
-                m_SofaContextObj.GetComponent<XRBaseInteractable>().interactionLayers = InteractionLayerMask.GetMask(InteractionLayerMask.LayerToName(2));
-                m_targetElement.GetComponent<XRBaseInteractable>().interactionLayers = InteractionLayerMask.GetMask("Default");
+                m_SofaContextObj.GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactables.XRBaseInteractable>().interactionLayers = InteractionLayerMask.GetMask(InteractionLayerMask.LayerToName(2));
+                m_targetElement.GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactables.XRBaseInteractable>().interactionLayers = InteractionLayerMask.GetMask("Default");
             }
             /*if(value)
                 Debug.Log("True element activated");

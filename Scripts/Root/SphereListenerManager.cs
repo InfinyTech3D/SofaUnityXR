@@ -38,7 +38,7 @@ public class SphereListenerManager : MonoBehaviour
     /// <param name="arg0"></param>
     public void OnHoverEnterLeftTrigger(HoverEnterEventArgs arg0)
     {
-        if (arg0.interactorObject is XRBaseControllerInteractor controllerInteractor)
+        if (arg0.interactorObject is UnityEngine.XR.Interaction.Toolkit.Interactors.XRBaseInputInteractor controllerInteractor)
         {
             if (controllerInteractor.gameObject.tag == "LeftRayInteractor")
             {
@@ -53,7 +53,7 @@ public class SphereListenerManager : MonoBehaviour
     /// <param name="arg0"></param>
     public void OnHoverEnterRightTrigger(HoverEnterEventArgs arg0)
     {
-        if (arg0.interactorObject is XRBaseControllerInteractor controllerInteractor)
+        if (arg0.interactorObject is UnityEngine.XR.Interaction.Toolkit.Interactors.XRBaseInputInteractor controllerInteractor)
         {
             if (controllerInteractor.gameObject.tag == "RightRayInteractor")
             {
@@ -68,7 +68,7 @@ public class SphereListenerManager : MonoBehaviour
     /// <param name="arg0"></param>
     public void OnHoverExitLeftTrigger(HoverExitEventArgs arg0)
     {
-        if (arg0.interactorObject is XRBaseControllerInteractor controllerInteractor)
+        if (arg0.interactorObject is UnityEngine.XR.Interaction.Toolkit.Interactors.XRBaseInputInteractor controllerInteractor)
         {
             if (controllerInteractor.gameObject.tag == "LeftRayInteractor")
             {
@@ -83,7 +83,7 @@ public class SphereListenerManager : MonoBehaviour
     /// <param name="arg0"></param>
     public void OnHoverExitRightTrigger(HoverExitEventArgs arg0)
     {
-        if (arg0.interactorObject is XRBaseControllerInteractor controllerInteractor )
+        if (arg0.interactorObject is UnityEngine.XR.Interaction.Toolkit.Interactors.XRBaseInputInteractor controllerInteractor )
         {
             if (controllerInteractor.gameObject.tag == "RightRayInteractor")
             {
