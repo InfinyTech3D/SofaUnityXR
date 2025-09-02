@@ -127,7 +127,7 @@ namespace SofaUnityXR
 
         [SerializeField]
         [Tooltip("The maximum user scale allowed.")]
-        float m_MaximumScale = 200000000000000000000f;
+        float m_MaximumScale = 200f;
         /// <summary>
         /// The maximum user scale allowed.
         /// </summary>
@@ -221,10 +221,10 @@ namespace SofaUnityXR
             m_IsMoving = m_LeftGrabMoveProvider.IsGrabbing() && m_RightGrabMoveProvider.IsGrabbing() && xrOrigin != null;//not grab but trigger button now 
             if (LineBetween != null)
             {
-                // Mettre � jour les positions des extr�mit�s du LineRenderer
+                // Update line renderer position
                 LineBetween.positionCount = 2; // La ligne a 2 points
-                LineBetween.SetPosition(0, m_controllerA.transform.position); // Point de d�part (objet 1)
-                LineBetween.SetPosition(1, m_controllerB.transform.position); // Point de fin (objet 2)
+                LineBetween.SetPosition(0, m_controllerA.transform.position); // Strat point (objet 1)
+                LineBetween.SetPosition(1, m_controllerB.transform.position); // End point (objet 2)
             }
 
             if (!m_IsMoving)
