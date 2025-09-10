@@ -131,7 +131,7 @@ namespace SofaUnityXR
                 m_hidePlannif.SetActive(true);
                 m_STHGMP.enableScaling = false;
                 m_STHGMP.enableRotation = false;
-                m_SofaContext.GetComponent<XRGrabInteractable>().enabled = false;
+                m_SofaContext.GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactables.XRGrabInteractable>().enabled = false;
                 foreach (SofaModelElementExplorer elm in m_modelExplorer.m_modelElementCtrls)
                 {
                     var obj = elm.m_targetElement;
@@ -143,7 +143,7 @@ namespace SofaUnityXR
                     StartCoroutine(SmoothTransitionScale(elm.m_plannifScale, elm.m_simuScale, obj));
                     StartCoroutine(SmoothTransitionQuaternion(elm.m_plannifRotation, elm.m_simuRotation, obj));
                     //obj.transform.rotation = elm.m_simuRotation;//without animation
-                    obj.GetComponent<XRGrabInteractable>().interactionLayers = InteractionLayerMask.GetMask(InteractionLayerMask.LayerToName(0));
+                    obj.GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactables.XRGrabInteractable>().interactionLayers = InteractionLayerMask.GetMask(InteractionLayerMask.LayerToName(0));
 
 
                 }
@@ -164,7 +164,7 @@ namespace SofaUnityXR
                 m_STHGMP.enableRotation = true;
                 m_hideSimu.SetActive(true);
                 m_hidePlannif.SetActive(false);
-                m_SofaContext.GetComponent<XRGrabInteractable>().enabled = true;
+                m_SofaContext.GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactables.XRGrabInteractable>().enabled = true;
                 foreach (SofaModelElementExplorer elm in m_modelExplorer.m_modelElementCtrls)
                 {
                     var obj = elm.m_targetElement;
@@ -173,7 +173,7 @@ namespace SofaUnityXR
                     StartCoroutine(SmoothTransitionScale(elm.m_simuScale, elm.m_plannifScale, obj));
                     if (elm.GetIsSelected())
                     {
-                        obj.GetComponent<XRGrabInteractable>().interactionLayers = InteractionLayerMask.GetMask(InteractionLayerMask.LayerToName(2));
+                        obj.GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactables.XRGrabInteractable>().interactionLayers = InteractionLayerMask.GetMask(InteractionLayerMask.LayerToName(2));
                     }
                 }
                 StartCoroutine(SmoothTransitionQuaternion(m_SofaContextSimuRotation, m_SofaContextPlannifRotation,  m_SofaContext));
@@ -231,13 +231,13 @@ namespace SofaUnityXR
             }
 
             // Add XrInterctible if not already present
-            if (obj.GetComponent<XRGrabInteractable>() == null)
+            if (obj.GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactables.XRGrabInteractable>() == null)
             {
-                obj.AddComponent<XRGrabInteractable>();
-                obj.GetComponent<XRGrabInteractable>().throwOnDetach = false;
-                obj.GetComponent<XRGrabInteractable>().useDynamicAttach = true;
+                obj.AddComponent<UnityEngine.XR.Interaction.Toolkit.Interactables.XRGrabInteractable>();
+                obj.GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactables.XRGrabInteractable>().throwOnDetach = false;
+                obj.GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactables.XRGrabInteractable>().useDynamicAttach = true;
                 //InteractionLayerMask.LayerToName(2) is "mixed"
-                obj.GetComponent<XRGrabInteractable>().interactionLayers = InteractionLayerMask.GetMask(InteractionLayerMask.LayerToName(2));
+                obj.GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactables.XRGrabInteractable>().interactionLayers = InteractionLayerMask.GetMask(InteractionLayerMask.LayerToName(2));
 
             }
         }
@@ -289,11 +289,11 @@ namespace SofaUnityXR
             
             for (int i = 0; i <= numSteps; i++)
             {
-                float t = i / (float)numSteps; // Fraction du progrès
-                                               // Interpolation sphérique
+                float t = i / (float)numSteps; // Fraction du progres
+                                               // Interpolation spherique
                 Quaternion currentRot = Quaternion.Slerp(startRot, endRot, t);
                 obj.transform.rotation = currentRot;
-                yield return new WaitForSeconds(Timestep); // Attente entre chaque étape
+                yield return new WaitForSeconds(Timestep); // Wait between each step
             }
             obj.transform.rotation= endRot;
         }

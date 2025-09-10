@@ -73,21 +73,17 @@ namespace SofaUnityXR
                     {
                         if (m_useURP)
                         {
-                            // Using URP Render Pipeline
+                            /*Using URP Render Pipeline
                             Shader newShader = Shader.Find("CustomURPTransparancy");
                             if (newShader != null)
                             {
-                                renderer.material.shader = newShader;
-                                //TO DO: atempt to set and get "Surface Type" to switch between Opaque and Transparent
-                                //Debug.Log(Shader.PropertyToID("Surface Type"));//1823
-                                //Debug.Log(newShader.GetPropertyType(Shader.PropertyToID("Surface Type")));
-                                //renderer.material.SetFloat("_Surface", 0f);
-                                //Debug.Log(renderer.material.//shader.surface);
+                               renderer.material.shader = newShader;
+                                
                             }
                             else
                             {
                                 Debug.LogError("Shader CustomURPTransparancy not found!");
-                            }
+                            }*/
                         }
                         else
                         {
