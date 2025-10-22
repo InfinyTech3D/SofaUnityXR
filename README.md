@@ -18,25 +18,26 @@ This package need [SofaUnity](https://github.com/InfinyTech3D/SofaUnity) Asset t
 
 
 ### Compatibility:
-* Tested on Unity version > 2022.3.x (Tested with LTS 2022.3 and 2023.3)
-* SOFA version > 24.06 with SofaVerseAPI
+* Tested on Unity version > 6000.0.55f1 
+* SOFA version > 24.12 with SofaVerseAPI
 * Tested on Windows platforms only
 
 ### Installation guide
-Full installation process available [here](https://infinytech3d.com/getting-started/).
+Sofaunity Full installation process available [here](https://infinytech3d.com/getting-started/).
 
 
 ## Dependencies
 + Requires SofaUnity asset installed.
-+ XR Interaction Toolkit (tested with v4.4.0)
-    + Starter Asset
-+ OpenXR Plugin (tested with v1.10.0)
-+ Input System (tested with v1.7.0)
++ XR Interaction Toolkit (tested with v3.0.0)
+    + Starter Asset (Package manager windows > XR Interaction Toolkit > Samples > Starter Asset > import)
++ OpenXR Plugin (tested with v1.15.0)
+
 
 ## Examples
-Two examples are provided in the Scenes folder
+Three examples are provided in the Scenes folder
 - Demo-01_SimpleLiver.unity: Provides a simple integration of SOFA deformable liver simulation in VR, allowing to play/restart simulation and show different models.
-- Demo-02_LiverInteraction.unity: Demonstrate how to interact between VR controllers (with SOFA sphere collisions) and deformable liver.
+- Demo-02_LiverInteraction.unity: Demonstrate how to interact between VR controllers (with SOFA sphere collisions) and deformable liver. Show haow you can import a sofa scene
+- Demo-03_Caduceus Show how you can manage multiple objects of your sofa scene by selecting them then you can start the simulation with the check box 
 
 Here are a some results of the basic integration:
 |<img align="center" height="250" src="./Doc/img/LiverIntegration_01.jpg">|<img align="center" height="250" src="./Doc/img/LiverIntegration_02.jpg">|
