@@ -32,10 +32,7 @@ struct Varyings
     float2 uv : TEXCOORD0;
     float3 worldPosForClip : TEXCOORD11;
 
-    float3 _CapsulePointA;
-    float3 _CapsulePointB;
-    float _CapsuleRadius;
-
+    
 #if defined(REQUIRES_WORLD_SPACE_POS_INTERPOLATOR)
     float3 positionWS : TEXCOORD1;
 #endif
