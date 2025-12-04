@@ -1,4 +1,4 @@
-﻿Shader "Custom/URPLit_Clippable"
+﻿Shader "Custom/URP_CapsuleClip"
 {
     Properties
     {
