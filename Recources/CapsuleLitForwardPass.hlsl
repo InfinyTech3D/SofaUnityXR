@@ -221,12 +221,14 @@ Varyings LitPassVertex(Attributes input)
 
 // Used in Standard (Physically Based) shader
 void LitPassFragment(
-    Varyings input
-    , out half4 outColor : SV_Target0
+    Varyings input,
+    bool faceIsFront : SV_IsFrontFace,    
+    out half4 outColor : SV_Target0
 #ifdef _WRITE_RENDERING_LAYERS
     , out float4 outRenderingLayers : SV_Target1
 #endif
 )
+
 {
     UNITY_SETUP_INSTANCE_ID(input);
     UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
@@ -252,6 +254,14 @@ void LitPassFragment(
     InitializeInputData(input, surfaceData.normalTS, inputData);
     SETUP_DEBUG_TEXTURE_DATA(inputData, UNDO_TRANSFORM_TEX(input.uv, _BaseMap));
 
+    if (!faceIsFront)
+    {
+        // invert normal so lighting behaves like for front faces
+        inputData.normalWS = -inputData.normalWS;
+
+        // if you rely on per-pixel tangent-space view dir, you may also flip view dir's handedness if needed.
+        // In most cases flipping only normal is enough.
+    }
 #if defined(_DBUFFER)
     ApplyDecalToSurfaceData(input.positionCS, surfaceData, inputData);
 #endif
