@@ -258,9 +258,6 @@ void LitPassFragment(
     {
         // invert normal so lighting behaves like for front faces
         inputData.normalWS = -inputData.normalWS;
-
-        // if you rely on per-pixel tangent-space view dir, you may also flip view dir's handedness if needed.
-        // In most cases flipping only normal is enough.
     }
 #if defined(_DBUFFER)
     ApplyDecalToSurfaceData(input.positionCS, surfaceData, inputData);
@@ -269,16 +266,16 @@ void LitPassFragment(
     InitializeBakedGIData(input, inputData);
 
     // Calcul distance capsule
-    float3 p = input.worldPosForClip;   // position world du pixel
+    float3 p = input.worldPosForClip;   // position world
     float3 pa = _CapsulePointA;
     float3 pb = _CapsulePointB;
     float3 ba = pb - pa;
     float3 pa_p = p - pa;
-    float h = saturate(dot(pa_p, ba) / dot(ba, ba)); // projection sur l'axe de la capsule
+    float h = saturate(dot(pa_p, ba) / dot(ba, ba)); // projection on capsul axis
     float3 closest = pa + h * ba;
     float dist = distance(p, closest);
 
-    // Discard si à l'intérieur
+    // Discard if inside capsul
     if (dist < _CapsuleRadius)
         discard;
 

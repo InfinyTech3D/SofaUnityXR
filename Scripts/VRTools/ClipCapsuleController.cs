@@ -2,17 +2,25 @@ using UnityEngine;
 using System.Collections.Generic;
 using SofaUnityXR;
 
-
+/// <summary>
+/// Class used to reveal objects through a special clipping shader.
+/// This component must be used with a Sphere or Capsule collider.
+///
+/// Linked shaders: URP_CapsuleClip and CapsuleLitForward.hlsl  
+/// Both shaders are based on the URP Lit shader and require that the project
+/// is using the Universal Render Pipeline (URP) with the appropriate URP package installed.
+/// </summary>
 public class ClipCapsuleController : MonoBehaviour
 {
     public CapsuleCollider capsule;
+    //Recommanded to bo URP_CapsuleClip
     public Shader m_replacementShader;
     [Header("Use to switch between regular mode and sofa mode")]
     public bool AutoSofaObjectSetup;
     [Header("Manual Setup")]
     public Renderer[] renderers; // all objects to clip
     [Header("SofaUnity Automatic Setup")]
-    //Part use only if there a GamController script that will setup the sofa object for a cut 
+    //Part use only if there a GamController script that will setup the sofa object
     public GameController m_Gm;
     private bool m_launchSetup = true;
     private Vector3 _initialPosition;
@@ -35,11 +43,12 @@ public class ClipCapsuleController : MonoBehaviour
             capsule.transform.lossyScale.y,
             capsule.transform.lossyScale.z);
 
+        // Automatic setup of the sofa objects 
         if (AutoSofaObjectSetup)
         {
             if (m_launchSetup)
             {
-                //lunch this setup only once when you move the plane fo the first time
+                //lunch this setup only once when you move the sphere fo the first time
                 if (HasMovedFromStart())
                 {
                     SofaSetup();
@@ -60,7 +69,7 @@ public class ClipCapsuleController : MonoBehaviour
                 }
                
             }
-        }else
+        }else//Manual setup
         {
             foreach (Renderer r in renderers)
             {
@@ -105,10 +114,11 @@ public class ClipCapsuleController : MonoBehaviour
                 {
                     mat.shader = m_replacementShader;
                     
+                    // Use to render both faces
                     if (mat.HasProperty("_Cull"))
                         mat.SetFloat("_Cull", 0f);  // 0 = Off, 1 = Front, 2 = Back
 
-                    // Optionnel : si shader utilise "CullMode"
+                    //  "CullMode" not use on our case but you never known 
                     if (mat.HasProperty("_CullMode"))
                         mat.SetFloat("_CullMode", 0f);
 
