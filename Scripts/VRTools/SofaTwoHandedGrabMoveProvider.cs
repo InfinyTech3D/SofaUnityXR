@@ -138,6 +138,7 @@ namespace SofaUnityXR
         }
 
         bool m_IsMoving;
+        bool m_setupDone=true;
 
         Vector3 m_PreviousMidpointBetweenControllers;
 
@@ -153,12 +154,7 @@ namespace SofaUnityXR
         /// </summary>
         protected void OnEnable()
         {
-            if (m_modelExplorer == null)
-            {
-                m_modelExplorer = FindObjectOfType<SofaModelExplorer>();
-                if (m_modelExplorer == null)
-                    Debug.LogError("Impossible to find SofaModelExplorer reference ");
-            }
+            m_setupDone=FindModelEplorer();
 
 
             LineBetween = m_controllerA.GetComponent<LineRenderer>();
@@ -209,105 +205,135 @@ namespace SofaUnityXR
             
         }
 
-        
+        /// <summary>
+        /// Fonction to find model explorer
+        /// </summary>
+        /// <returns></returns>
+        protected bool FindModelEplorer()
+        {
+            if (m_modelExplorer == null)
+            {
+                m_modelExplorer = FindObjectOfType<SofaModelExplorer>();
+                if (m_modelExplorer == null)
+                {
+                    if(m_setupDone)Debug.LogWarning("Impossible to find SofaModelExplorer reference will try until finding It");
+                    return false;
+                }
+
+            }
+            
+            return true;
+        }
 
         /// <inheritdoc/>
         protected override Vector3 ComputeDesiredMove(out bool attemptingMove)
         {
-            
-            attemptingMove = false;
-            var wasMoving = m_IsMoving;
-            var xrOrigin = system.xrOrigin;
-            m_IsMoving = m_LeftGrabMoveProvider.IsGrabbing() && m_RightGrabMoveProvider.IsGrabbing() && xrOrigin != null;//not grab but trigger button now 
-            if (LineBetween != null)
-            {
-                // Update line renderer position
-                LineBetween.positionCount = 2; // La ligne a 2 points
-                LineBetween.SetPosition(0, m_controllerA.transform.position); // Strat point (objet 1)
-                LineBetween.SetPosition(1, m_controllerB.transform.position); // End point (objet 2)
-            }
+            m_setupDone = FindModelEplorer();//is tested at each frame, needed cause object can be destroy if we use multiple scenes
 
-            if (!m_IsMoving)
+            if (m_setupDone)
             {
-                LineBetween.enabled = false;
-                // Enable one-handed movement
-                if (!m_RequireTwoHandsForTranslation)
-                {
-                    m_LeftGrabMoveProvider.canMove = true;
-                    m_RightGrabMoveProvider.canMove = true;
-                }
-                restControllerA = m_controllerA.transform.position;
-                restControllerB = m_controllerB.transform.position;
-                return Vector3.zero;
-            }
-            if (enableRotation)
-            {
-                LineBetween.enabled = true;
-                RotateModel();
-            }
-                
-            // Prevent individual grab locomotion since we perform our own translation
-            m_LeftGrabMoveProvider.canMove = false;
-            m_RightGrabMoveProvider.canMove = false;
-
-            var originTransform = xrOrigin.transform;
-            var leftHandLocalPosition = m_LeftGrabMoveProvider.controllerTransform.localPosition;
-
-
-
-            var rightHandLocalPosition = m_RightGrabMoveProvider.controllerTransform.localPosition;
-            var midpointLocalPosition = (leftHandLocalPosition + rightHandLocalPosition) * 0.5f;
-            if (m_modelExplorer.m_targetElement == null)
-            {
-                m_objectToMove = m_modelExplorer.m_sofaContext.transform;
-            }
-            else
-            {
-                m_objectToMove = m_modelExplorer.m_targetElement.m_targetElement.transform;
                
-            }
+                attemptingMove = false;
+                var wasMoving = m_IsMoving;
+                var xrOrigin = system.xrOrigin;
+                m_IsMoving = m_LeftGrabMoveProvider.IsGrabbing() && m_RightGrabMoveProvider.IsGrabbing() && xrOrigin != null;//not grab but trigger button now 
+                if (LineBetween != null)
+                {
+                    // Update line renderer position
+                    LineBetween.positionCount = 2; // La ligne a 2 points
+                    LineBetween.SetPosition(0, m_controllerA.transform.position); // Strat point (objet 1)
+                    LineBetween.SetPosition(1, m_controllerB.transform.position); // End point (objet 2)
+                }
 
-            if (!wasMoving && m_IsMoving && m_objectToMove != null ) // Cannot simply check locomotionPhase because it might always be in moving state, due to gravity application mode
-            {
+                if (!m_IsMoving)
+                {
+                    LineBetween.enabled = false;
+                    // Enable one-handed movement
+                    if (!m_RequireTwoHandsForTranslation)
+                    {
+                        m_LeftGrabMoveProvider.canMove = true;
+                        m_RightGrabMoveProvider.canMove = true;
+                    }
+                    restControllerA = m_controllerA.transform.position;
+                    restControllerB = m_controllerB.transform.position;
+                    return Vector3.zero;
+                }
+                if (enableRotation)
+                {
+                    LineBetween.enabled = true;
+                    RotateModel();
+                }
+
+                // Prevent individual grab locomotion since we perform our own translation
+                m_LeftGrabMoveProvider.canMove = false;
+                m_RightGrabMoveProvider.canMove = false;
+
+                var originTransform = xrOrigin.transform;
+                var leftHandLocalPosition = m_LeftGrabMoveProvider.controllerTransform.localPosition;
 
 
-                //m_leftControllerInitPosition = m_LeftGrabMoveProvider.controllerTransform.position;
-                //m_rightControllerInitPosition = m_RightGrabMoveProvider.controllerTransform.position;
 
-                m_leftControllerInitPosition = m_controllerA.transform.position;
-                m_rightControllerInitPosition = m_controllerB.transform.position;
+                var rightHandLocalPosition = m_RightGrabMoveProvider.controllerTransform.localPosition;
+                var midpointLocalPosition = (leftHandLocalPosition + rightHandLocalPosition) * 0.5f;
+                if (m_modelExplorer.m_targetElement == null)
+                {
+                    m_objectToMove = m_modelExplorer.m_sofaContext.transform;
+                }
+                else
+                {
+                    m_objectToMove = m_modelExplorer.m_targetElement.m_targetElement.transform;
 
-                m_scaleInitObject = m_objectToMove.transform.localScale;
+                }
 
-                //When pressing both grip button the first time 
-                //restControllerA = m_controllerA.transform.position;
-                //restControllerB = m_controllerB.transform.position;
+                if (!wasMoving && m_IsMoving && m_objectToMove != null) // Cannot simply check locomotionPhase because it might always be in moving state, due to gravity application mode
+                {
 
-                m_InitialOriginYaw = originTransform.eulerAngles.y;
-                m_InitialLeftToRightDirection = rightHandLocalPosition - leftHandLocalPosition;
-                m_InitialLeftToRightDirection.y = 0f; // Only use yaw rotation
-                m_InitialLeftToRightOrthogonal = Quaternion.AngleAxis(90f, Vector3.down) * m_InitialLeftToRightDirection;
 
-                m_InitialOriginScale = originTransform.localScale.x;
-                m_InitialDistanceBetweenHands = Vector3.Distance(leftHandLocalPosition, rightHandLocalPosition);
+                    //m_leftControllerInitPosition = m_LeftGrabMoveProvider.controllerTransform.position;
+                    //m_rightControllerInitPosition = m_RightGrabMoveProvider.controllerTransform.position;
 
-                // Do not move the first frame of grab
+                    m_leftControllerInitPosition = m_controllerA.transform.position;
+                    m_rightControllerInitPosition = m_controllerB.transform.position;
+
+                    m_scaleInitObject = m_objectToMove.transform.localScale;
+
+                    //When pressing both grip button the first time 
+                    //restControllerA = m_controllerA.transform.position;
+                    //restControllerB = m_controllerB.transform.position;
+
+                    m_InitialOriginYaw = originTransform.eulerAngles.y;
+                    m_InitialLeftToRightDirection = rightHandLocalPosition - leftHandLocalPosition;
+                    m_InitialLeftToRightDirection.y = 0f; // Only use yaw rotation
+                    m_InitialLeftToRightOrthogonal = Quaternion.AngleAxis(90f, Vector3.down) * m_InitialLeftToRightDirection;
+
+                    m_InitialOriginScale = originTransform.localScale.x;
+                    m_InitialDistanceBetweenHands = Vector3.Distance(leftHandLocalPosition, rightHandLocalPosition);
+
+                    // Do not move the first frame of grab
+                    m_PreviousMidpointBetweenControllers = midpointLocalPosition;
+
+
+
+
+
+                    return Vector3.zero;
+                }
+
+                attemptingMove = true;
+
+                var move = originTransform.TransformVector(m_PreviousMidpointBetweenControllers - midpointLocalPosition) * m_MoveFactor;
                 m_PreviousMidpointBetweenControllers = midpointLocalPosition;
-                
-
-
-
+                //return move;
 
                 return Vector3.zero;
             }
+            else 
+            {
+                attemptingMove = false;
+                return Vector3.zero;
+            }
             
-            attemptingMove = true;
- 
-            var move = originTransform.TransformVector(m_PreviousMidpointBetweenControllers - midpointLocalPosition) * m_MoveFactor;
-            m_PreviousMidpointBetweenControllers = midpointLocalPosition;
-            //return move;
             
-            return Vector3.zero;
         }
 
         /// <summary>
@@ -316,176 +342,150 @@ namespace SofaUnityXR
         Quaternion customRot;
         private void RotateModel()
         {
-
-            
-
-            if (m_modelExplorer.m_targetElement == null)
+            if (m_setupDone)
             {
-                m_objectToMove = m_modelExplorer.m_sofaContext.transform;
-               
+
+                if (m_modelExplorer.m_targetElement == null)
+                {
+                    m_objectToMove = m_modelExplorer.m_sofaContext.transform;
+
+                }
+                else
+                {
+                    m_objectToMove = m_modelExplorer.m_targetElement.m_targetElement.transform;
+                }
+
+                Vector3 oldAB = restControllerB - restControllerA;
+                Vector3 newAB = m_controllerB.transform.position - m_controllerA.transform.position;
+                var restControllerUp = m_controllerA.transform.up + m_controllerB.transform.up;
+                Vector3 oldZ = restControllerUp.normalized;
+                Vector3 newZ = m_controllerA.transform.up + m_controllerB.transform.up;
+                newZ.Normalize();
+
+                Quaternion tmpRot = Quaternion.FromToRotation(oldAB, newAB);
+                tmpRot = tmpRot * Quaternion.FromToRotation(oldZ, newZ);
+
+                float val = Vector3.Dot(m_camera.transform.forward, m_objectToMove.transform.forward);
+                if (val < 0)
+                {
+                    float xR = -tmpRot.eulerAngles.x;
+                    float yR = tmpRot.eulerAngles.y;
+                    float zR = -tmpRot.eulerAngles.z;
+                    tmpRot.eulerAngles = new Vector3(xR, yR, zR);
+                }
+
+                /* rotation
+                if (m_fixMode)
+                    customRot = tmpRot;
+                else
+                    customRot = customRot * tmpRot;*/
+
+                m_objectToMove.transform.eulerAngles = m_objectToMove.transform.eulerAngles + tmpRot.eulerAngles;//customRot.eulerAngles;
+                restControllerA = m_controllerA.transform.position;
+                restControllerB = m_controllerB.transform.position;
             }
             else
             {
-                m_objectToMove = m_modelExplorer.m_targetElement.m_targetElement.transform;
+                m_setupDone = FindModelEplorer();
             }
+             
 
-            Vector3 oldAB = restControllerB - restControllerA;
-            Vector3 newAB = m_controllerB.transform.position - m_controllerA.transform.position;
-            var restControllerUp = m_controllerA.transform.up + m_controllerB.transform.up;
-            Vector3 oldZ = restControllerUp.normalized;
-            Vector3 newZ = m_controllerA.transform.up + m_controllerB.transform.up;
-            newZ.Normalize();
-
-            Quaternion tmpRot = Quaternion.FromToRotation(oldAB, newAB);
-            tmpRot = tmpRot * Quaternion.FromToRotation(oldZ, newZ);
-
-            float val = Vector3.Dot(m_camera.transform.forward,  m_objectToMove.transform.forward);
-            if (val < 0)
-            {
-                float xR = -tmpRot.eulerAngles.x;
-                float yR = tmpRot.eulerAngles.y;
-                float zR = -tmpRot.eulerAngles.z;
-                tmpRot.eulerAngles = new Vector3(xR, yR, zR);
-            }
-
-            /* rotation
-            if (m_fixMode)
-                customRot = tmpRot;
-            else
-                customRot = customRot * tmpRot;*/
-
-             m_objectToMove.transform.eulerAngles =  m_objectToMove.transform.eulerAngles + tmpRot.eulerAngles;//customRot.eulerAngles;
-             restControllerA = m_controllerA.transform.position;
-             restControllerB = m_controllerB.transform.position;
         }
 
         /// <inheritdoc/>
         protected override void MoveRig(Vector3 translationInWorldSpace)
         {
-            base.MoveRig(translationInWorldSpace);
-
-            
-
-            //var leftHandLocalPosition = m_LeftGrabMoveProvider.controllerTransform.localPosition;
-            //var rightHandLocalPosition = m_RightGrabMoveProvider.controllerTransform.localPosition;
-            //var leftHandNewPosition = m_LeftGrabMoveProvider.controllerTransform.position;
-            //var rightHandNewPosition = m_RightGrabMoveProvider.controllerTransform.position;
-
-            var leftHandNewPosition = m_controllerA.transform.position;
-            var rightHandNewPosition = m_controllerB.transform.position;
-
-
-          
-
-
-            //if (m_EnableRotation)
-            //{
-            //    var leftToRightDirection = rightHandLocalPosition - leftHandLocalPosition;
-            //    leftToRightDirection.y = 0f; // Only use yaw rotation
-            //    var yawSign = Mathf.Sign(Vector3.Dot(m_InitialLeftToRightOrthogonal, leftToRightDirection));
-            //    var targetYaw = m_InitialOriginYaw + Vector3.Angle(m_InitialLeftToRightDirection, leftToRightDirection) * yawSign;
-            //    m_objectToMove.rotation = Quaternion.AngleAxis(targetYaw, Vector3.up);
-            //}
-            if (m_modelExplorer.m_targetElement == null)
+            if (m_setupDone)
             {
-                m_objectToMove = m_modelExplorer.m_sofaContext.transform;
-            }   
-            else
-            {
-                 m_objectToMove = m_modelExplorer.m_targetElement.m_targetElement.transform;
-                
-            }
-                
-            if (m_EnableScaling && m_objectToMove != null)
-            {
-           
-                Vector3 diffLeftHand = leftHandNewPosition - m_leftControllerInitPosition;
-                Vector3 diffRghtHand = rightHandNewPosition - m_rightControllerInitPosition;
-
-                
-
-                float normLeft = diffLeftHand.magnitude;
-                float normRight = diffRghtHand.magnitude;
-
-                if (normLeft < 0.01f && normRight < 0.01f)
-                    return;
-
-              
-
-                Vector3 oldLeftRight = m_rightControllerInitPosition - m_leftControllerInitPosition;
+                base.MoveRig(translationInWorldSpace);
 
 
 
-                Vector3 newLeftRight = rightHandNewPosition - leftHandNewPosition;
-                float oldNormLeftRight = oldLeftRight.magnitude;
-                float newNormLeftRight = newLeftRight.magnitude;
+                //var leftHandLocalPosition = m_LeftGrabMoveProvider.controllerTransform.localPosition;
+                //var rightHandLocalPosition = m_RightGrabMoveProvider.controllerTransform.localPosition;
+                //var leftHandNewPosition = m_LeftGrabMoveProvider.controllerTransform.position;
+                //var rightHandNewPosition = m_RightGrabMoveProvider.controllerTransform.position;
 
-                ////translate center
-                //if (normLeft > 0.01f)
-                //    m_objectToMove.position += diffLeftHand;
+                var leftHandNewPosition = m_controllerA.transform.position;
+                var rightHandNewPosition = m_controllerB.transform.position;
 
-                //scale
-                float ratio = 1.0f;
-                if (oldNormLeftRight > 0.0001f)
+
+
+
+
+                //if (m_EnableRotation)
+                //{
+                //    var leftToRightDirection = rightHandLocalPosition - leftHandLocalPosition;
+                //    leftToRightDirection.y = 0f; // Only use yaw rotation
+                //    var yawSign = Mathf.Sign(Vector3.Dot(m_InitialLeftToRightOrthogonal, leftToRightDirection));
+                //    var targetYaw = m_InitialOriginYaw + Vector3.Angle(m_InitialLeftToRightDirection, leftToRightDirection) * yawSign;
+                //    m_objectToMove.rotation = Quaternion.AngleAxis(targetYaw, Vector3.up);
+                //}
+                if (m_modelExplorer.m_targetElement == null)
                 {
-                   
-                    ratio = newNormLeftRight / oldNormLeftRight;
+                    m_objectToMove = m_modelExplorer.m_sofaContext.transform;
                 }
-               
+                else
+                {
+                    m_objectToMove = m_modelExplorer.m_targetElement.m_targetElement.transform;
 
-                if (ratio < 0.001f)
-                    return;
-                
-                Vector3 tmpScale = m_scaleInitObject * ratio * m_scaleResize;
-                if (tmpScale.x < 0) { tmpScale.x = Mathf.Clamp(tmpScale.x, -1 * m_MaximumScale, -1 * m_MinimumScale); }//-1 to have the same coordinate system as SOFA
-                else { tmpScale.x = Mathf.Clamp(tmpScale.x, m_MinimumScale, m_MaximumScale); }
-                tmpScale.y = Mathf.Clamp(tmpScale.y, m_MinimumScale, m_MaximumScale);
-                tmpScale.z = Mathf.Clamp(tmpScale.z, m_MinimumScale, m_MaximumScale);
+                }
 
+                if (m_EnableScaling && m_objectToMove != null)
+                {
+
+                    Vector3 diffLeftHand = leftHandNewPosition - m_leftControllerInitPosition;
+                    Vector3 diffRghtHand = rightHandNewPosition - m_rightControllerInitPosition;
+
+
+
+                    float normLeft = diffLeftHand.magnitude;
+                    float normRight = diffRghtHand.magnitude;
+
+                    if (normLeft < 0.01f && normRight < 0.01f)
+                        return;
+
+
+
+                    Vector3 oldLeftRight = m_rightControllerInitPosition - m_leftControllerInitPosition;
+
+
+
+                    Vector3 newLeftRight = rightHandNewPosition - leftHandNewPosition;
+                    float oldNormLeftRight = oldLeftRight.magnitude;
+                    float newNormLeftRight = newLeftRight.magnitude;
+
+                    ////translate center
+                    //if (normLeft > 0.01f)
+                    //    m_objectToMove.position += diffLeftHand;
+
+                    //scale
+                    float ratio = 1.0f;
+                    if (oldNormLeftRight > 0.0001f)
+                    {
+
+                        ratio = newNormLeftRight / oldNormLeftRight;
+                    }
+
+
+                    if (ratio < 0.001f)
+                        return;
+
+                    Vector3 tmpScale = m_scaleInitObject * ratio * m_scaleResize;
+                    if (tmpScale.x < 0) { tmpScale.x = Mathf.Clamp(tmpScale.x, -1 * m_MaximumScale, -1 * m_MinimumScale); }//-1 to have the same coordinate system as SOFA
+                    else { tmpScale.x = Mathf.Clamp(tmpScale.x, m_MinimumScale, m_MaximumScale); }
+                    tmpScale.y = Mathf.Clamp(tmpScale.y, m_MinimumScale, m_MaximumScale);
+                    tmpScale.z = Mathf.Clamp(tmpScale.z, m_MinimumScale, m_MaximumScale);
+
+
+                    m_objectToMove.transform.localScale = tmpScale;
+
+                }
+                else
+            {
+                    m_setupDone = FindModelEplorer(); 
+            }
             
-                m_objectToMove.transform.localScale = tmpScale;
-
-              
-
-
-
-                //print("ratio = " + ratio);
-                //print("objectScale = " + m_objectToMove.localScale);
-                //print("ObjectPosition = " + m_objectToMove.position);
-
-                ////rotation
-                //Quaternion rot = Quaternion.FromToRotation(oldLeftRight, newLeftRight);
-                //Vector3 rotationWithModulo;
-
-                //rotationWithModulo.x = rot.eulerAngles.x % 360f;
-                //rotationWithModulo.y = rot.eulerAngles.y % 360f;
-                //rotationWithModulo.z = rot.eulerAngles.z % 360f;
-
-                ////print("objectPositionBefore = " + m_objectToMove.localEulerAngles);
-                ////print("rotationValue = " + rot.eulerAngles);
-                ////m_objectToMove.localEulerAngles = m_objectToMove.localEulerAngles + rot.eulerAngles;
-                ////print("objectPositionAfter = " + m_objectToMove.localEulerAngles);
-
-                //print("objectPositionBefore = " + m_objectToMove.localEulerAngles);
-                //print("rotationValue = " + rotationWithModulo);
-                //m_objectToMove.localEulerAngles = m_objectToMove.localEulerAngles + rotationWithModulo;
-                //print("objectPositionAfter = " + m_objectToMove.localEulerAngles);
-
-                ////update init position 
-                //if (normLeft > 0.01f)
-                //    m_leftControllerInitPosition = leftHandNewPosition;
-                //if (normRight > 0.01f)
-                //    m_rightControllerInitPosition = rightHandNewPosition;
-
-
-
-                //var distanceBetweenHands = Vector3.Distance(leftHandLocalPosition, rightHandLocalPosition);
-                //var targetScale = distanceBetweenHands != 0f
-                //    ? /*m_InitialOriginScale*/m_objectToMove.localScale.x * (m_InitialDistanceBetweenHands / distanceBetweenHands)
-                //    : m_objectToMove.localScale.x;
-
-                //targetScale = Mathf.Clamp(targetScale, m_MinimumScale, m_MaximumScale);
-                //m_objectToMove.localScale = Vector3.one * targetScale;
 
             }
         }

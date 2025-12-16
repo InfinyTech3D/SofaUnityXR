@@ -97,6 +97,15 @@ namespace SofaUnityXR
             {
                 Debug.LogWarning("GameController: The VR Setup of sofa object hasn't been done, must do it somewhere");
             }
+
+            if (m_STHGMP == null)
+            {
+                m_STHGMP= FindObjectOfType<SofaTwoHandedGrabMoveProvider>();
+                if (m_STHGMP == null)
+                {
+                    Debug.LogError("GameControlleur: couldn't find SofaTwoHandedGrabMoveProvider script");
+                }
+            }
         }
 
         void Update()
