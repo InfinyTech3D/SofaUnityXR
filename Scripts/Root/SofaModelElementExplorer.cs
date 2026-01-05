@@ -336,23 +336,31 @@ namespace SofaUnityXR
         /// <param name="value"></param>
         private void DetermineGrabbableElement(bool value)
         {
-            
-           
+
+            var sofaInteractable = m_SofaContextObj.GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactables.XRBaseInteractable>();
+            if (sofaInteractable == null)
+            {
+                Debug.LogWarning("DetermineGrabbableElement: XRBaseInteractable missing on SofaContextObj");
+                return;
+            }
+
+            var targetInteractable = m_targetElement.GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactables.XRBaseInteractable>();
+            if (targetInteractable == null)
+            {
+                Debug.LogWarning("DetermineGrabbableElement: XRBaseInteractable missing on targetElement");
+                return;
+            }
+
             if (value)
             {
-                m_SofaContextObj.GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactables.XRBaseInteractable>().interactionLayers = InteractionLayerMask.GetMask("Default");
-                m_targetElement.GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactables.XRBaseInteractable>().interactionLayers = InteractionLayerMask.GetMask(InteractionLayerMask.LayerToName(2));//our object
+                sofaInteractable.interactionLayers = InteractionLayerMask.GetMask("Default");
+                targetInteractable.interactionLayers = InteractionLayerMask.GetMask(InteractionLayerMask.LayerToName(2));
             }
             else
             {
-                m_SofaContextObj.GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactables.XRBaseInteractable>().interactionLayers = InteractionLayerMask.GetMask(InteractionLayerMask.LayerToName(2));
-                m_targetElement.GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactables.XRBaseInteractable>().interactionLayers = InteractionLayerMask.GetMask("Default");
+                sofaInteractable.interactionLayers = InteractionLayerMask.GetMask(InteractionLayerMask.LayerToName(2));
+                targetInteractable.interactionLayers = InteractionLayerMask.GetMask("Default");
             }
-            /*if(value)
-                Debug.Log("True element activated");
-            else
-                Debug.Log("False element desactivated");*/
-
         }
 
         /// <summary>

@@ -235,7 +235,7 @@ namespace SofaUnityXR
                
                 attemptingMove = false;
                 var wasMoving = m_IsMoving;
-                var xrOrigin = system.xrOrigin;
+                var xrOrigin = mediator.xrOrigin?.Origin;
                 m_IsMoving = m_LeftGrabMoveProvider.IsGrabbing() && m_RightGrabMoveProvider.IsGrabbing() && xrOrigin != null;//not grab but trigger button now 
                 if (LineBetween != null)
                 {

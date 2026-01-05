@@ -73,7 +73,9 @@ namespace SofaUnityXR
                     {
                         if (m_useURP)
                         {
-                            /*Using URP Render Pipeline
+                            //this is default case now so no modifications 
+
+                            /*
                             Shader newShader = Shader.Find("CustomURPTransparancy");
                             if (newShader != null)
                             {
