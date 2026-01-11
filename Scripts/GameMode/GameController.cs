@@ -95,7 +95,17 @@ namespace SofaUnityXR
             }
             else
             {
-                Debug.LogWarning("GameController: The VR Setup of sofa object hasn't been done, must do it somewhere");
+                Debug.LogWarning("GameController: The VR Setup of sofa object probably hasn't been done");
+                StartCoroutine(WaitAndSetupSofa());//will try again in 3sec
+            }
+
+            if (m_STHGMP == null)
+            {
+                m_STHGMP= FindObjectOfType<SofaTwoHandedGrabMoveProvider>();
+                if (m_STHGMP == null)
+                {
+                    Debug.LogError("GameControlleur: couldn't find SofaTwoHandedGrabMoveProvider script");
+                }
             }
         }
 
@@ -350,11 +360,27 @@ namespace SofaUnityXR
             
         }
 
+        IEnumerator WaitAndSetupSofa()
+        {
+            yield return new WaitForSeconds(2f);
+            if (m_modelExplorer.m_modelElementCtrls.Count > 0)
+            {
+                SetupSofaObject();
+            }
+            else
+            {
+                Debug.LogError("GameController: The VR Setup of sofa object hasn't been done, must do it somewhere");
+            }
+            
+            
+        }
+
         public SofaModelExplorer ModelExplorer
         {
             get => m_modelExplorer;
             set => m_modelExplorer = value;
         }
+
 
     }
 }
