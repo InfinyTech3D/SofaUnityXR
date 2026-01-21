@@ -26,11 +26,17 @@ This package need [SofaUnity](https://github.com/InfinyTech3D/SofaUnity) Asset t
 Sofaunity Full installation process available [here](https://infinytech3d.com/getting-started/).
 
 
-## Dependencies
+## Dependencies: Required Unity Packages
 + Requires SofaUnity asset installed.
-+ XR Interaction Toolkit (tested with v3.0.0)
-    + Starter Asset (Package manager windows > XR Interaction Toolkit > Samples > Starter Asset > import)
-+ OpenXR Plugin (tested with v1.15.0)
+
+Before starting the project in Unity, open the **Package Manager** and import/update the following packages:  
+| Package                   | Version | Link |
+|----------------------------|---------|------|
+| XR Interaction Toolkit     | 3.0.8   | Also import **Samples Starter Assets**   |
+| OpenXR                     | 1.15.1  | Go to **Project Settings > XR Plug-in Management** and check the **OpenXR** checkbox under Plugin Providers   |
+| XCharts                    | 3.14.0  | [Download](https://github.com/XCharts-Team/XCharts.git) |
+| Animated Loading Icons     | 1.0     | [Download](https://assetstore.unity.com/packages/2d/gui/icons/animated-loading-icons-47844) |
+| TextMeshPro                | Latest  | Built-in (Unity Package Manager) |
 
 
 ## Examples
