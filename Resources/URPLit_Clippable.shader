@@ -177,7 +177,7 @@ Shader "Custom/URPLit_Clippable"
             float3 _ClipPlanePosition;
             float3 _ClipPlaneNormal;
 
-            #include "Assets/SofaUnityXR/Recources/CustomLitForwardPass.hlsl"
+            #include "Assets/SofaUnityXR/Resources/CustomLitForwardPass.hlsl"
             ENDHLSL
         }
 

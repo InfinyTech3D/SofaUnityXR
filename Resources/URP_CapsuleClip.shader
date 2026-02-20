@@ -179,7 +179,7 @@
             float _CapsuleRadius;
             
 
-            #include "Assets/SofaUnityXR/Recources/CapsuleLitForwardPass.hlsl"
+            #include "Assets/SofaUnityXR/Resources/CapsuleLitForwardPass.hlsl"
             ENDHLSL
         }
 
