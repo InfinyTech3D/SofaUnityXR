@@ -1,33 +1,43 @@
 {
-    "name": "Controls",
+    "version": 1,
+    "name": "CustomControls",
     "maps": [
         {
             "name": "LeftHandInteractions",
             "id": "b9d6ee69-4c62-4d42-9630-6941f55c5bfc",
             "actions": [
                 {
-                    "name": "SphereCreate",
-                    "type": "Button",
-                    "id": "1e2db1aa-3cf0-446c-b5d2-d1cb2963af45",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "SphereDelete",
+                    "name": "PrimaryButton",
                     "type": "Button",
                     "id": "8e83e84f-4022-4e8c-8f8d-33e726758514",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
                 },
                 {
-                    "name": "SphereSelect",
+                    "name": "Secondary",
+                    "type": "Button",
+                    "id": "1e2db1aa-3cf0-446c-b5d2-d1cb2963af45",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Trigger",
                     "type": "Button",
                     "id": "7e91bff7-d762-4929-b801-f8a4a9d3f60c",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Grip",
+                    "type": "Button",
+                    "id": "0e0f2186-1c00-42a9-ae09-c18509e3db84",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -41,7 +51,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "SphereCreate",
+                    "action": "Secondary",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -52,7 +62,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "SphereDelete",
+                    "action": "PrimaryButton",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -63,7 +73,18 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "SphereSelect",
+                    "action": "Trigger",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a6fdd5f2-93d4-4988-be5c-67eb375a1523",
+                    "path": "<XRController>{LeftHand}/{GripButton}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Grip",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -74,28 +95,37 @@
             "id": "65b20b47-c847-4b9d-9f42-bac663f28674",
             "actions": [
                 {
-                    "name": "SphereCreate",
-                    "type": "Button",
-                    "id": "515d5501-4c01-4428-ac85-df75d42e7512",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "SphereDelete",
+                    "name": "PrimaryButton",
                     "type": "Button",
                     "id": "3d4dc5d6-50cb-47f3-a3ad-3882bf5df17c",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
                 },
                 {
-                    "name": "SphereSelect",
+                    "name": "Secondary",
+                    "type": "Button",
+                    "id": "515d5501-4c01-4428-ac85-df75d42e7512",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Trigger",
                     "type": "Button",
                     "id": "2e6dd824-e26c-49b0-b241-64be4726292d",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Grip",
+                    "type": "Button",
+                    "id": "c2e30cac-6462-4e51-a8d1-a699aaa7a28a",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -109,7 +139,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "SphereCreate",
+                    "action": "Secondary",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -120,7 +150,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "SphereDelete",
+                    "action": "PrimaryButton",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -131,7 +161,18 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "SphereSelect",
+                    "action": "Trigger",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9437c006-2797-4692-bd44-473c2a137962",
+                    "path": "<XRController>{RightHand}/{GripButton}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Grip",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
