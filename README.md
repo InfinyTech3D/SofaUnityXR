@@ -19,7 +19,7 @@ This package need [SofaUnity](https://github.com/InfinyTech3D/SofaUnity) Asset t
 
 ### Compatibility:
 * Tested on Unity version > 6000.0.55f1 
-* SOFA version > 25.12 with SofaVerseAPI
+* SOFA version v25.12 with SofaVerseAPI: https://github.com/InfinyTech3D/SofaUnity/releases/tag/SofaUnity_v25.12.00-URP
 * Tested on Windows platforms only
 * Most of our work is tested on Meta headsets; we can't guarantee that all functionalities will work on other headsets.
 
