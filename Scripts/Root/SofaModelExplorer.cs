@@ -218,25 +218,48 @@ namespace SofaUnityXR
             var sofaNode = obj.GetComponent<SofaVisualModel>();
             if (sofaNode != null)
             {
-                string displayName=sofaNode.UniqueNameId;
-                int atIndex = displayName.IndexOf('@');
-                if (atIndex <= 0)
+                string displayName;
+                string UNid=sofaNode.UniqueNameId;
+                int firstIndex = UNid.IndexOf('@');
+                int lastIndex = UNid.LastIndexOf('@');
+                if (firstIndex <= 0 || lastIndex <= 0 )
                 {
                     return ("Unknown Name");
                 }
-                displayName = displayName.Substring(0, atIndex);
-                //check if there is a visu in the name
-                int visuIndex = displayName.IndexOf("visu");
-                if (visuIndex <= 0)
+
+                // we take the last string from UID
+                displayName = UNid.Substring(lastIndex+1);//
+                if (displayName == "Visual")
                 {
-                    return displayName;
+                    
+                    //if the last string if just "Visual" we take the start
+                    displayName = UNid.Substring(0, firstIndex);
+                    //check if there is a visual in the name
+                    int visuIndex = displayName.IndexOf("visual");
+                    if (visuIndex <= 0)
+                    {
+                        return displayName;
+                    }
+                    else
+                    {
+                        return displayName.Substring(0, visuIndex - 1);// -1 beacause underscore 
+                    }
                 }
                 else
                 {
-                    return  displayName.Substring(0, visuIndex-1);// -1 beacause underscore 
+                    //check if there is a visual in the name
+                    int visuIndex = displayName.IndexOf("visual");
+                    if (visuIndex <= 0)
+                    {
+                        return displayName;
+                    }
+                    else
+                    {
+                        return displayName.Substring(0, visuIndex - 1);// -1 beacause underscore 
+                    }
+                    
                 }
-               
-              
+                                 
             }
             else
             {
