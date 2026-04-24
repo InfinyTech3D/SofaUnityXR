@@ -10,8 +10,10 @@ namespace SofaUnityXR
     [CustomEditor(typeof(SofaSphereCollisionHand), true)]
     public class SofaSphereCollisionHandEditor : Editor
     {
+        
         [MenuItem("Tools/SofaUnityXR/SofaSphereCollisionHand")]
         [MenuItem("GameObject/Tools/SofaUnityXR/SofaSphereCollisionHand")]
+       
         new public static GameObject CreateNew()
         {
             if (Selection.activeTransform == null)
@@ -75,7 +77,16 @@ namespace SofaUnityXR
             model.m_sphereModel = (SofaCollisionModel)EditorGUILayout.ObjectField("Hand SOFA collision spheres",
                model.m_sphereModel, typeof(SofaCollisionModel), true);
 
-            model.SofaSphereCollision.Radius = EditorGUILayout.Slider("Sphere radius", model.SofaSphereCollision.Radius, 0.001f, 10);
+
+            // Enregistre l'état AVANT modification (pour Undo et dirty marking)
+            Undo.RecordObject(model.gameObject, "Change Sphere Radius");
+            model.SofaSphereCollision.Radius = EditorGUILayout.Slider(
+                "Sphere radius",
+                model.SofaSphereCollision.Radius,
+                0.001f, 10f
+            );
+            EditorUtility.SetDirty(model.gameObject);
+
             model.SofaSphereCollision.Activated = EditorGUILayout.Toggle("Activate collision", model.SofaSphereCollision.Activated);
             model.SofaSphereCollision.Stiffness = EditorGUILayout.Slider("Contact stiffness", model.SofaSphereCollision.Stiffness, 1, 5000);
             model.SofaSphereCollision.StartOnPlay = EditorGUILayout.Toggle("Start on Play", model.SofaSphereCollision.StartOnPlay);

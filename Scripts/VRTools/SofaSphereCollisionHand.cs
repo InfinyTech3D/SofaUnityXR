@@ -22,17 +22,17 @@ namespace SofaUnityXR
         /////////////////////////////////////////////////
 
         /// Collision sphere radius
-        [SerializeField] protected float m_radius = 1.0f;
+        [SerializeField] protected float m_radius=1.0f;
 
         [SerializeField]
         private List<GameObject> m_capsuleColliderList = new List<GameObject>();
         private List<Vector3> m_pointsList = new List<Vector3>();
 
         private SofaSphereCollision m_sofaSphereCollision = new SofaSphereCollision();
-        
-        public SofaMesh m_sofaMesh = null;
+
+        public SofaMesh m_sofaMesh;// = null;
         public string m_sofaMeshName = ""; // to automatically find it TODO
-        public SofaCollisionModel m_sphereModel = null;
+        public SofaCollisionModel m_sphereModel;// = null;
 
 
         /// Parameter bool to store information if vec3 or rigid are parsed.
@@ -79,8 +79,17 @@ namespace SofaUnityXR
         // Use this for initialization
         void Start()
         {
-            // Clear the capsule collider list on start to avoid duplicate 
-            m_capsuleColliderList.Clear();
+
+            if (m_sofaMesh == null)
+            {
+                Debug.LogError("m_sofaMesh is not set at start.");
+                m_ready = false;
+                return;
+            }
+           
+
+             // Clear the capsule collider list on start to avoid duplicate 
+             m_capsuleColliderList.Clear();
 
             // Looking for Capsule collider in children
             CapsuleCollider[] colliders = gameObject.GetComponentsInChildren<CapsuleCollider>();
@@ -242,6 +251,13 @@ namespace SofaUnityXR
             //    return;
             //}
 
+            if (m_sofaMesh == null)
+            {
+                Debug.LogError("m_sofaMesh is not set.");
+                m_ready = false;
+                return;
+            }
+
             if (m_sofaMeshName.Length > 0)
             {
                 SofaMesh[] meshes = GameObject.FindObjectsByType<SofaMesh>(FindObjectsSortMode.None);
@@ -253,12 +269,7 @@ namespace SofaUnityXR
                 }
             }
 
-            if (m_sofaMesh == null)
-            {
-                Debug.LogError("m_sofaMesh is not set.");
-                m_ready = false;
-                return;
-            }
+            
 
             if (m_sphereModel == null)
             {
@@ -266,6 +277,7 @@ namespace SofaUnityXR
                 m_ready = false;
                 return;
             }
+            //m_sofaSphereCollision.Radius=m_radius;
 
             // Link to existing Mesh and CollisionModel in Sofa scene
             m_sofaSphereCollision.LinkSofaSphereCollisionObject(m_sofaMesh, m_sphereModel);

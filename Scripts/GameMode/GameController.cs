@@ -124,7 +124,7 @@ namespace SofaUnityXR
         /// Method to switch Sofa Simulation mode and And Plannification/Manipulation mode
         /// </summary>
         /// <param name="isOn"></param>
-        private void OnToggleSimuChanged(bool isOn)
+        public void OnToggleSimuChanged(bool isOn)
         {
             SimuIsOn = isOn;
             if (m_hideSimu == null || m_hidePlannif == null)
@@ -139,8 +139,9 @@ namespace SofaUnityXR
 
                 m_hideSimu.SetActive(false);
                 m_hidePlannif.SetActive(true);
-                m_STHGMP.enableScaling = false;
-                m_STHGMP.enableRotation = false;
+                // Commented for video purpose must be remove : 
+                //m_STHGMP.enableScaling = false;
+                //m_STHGMP.enableRotation = false;
                 m_SofaContext.GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactables.XRGrabInteractable>().enabled = false;
                 foreach (SofaModelElementExplorer elm in m_modelExplorer.m_modelElementCtrls)
                 {
@@ -193,6 +194,17 @@ namespace SofaUnityXR
 
                 m_SofaPlayer.stopSofaSimulation();
 
+            }
+        }
+
+        public void Reset3d()
+        {
+            foreach (SofaModelElementExplorer elm in m_modelExplorer.m_modelElementCtrls)
+            {
+                var obj = elm.m_targetElement;
+                StartCoroutine(SmoothTransitionPosition(obj.transform.position, elm.m_simuPosition, obj));
+                StartCoroutine(SmoothTransitionScale(obj.transform.localScale, elm.m_simuScale, obj));
+                StartCoroutine(SmoothTransitionQuaternion(obj.transform.rotation, elm.m_simuRotation, obj));
             }
         }
         /// <summary>
