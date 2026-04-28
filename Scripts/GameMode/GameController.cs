@@ -251,6 +251,7 @@ namespace SofaUnityXR
 
             }
         }
+ 
         /// <summary>
         /// Coroutine to animate the movement of an object between two points
         /// </summary>
@@ -258,17 +259,24 @@ namespace SofaUnityXR
         /// <param name="endPos">End position</param>
         /// <param name="obj">The object to move</param>
         /// <returns>nothing</returns>
-        private IEnumerator SmoothTransitionPosition(Vector3 startPos, Vector3 endPos, GameObject obj)
-        {
-            //Debug.Log("I'm " + obj.transform.parent.gameObject.name + " I must go from " + startPos +" to " + endPos);
+        private IEnumerator SmoothTransitionPosition(
+        Vector3 startPos,
+        Vector3 endPos,
+        GameObject obj)
+        { 
             for (int i = 0; i <= numSteps; i++)
             {
-                // Interpolation
-                obj.transform.position = Vector3.Lerp(startPos, endPos, (i / (float)numSteps)); 
+                float t = i / (float)numSteps;
+                obj.transform.position = Vector3.Lerp(startPos, endPos, t);
                 yield return new WaitForSeconds(Timestep);
             }
+
             obj.transform.position = endPos;
-            AnimeIsOver = true;
+            if (SimuIsOn)
+            {
+                AnimeIsOver = true;
+            }
+
         }
         /// <summary>
         /// Coroutine to animate the scale modifiaction
