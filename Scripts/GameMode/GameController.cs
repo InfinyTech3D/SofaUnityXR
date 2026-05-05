@@ -259,10 +259,7 @@ namespace SofaUnityXR
         /// <param name="endPos">End position</param>
         /// <param name="obj">The object to move</param>
         /// <returns>nothing</returns>
-        private IEnumerator SmoothTransitionPosition(
-        Vector3 startPos,
-        Vector3 endPos,
-        GameObject obj)
+private IEnumerator SmoothTransitionPosition(Vector3 startPos, Vector3 endPos, GameObject obj)
         { 
             for (int i = 0; i <= numSteps; i++)
             {
