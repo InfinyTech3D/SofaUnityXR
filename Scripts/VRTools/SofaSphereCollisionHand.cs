@@ -82,6 +82,7 @@ namespace SofaUnityXR
             // Clear the capsule collider list on start to avoid duplicate 
             m_capsuleColliderList.Clear();
 
+
             // Looking for Capsule collider in children
             CapsuleCollider[] colliders = gameObject.GetComponentsInChildren<CapsuleCollider>();
             for (int i = 0; i < colliders.Length; i++)
@@ -89,6 +90,8 @@ namespace SofaUnityXR
                 m_capsuleColliderList.Add(colliders[i].gameObject);
             }
 
+            IsLeftOrRight();
+            FindByName();
             Init_impl();
 
         }
@@ -241,21 +244,7 @@ namespace SofaUnityXR
             //    Debug.LogError("SofaSphereCollisionObject::AwakePostProcess Error No valid Meshfilter found in current gameObject.");
             //    return;
             //}
-            if ((m_sofaMesh == null)|| (m_sphereModel == null))
-            {
-                FindByName();
-            }
 
-            if (m_sofaMeshName.Length > 0)
-            {
-                SofaMesh[] meshes = GameObject.FindObjectsByType<SofaMesh>(FindObjectsSortMode.None);
-                Debug.Log("Nbr Mesh: " + meshes.Length);
-                foreach (SofaMesh mesh in meshes)
-                {
-                    if (mesh.UniqueNameId.Contains(m_sofaMeshName))
-                        m_sofaMesh = mesh;
-                }
-            }
 
             if (m_sofaMesh == null)
             {
@@ -280,9 +269,29 @@ namespace SofaUnityXR
             m_ready = true;
         }
 
+
+        public void IsLeftOrRight()
+        {
+            string objName = gameObject.name;
+
+            if (objName.Contains("Left"))
+            {
+                m_isLeft = true;
+            }
+            else if (objName.Contains("Right"))
+            {
+                m_isLeft = false;
+            }
+            else
+            {
+                Debug.LogWarning("SofaSphereCollisionHand::IsLeftOrRight: GameObject name \"" + objName + "\" contains neither \"Left\" nor \"Right\". Keeping current value of m_isLeft (" + m_isLeft + ").");
+            }
+        }
+
         public void FindByName()
         {
             string targetName = m_isLeft ? "SofaNode - LeftHandController" : "SofaNode - RightHandController";
+
 
             GameObject handObject = GameObject.Find(targetName);
             if (handObject == null)
@@ -291,33 +300,28 @@ namespace SofaUnityXR
                 return;
             }
 
-            // Look for SofaMesh in children
-            if (m_sofaMesh == null)
+            SofaMesh foundMesh = handObject.GetComponentInChildren<SofaMesh>();
+            if (foundMesh != null)
             {
-                SofaMesh foundMesh = handObject.GetComponentInChildren<SofaMesh>();
-                if (foundMesh != null)
-                {
-                    m_sofaMesh = foundMesh;
-                }
-                else
-                {
-                    Debug.LogError("SofaSphereCollisionHand::FindByName: No SofaMesh found under \"" + targetName + "\".");
-                }
+                m_sofaMesh = foundMesh;
+            }
+            else
+            {
+                Debug.LogError("SofaSphereCollisionHand::FindByName: No SofaMesh found under \"" + targetName + "\".");
             }
 
-            // Look for SofaCollisionModel in children
-            if (m_sphereModel == null)
+
+            SofaCollisionModel foundCollisionModel = handObject.GetComponentInChildren<SofaCollisionModel>();
+            if (foundCollisionModel != null)
             {
-                SofaCollisionModel foundCollisionModel = handObject.GetComponentInChildren<SofaCollisionModel>();
-                if (foundCollisionModel != null)
-                {
-                    m_sphereModel = foundCollisionModel;
-                }
-                else
-                {
-                    Debug.LogError("SofaSphereCollisionHand::FindByName: No SofaCollisionModel found under \"" + targetName + "\".");
-                }
+                m_sphereModel = foundCollisionModel;
             }
+            else
+            {
+                Debug.LogError("SofaSphereCollisionHand::FindByName: No SofaCollisionModel found under \"" + targetName + "\".");
+            }
+
         }
-    }//class
+
+        }//class
 }//namespace
