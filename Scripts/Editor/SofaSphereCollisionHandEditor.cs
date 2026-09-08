@@ -65,8 +65,12 @@ namespace SofaUnityXR
         public override void OnInspectorGUI()
         {
             //Debug.Log("SofaSphereCollisionHandEditor::OnInspectorGUI");
+            
 
             SofaSphereCollisionHand model = (SofaSphereCollisionHand)this.target;
+
+            model.m_isLeft = EditorGUILayout.Toggle("Is Left Hand", model.m_isLeft);
+
             model.SofaSphereCollision.ParentT = (GameObject)EditorGUILayout.ObjectField("Parent Gameobject to mirror position", model.SofaSphereCollision.ParentT, typeof(GameObject), true);
 
             model.m_sofaMesh = (SofaMesh)EditorGUILayout.ObjectField("Hand SOFA mesh",
