@@ -66,7 +66,7 @@ namespace SofaUnityXR
                 transform.GetComponentInChildren<TextMeshProUGUI>().text = this.name;
 
                 m_defaultMaterial = m_targetElement.GetComponent<Renderer>().material;
-                m_targetElement.layer=InteractionLayerMask.GetMask("Default");
+                m_targetElement.layer = LayerMask.NameToLayer("Default");
 
                 m_simuPosition = m_targetElement.transform.position;
                 m_plannifPosition = m_targetElement.transform.position;
@@ -330,37 +330,13 @@ namespace SofaUnityXR
         }
 
         /// <summary>
-        /// change the interaction layer mask og a grabble go to block or not the possibility to grab it;
-        /// parent or child. neither both 
+        /// update which objects can be grabbed (SofaContext or selected element only),
+        /// the logic is centralized in SofaModelExplorer.UpdateGrabbableElements
         /// </summary>
         /// <param name="value"></param>
         private void DetermineGrabbableElement(bool value)
         {
-
-            var sofaInteractable = m_SofaContextObj.GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactables.XRBaseInteractable>();
-            if (sofaInteractable == null)
-            {
-                Debug.LogWarning("DetermineGrabbableElement: XRBaseInteractable missing on SofaContextObj");
-                return;
-            }
-
-            var targetInteractable = m_targetElement.GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactables.XRBaseInteractable>();
-            if (targetInteractable == null)
-            {
-                Debug.LogWarning("DetermineGrabbableElement: XRBaseInteractable missing on targetElement");
-                return;
-            }
-
-            if (value)
-            {
-                sofaInteractable.interactionLayers = InteractionLayerMask.GetMask("Default");
-                targetInteractable.interactionLayers = InteractionLayerMask.GetMask(InteractionLayerMask.LayerToName(2));
-            }
-            else
-            {
-                sofaInteractable.interactionLayers = InteractionLayerMask.GetMask(InteractionLayerMask.LayerToName(2));
-                targetInteractable.interactionLayers = InteractionLayerMask.GetMask("Default");
-            }
+            m_modelExplorer.UpdateGrabbableElements();
         }
 
         /// <summary>

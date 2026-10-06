@@ -181,11 +181,8 @@ namespace SofaUnityXR
                     StartCoroutine(SmoothTransitionPosition(elm.m_simuPosition,elm.m_plannifPosition, obj));
                     StartCoroutine(SmoothTransitionQuaternion(elm.m_simuRotation, elm.m_plannifRotation, obj));
                     StartCoroutine(SmoothTransitionScale(elm.m_simuScale, elm.m_plannifScale, obj));
-                    if (elm.GetIsSelected())
-                    {
-                        obj.GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactables.XRGrabInteractable>().interactionLayers = InteractionLayerMask.GetMask(InteractionLayerMask.LayerToName(2));
-                    }
                 }
+                m_modelExplorer.UpdateGrabbableElements();
                 StartCoroutine(SmoothTransitionQuaternion(m_SofaContextSimuRotation, m_SofaContextPlannifRotation,  m_SofaContext));
                 StartCoroutine(SmoothTransitionPosition(m_SofaContextSimuPosition, m_SofaContextPlannifPosition, m_SofaContext));
                 StartCoroutine(SmoothTransitionScale(m_SofaContextSimuScale, m_SofaContextPlannifScale, m_SofaContext));
@@ -216,6 +213,8 @@ namespace SofaUnityXR
             SetParentCollider(m_SofaContext);
             AddXRGrab(m_SofaContext);
 
+            // apply initial grab state now that all interactables exist
+            m_modelExplorer.UpdateGrabbableElements();
         }
 
         /// <summary>
@@ -231,7 +230,7 @@ namespace SofaUnityXR
                 obj.AddComponent<Rigidbody>();
                 obj.GetComponent<Rigidbody>().isKinematic = true;
                 obj.GetComponent<Rigidbody>().useGravity = false;
-                obj.GetComponent<Rigidbody>().excludeLayers= InteractionLayerMask.GetMask("UI");
+                obj.GetComponent<Rigidbody>().excludeLayers= LayerMask.GetMask("UI");
             }
 
             // Add BoxCollider if not already present
@@ -246,8 +245,8 @@ namespace SofaUnityXR
                 obj.AddComponent<UnityEngine.XR.Interaction.Toolkit.Interactables.XRGrabInteractable>();
                 obj.GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactables.XRGrabInteractable>().throwOnDetach = false;
                 obj.GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactables.XRGrabInteractable>().useDynamicAttach = true;
-                //InteractionLayerMask.LayerToName(2) is "mixed"
-                obj.GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactables.XRGrabInteractable>().interactionLayers = InteractionLayerMask.GetMask(InteractionLayerMask.LayerToName(2));
+                // final grab state is set by SofaModelExplorer.UpdateGrabbableElements
+                obj.GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactables.XRGrabInteractable>().interactionLayers = InteractionLayerMask.GetMask("Default");
 
             }
         }

@@ -42,6 +42,13 @@ namespace SofaUnityXR
         /// </summary>
         public bool m_useURP = false;
 
+        /// <summary>
+        /// Interaction layers given to grabbable objects, must match the hands interactors (XRDirectInteractor) mask.
+        /// Default: interaction layer index 1 (used by the SurgivizXROrigin hands). Blocked objects get Nothing.
+        /// </summary>
+        [Tooltip("Interaction layers of grabbable objects, must match the XRDirectInteractor (hands) mask")]
+        [SerializeField] private InteractionLayerMask m_grabbableLayers = 1 << 1;
+
 
         void Awake()
         {
@@ -566,6 +573,35 @@ namespace SofaUnityXR
         public SofaModelElementExplorer TargetElement
         {
             get => m_targetElement;
+        }
+
+        /// <summary>
+        /// Update which objects can be grabbed, without relying on named interaction layers:
+        /// grabbable = m_grabbableLayers, blocked = Nothing (0).
+        /// No element selected: only the SofaContext (whole model) is grabbable.
+        /// One element selected: only this element is grabbable.
+        /// </summary>
+        public void UpdateGrabbableElements()
+        {
+            InteractionLayerMask grabbable = m_grabbableLayers;
+            InteractionLayerMask blocked = 0;
+
+            if (m_sofaContext != null)
+            {
+                var contextInteractable = m_sofaContext.GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactables.XRBaseInteractable>();
+                if (contextInteractable != null)
+                    contextInteractable.interactionLayers = m_targetElement == null ? grabbable : blocked;
+            }
+
+            foreach (var item in m_modelElementCtrls)
+            {
+                if (item == null || item.m_targetElement == null)
+                    continue;
+
+                var interactable = item.m_targetElement.GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactables.XRBaseInteractable>();
+                if (interactable != null)
+                    interactable.interactionLayers = item == m_targetElement ? grabbable : blocked;
+            }
         }
        
         //adds for sofa version//
