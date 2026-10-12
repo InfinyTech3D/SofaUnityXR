@@ -68,7 +68,10 @@ namespace SofaUnityXR
 
         private void Start()
         {
-            
+            // Start() can be called twice: once by ManualSetup() (from another script's Start) and once by Unity.
+            // Creating the buttons twice duplicates every element and breaks UpdateGrabbableElements.
+            if (m_modelElementCtrls.Count > 0)
+                return;
 
             if (m_sofaContext != null)
             {
