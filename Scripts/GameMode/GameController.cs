@@ -182,11 +182,8 @@ namespace SofaUnityXR
                     StartCoroutine(SmoothTransitionPosition(elm.m_simuPosition,elm.m_plannifPosition, obj));
                     StartCoroutine(SmoothTransitionQuaternion(elm.m_simuRotation, elm.m_plannifRotation, obj));
                     StartCoroutine(SmoothTransitionScale(elm.m_simuScale, elm.m_plannifScale, obj));
-                    if (elm.GetIsSelected())
-                    {
-                        obj.GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactables.XRGrabInteractable>().interactionLayers = InteractionLayerMask.GetMask(InteractionLayerMask.LayerToName(2));
-                    }
                 }
+                m_modelExplorer.UpdateGrabbableElements();
                 StartCoroutine(SmoothTransitionQuaternion(m_SofaContextSimuRotation, m_SofaContextPlannifRotation,  m_SofaContext));
                 StartCoroutine(SmoothTransitionPosition(m_SofaContextSimuPosition, m_SofaContextPlannifPosition, m_SofaContext));
                 StartCoroutine(SmoothTransitionScale(m_SofaContextSimuScale, m_SofaContextPlannifScale, m_SofaContext));
@@ -228,6 +225,8 @@ namespace SofaUnityXR
             SetParentCollider(m_SofaContext);
             AddXRGrab(m_SofaContext);
 
+            // apply initial grab state now that all interactables exist
+            m_modelExplorer.UpdateGrabbableElements();
         }
 
         /// <summary>
@@ -243,7 +242,7 @@ namespace SofaUnityXR
                 obj.AddComponent<Rigidbody>();
                 obj.GetComponent<Rigidbody>().isKinematic = true;
                 obj.GetComponent<Rigidbody>().useGravity = false;
-                obj.GetComponent<Rigidbody>().excludeLayers= InteractionLayerMask.GetMask("UI");
+                obj.GetComponent<Rigidbody>().excludeLayers= LayerMask.GetMask("UI");
             }
 
             // Add BoxCollider if not already present
@@ -258,11 +257,12 @@ namespace SofaUnityXR
                 obj.AddComponent<UnityEngine.XR.Interaction.Toolkit.Interactables.XRGrabInteractable>();
                 obj.GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactables.XRGrabInteractable>().throwOnDetach = false;
                 obj.GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactables.XRGrabInteractable>().useDynamicAttach = true;
-                //InteractionLayerMask.LayerToName(2) is "mixed"
-                obj.GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactables.XRGrabInteractable>().interactionLayers = InteractionLayerMask.GetMask(InteractionLayerMask.LayerToName(2));
+                // final grab state is set by SofaModelExplorer.UpdateGrabbableElements
+                obj.GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactables.XRGrabInteractable>().interactionLayers = InteractionLayerMask.GetMask("Default");
 
             }
         }
+ 
         /// <summary>
         /// Coroutine to animate the movement of an object between two points
         /// </summary>
@@ -270,17 +270,21 @@ namespace SofaUnityXR
         /// <param name="endPos">End position</param>
         /// <param name="obj">The object to move</param>
         /// <returns>nothing</returns>
-        private IEnumerator SmoothTransitionPosition(Vector3 startPos, Vector3 endPos, GameObject obj)
-        {
-            //Debug.Log("I'm " + obj.transform.parent.gameObject.name + " I must go from " + startPos +" to " + endPos);
+private IEnumerator SmoothTransitionPosition(Vector3 startPos, Vector3 endPos, GameObject obj)
+        { 
             for (int i = 0; i <= numSteps; i++)
             {
-                // Interpolation
-                obj.transform.position = Vector3.Lerp(startPos, endPos, (i / (float)numSteps)); 
+                float t = i / (float)numSteps;
+                obj.transform.position = Vector3.Lerp(startPos, endPos, t);
                 yield return new WaitForSeconds(Timestep);
             }
+
             obj.transform.position = endPos;
-            AnimeIsOver = true;
+            if (SimuIsOn)
+            {
+                AnimeIsOver = true;
+            }
+
         }
         /// <summary>
         /// Coroutine to animate the scale modifiaction

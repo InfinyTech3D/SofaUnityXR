@@ -10,10 +10,8 @@ namespace SofaUnityXR
     [CustomEditor(typeof(SofaSphereCollisionHand), true)]
     public class SofaSphereCollisionHandEditor : Editor
     {
-        
         [MenuItem("Tools/SofaUnityXR/SofaSphereCollisionHand")]
         [MenuItem("GameObject/Tools/SofaUnityXR/SofaSphereCollisionHand")]
-       
         new public static GameObject CreateNew()
         {
             if (Selection.activeTransform == null)
@@ -67,8 +65,12 @@ namespace SofaUnityXR
         public override void OnInspectorGUI()
         {
             //Debug.Log("SofaSphereCollisionHandEditor::OnInspectorGUI");
+            
 
             SofaSphereCollisionHand model = (SofaSphereCollisionHand)this.target;
+
+            model.m_isLeft = EditorGUILayout.Toggle("Is Left Hand", model.m_isLeft);
+
             model.SofaSphereCollision.ParentT = (GameObject)EditorGUILayout.ObjectField("Parent Gameobject to mirror position", model.SofaSphereCollision.ParentT, typeof(GameObject), true);
 
             model.m_sofaMesh = (SofaMesh)EditorGUILayout.ObjectField("Hand SOFA mesh",
@@ -77,16 +79,7 @@ namespace SofaUnityXR
             model.m_sphereModel = (SofaCollisionModel)EditorGUILayout.ObjectField("Hand SOFA collision spheres",
                model.m_sphereModel, typeof(SofaCollisionModel), true);
 
-
-            // Enregistre l'état AVANT modification (pour Undo et dirty marking)
-            Undo.RecordObject(model.gameObject, "Change Sphere Radius");
-            model.SofaSphereCollision.Radius = EditorGUILayout.Slider(
-                "Sphere radius",
-                model.SofaSphereCollision.Radius,
-                0.001f, 10f
-            );
-            EditorUtility.SetDirty(model.gameObject);
-
+            model.SofaSphereCollision.Radius = EditorGUILayout.Slider("Sphere radius", model.SofaSphereCollision.Radius, 0.001f, 10);
             model.SofaSphereCollision.Activated = EditorGUILayout.Toggle("Activate collision", model.SofaSphereCollision.Activated);
             model.SofaSphereCollision.Stiffness = EditorGUILayout.Slider("Contact stiffness", model.SofaSphereCollision.Stiffness, 1, 5000);
             model.SofaSphereCollision.StartOnPlay = EditorGUILayout.Toggle("Start on Play", model.SofaSphereCollision.StartOnPlay);

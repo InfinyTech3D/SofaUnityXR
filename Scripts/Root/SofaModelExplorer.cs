@@ -42,6 +42,13 @@ namespace SofaUnityXR
         /// </summary>
         public bool m_useURP = false;
 
+        /// <summary>
+        /// Interaction layers given to grabbable objects, must match the hands interactors (XRDirectInteractor) mask.
+        /// Default: interaction layer index 1 (used by the SurgivizXROrigin hands). Blocked objects get Nothing.
+        /// </summary>
+        [Tooltip("Interaction layers of grabbable objects, must match the XRDirectInteractor (hands) mask")]
+        [SerializeField] private InteractionLayerMask m_grabbableLayers = 1 << 1;
+
 
         void Awake()
         {
@@ -61,7 +68,10 @@ namespace SofaUnityXR
 
         private void Start()
         {
-            
+            // Start() can be called twice: once by ManualSetup() (from another script's Start) and once by Unity.
+            // Creating the buttons twice duplicates every element and breaks UpdateGrabbableElements.
+            if (m_modelElementCtrls.Count > 0)
+                return;
 
             if (m_sofaContext != null)
             {
@@ -218,25 +228,48 @@ namespace SofaUnityXR
             var sofaNode = obj.GetComponent<SofaVisualModel>();
             if (sofaNode != null)
             {
-                string displayName=sofaNode.UniqueNameId;
-                int atIndex = displayName.IndexOf('@');
-                if (atIndex <= 0)
+                string displayName;
+                string UNid=sofaNode.UniqueNameId;
+                int firstIndex = UNid.IndexOf('@');
+                int lastIndex = UNid.LastIndexOf('@');
+                if (firstIndex <= 0 || lastIndex <= 0 )
                 {
                     return ("Unknown Name");
                 }
-                displayName = displayName.Substring(0, atIndex);
-                //check if there is a visu in the name
-                int visuIndex = displayName.IndexOf("visu");
-                if (visuIndex <= 0)
+
+                // we take the last string from UID
+                displayName = UNid.Substring(lastIndex+1);//
+                if (displayName == "Visual")
                 {
-                    return displayName;
+                    
+                    //if the last string if just "Visual" we take the start
+                    displayName = UNid.Substring(0, firstIndex);
+                    //check if there is a visual in the name
+                    int visuIndex = displayName.IndexOf("visual");
+                    if (visuIndex <= 0)
+                    {
+                        return displayName;
+                    }
+                    else
+                    {
+                        return displayName.Substring(0, visuIndex - 1);// -1 beacause underscore 
+                    }
                 }
                 else
                 {
-                    return  displayName.Substring(0, visuIndex-1);// -1 beacause underscore 
+                    //check if there is a visual in the name
+                    int visuIndex = displayName.IndexOf("visual");
+                    if (visuIndex <= 0)
+                    {
+                        return displayName;
+                    }
+                    else
+                    {
+                        return displayName.Substring(0, visuIndex - 1);// -1 beacause underscore 
+                    }
+                    
                 }
-               
-              
+                                 
             }
             else
             {
@@ -543,6 +576,35 @@ namespace SofaUnityXR
         public SofaModelElementExplorer TargetElement
         {
             get => m_targetElement;
+        }
+
+        /// <summary>
+        /// Update which objects can be grabbed, without relying on named interaction layers:
+        /// grabbable = m_grabbableLayers, blocked = Nothing (0).
+        /// No element selected: only the SofaContext (whole model) is grabbable.
+        /// One element selected: only this element is grabbable.
+        /// </summary>
+        public void UpdateGrabbableElements()
+        {
+            InteractionLayerMask grabbable = m_grabbableLayers;
+            InteractionLayerMask blocked = 0;
+
+            if (m_sofaContext != null)
+            {
+                var contextInteractable = m_sofaContext.GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactables.XRBaseInteractable>();
+                if (contextInteractable != null)
+                    contextInteractable.interactionLayers = m_targetElement == null ? grabbable : blocked;
+            }
+
+            foreach (var item in m_modelElementCtrls)
+            {
+                if (item == null || item.m_targetElement == null)
+                    continue;
+
+                var interactable = item.m_targetElement.GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactables.XRBaseInteractable>();
+                if (interactable != null)
+                    interactable.interactionLayers = item == m_targetElement ? grabbable : blocked;
+            }
         }
        
         //adds for sofa version//
