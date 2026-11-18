@@ -1,129 +1,209 @@
+
 using UnityEngine;
-using System.Collections.Generic;
 using SofaUnityXR;
 
-/// <summary>
-/// Class used to reveal objects through a special clipping shader.
-/// This component must be used with a Sphere or Capsule collider.
-///
-/// Linked shaders: URP_CapsuleClip and CapsuleLitForward.hlsl  
-/// Both shaders are based on the URP Lit shader and require that the project
-/// is using the Universal Render Pipeline (URP) with the appropriate URP package installed.
-/// </summary>
 public class ClipCapsuleController : MonoBehaviour
 {
+    [Header("Capsule")]
     public CapsuleCollider capsule;
-    //Recommanded to bo URP_CapsuleClip
+
+    [Header("Clipping Settings")]
+    [Range(0.05f, 2f)]
+    public float clipSizeMultiplier = 1f;
+
+    [Header("Shader")]
     public Shader m_replacementShader;
+
     [Header("Use to switch between regular mode and sofa mode")]
     public bool AutoSofaObjectSetup;
+
     [Header("Manual Setup")]
-    public Renderer[] renderers; // all objects to clip
+    public Renderer[] renderers;
+
     [Header("SofaUnity Automatic Setup")]
-    //Part use only if there a GamController script that will setup the sofa object
     public GameController m_Gm;
+
     private bool m_launchSetup = true;
     private Vector3 _initialPosition;
+    private MaterialPropertyBlock propertyBlock;
 
+    private static readonly int PointAId =
+        Shader.PropertyToID("_CapsulePointA");
 
-    void Start()
+    private static readonly int PointBId =
+        Shader.PropertyToID("_CapsulePointB");
+
+    private static readonly int RadiusId =
+        Shader.PropertyToID("_CapsuleRadius");
+
+    private void Start()
     {
-        _initialPosition = transform.position;  // Store start position of the plane
+        if (capsule == null)
+            capsule = GetComponent<CapsuleCollider>();
+
+        _initialPosition = transform.position;
+        propertyBlock = new MaterialPropertyBlock();
     }
 
-    void Update()
+    private void Update()
     {
-        if (capsule == null) return;
+        if (capsule == null)
+            return;
 
-        Vector3 pointA = capsule.transform.position + capsule.transform.up * capsule.height * 0.5f - capsule.transform.up * capsule.radius;
-        Vector3 pointB = capsule.transform.position - capsule.transform.up * capsule.height * 0.5f + capsule.transform.up * capsule.radius;
-
-        float radius = capsule.radius * Mathf.Max(
-            capsule.transform.lossyScale.x,
-            capsule.transform.lossyScale.y,
-            capsule.transform.lossyScale.z);
-
-        // Automatic setup of the sofa objects 
-        if (AutoSofaObjectSetup)
+        if (AutoSofaObjectSetup && m_launchSetup)
         {
-            if (m_launchSetup)
-            {
-                //lunch this setup only once when you move the sphere fo the first time
-                if (HasMovedFromStart())
-                {
-                    SofaSetup();
-                    m_launchSetup = false;
-                }
-            }
-            else
-            {
-                foreach (SofaModelElementExplorer elm in m_Gm.ModelExplorer.m_modelElementCtrls)
-                {
-                    Renderer rend = elm.m_targetElement.GetComponent<Renderer>();
-                    foreach (Material m in rend.materials)
-                    {
-                        m.SetVector("_CapsulePointA", pointA);
-                        m.SetVector("_CapsulePointB", pointB);
-                        m.SetFloat("_CapsuleRadius", radius);
-                    }
-                }
-               
-            }
-        }else//Manual setup
-        {
-            foreach (Renderer r in renderers)
-            {
-                foreach (Material m in r.materials)
-                {
-                    m.SetVector("_CapsulePointA", pointA);
-                    m.SetVector("_CapsulePointB", pointB);
-                    m.SetFloat("_CapsuleRadius", radius);
-                }
-            }
+            if (!HasMovedFromStart())
+                return;
+
+            if (!SofaSetup())
+                return;
+
+            m_launchSetup = false;
         }
 
-        
+        Transform t = capsule.transform;
+        Vector3 scale = t.lossyScale;
+
+        float sx = Mathf.Abs(scale.x);
+        float sy = Mathf.Abs(scale.y);
+        float sz = Mathf.Abs(scale.z);
+
+        Vector3 localAxis;
+        float axisScale;
+        float radialScale;
+
+        switch (capsule.direction)
+        {
+            case 0: // X axis
+                localAxis = Vector3.right;
+                axisScale = sx;
+                radialScale = Mathf.Max(sy, sz);
+                break;
+
+            case 2: // Z axis
+                localAxis = Vector3.forward;
+                axisScale = sz;
+                radialScale = Mathf.Max(sx, sy);
+                break;
+
+            default: // Y axis
+                localAxis = Vector3.up;
+                axisScale = sy;
+                radialScale = Mathf.Max(sx, sz);
+                break;
+        }
+
+        Vector3 center = t.TransformPoint(capsule.center);
+        Vector3 axis = t.TransformDirection(localAxis).normalized;
+
+        float worldRadius = capsule.radius * radialScale;
+        float worldHeight = capsule.height * axisScale;
+
+        float halfSegment = Mathf.Max(
+            0f,
+            worldHeight * 0.5f - worldRadius
+        );
+
+        float multiplier = Mathf.Max(
+            0.001f,
+            clipSizeMultiplier
+        );
+
+        float radius = worldRadius * multiplier;
+        halfSegment *= multiplier;
+
+        Vector3 pointA = center + axis * halfSegment;
+        Vector3 pointB = center - axis * halfSegment;
+
+        if (AutoSofaObjectSetup)
+        {
+            if (m_Gm == null || m_Gm.ModelExplorer == null)
+                return;
+
+            foreach (SofaModelElementExplorer elm
+                in m_Gm.ModelExplorer.m_modelElementCtrls)
+            {
+                if (elm == null || elm.m_targetElement == null)
+                    continue;
+
+                Renderer[] targetRenderers =
+                    elm.m_targetElement
+                        .GetComponentsInChildren<Renderer>(true);
+
+                foreach (Renderer r in targetRenderers)
+                    ApplyClipping(r, pointA, pointB, radius);
+            }
+        }
+        else
+        {
+            if (renderers == null)
+                return;
+
+            foreach (Renderer r in renderers)
+                ApplyClipping(r, pointA, pointB, radius);
+        }
+    }
+
+    private void ApplyClipping(
+        Renderer r,
+        Vector3 pointA,
+        Vector3 pointB,
+        float radius)
+    {
+        if (r == null)
+            return;
+
+        r.GetPropertyBlock(propertyBlock);
+
+        propertyBlock.SetVector(PointAId, pointA);
+        propertyBlock.SetVector(PointBId, pointB);
+        propertyBlock.SetFloat(RadiusId, radius);
+
+        r.SetPropertyBlock(propertyBlock);
     }
 
     private bool HasMovedFromStart()
     {
-
         const float threshold = 0.001f;
-        return Vector3.Distance(transform.position, _initialPosition) > threshold;
+
+        return Vector3.Distance(
+            transform.position,
+            _initialPosition
+        ) > threshold;
     }
 
-    private void SofaSetup()
+    private bool SofaSetup()
     {
-        foreach (SofaModelElementExplorer elm in m_Gm.ModelExplorer.m_modelElementCtrls)
-        {
-            GameObject obj = elm.m_targetElement;
+        if (m_Gm == null ||
+            m_Gm.ModelExplorer == null ||
+            m_replacementShader == null)
+            return false;
 
-            if (obj == null)
+        foreach (SofaModelElementExplorer elm
+            in m_Gm.ModelExplorer.m_modelElementCtrls)
+        {
+            if (elm == null || elm.m_targetElement == null)
                 continue;
 
-            // Get any renderer on the object
-            Renderer rend = obj.GetComponent<Renderer>();
-            if (rend == null)
-                rend = obj.GetComponentInChildren<Renderer>();
+            Renderer[] targetRenderers =
+                elm.m_targetElement
+                    .GetComponentsInChildren<Renderer>(true);
 
-            // If a renderer is found AND a shader is assigned
-            if (rend != null && m_replacementShader != null)
+            foreach (Renderer rend in targetRenderers)
             {
-                // Apply the new shader to all materials
-                foreach (var mat in rend.materials)
+                foreach (Material mat in rend.materials)
                 {
                     mat.shader = m_replacementShader;
-                    
-                    // Use to render both faces
-                    if (mat.HasProperty("_Cull"))
-                        mat.SetFloat("_Cull", 0f);  // 0 = Off, 1 = Front, 2 = Back
 
-                    //  "CullMode" not use on our case but you never known 
+                    if (mat.HasProperty("_Cull"))
+                        mat.SetFloat("_Cull", 0f);
+
                     if (mat.HasProperty("_CullMode"))
                         mat.SetFloat("_CullMode", 0f);
-
                 }
             }
         }
+
+        return true;
     }
 }

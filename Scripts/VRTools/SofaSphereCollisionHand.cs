@@ -45,7 +45,7 @@ namespace SofaUnityXR
         /// <summary>
         /// Reference to SofaSphereCollision : commun part of  SofaSphereCollisionHand and SofaSphereCollisionObject
         /// </summary>
-        [SerializeField]
+        [Field : SerializeField]
         public SofaSphereCollision SofaSphereCollision
         {
             get => m_sofaSphereCollision;
