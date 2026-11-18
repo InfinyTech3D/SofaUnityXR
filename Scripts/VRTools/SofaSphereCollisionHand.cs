@@ -22,7 +22,7 @@ namespace SofaUnityXR
         /////////////////////////////////////////////////
 
         /// Collision sphere radius
-        [SerializeField] protected float m_radius = 1.0f;
+        [SerializeField] protected float m_radius = 0.1f;
 
         [SerializeField]
         private List<GameObject> m_capsuleColliderList = new List<GameObject>();
